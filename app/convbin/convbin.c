@@ -495,14 +495,14 @@ static int cmdopts(int argc, char **argv, rnxopt_t *opt, char **ifile,
     if (nf>=7) opt->freqtype|=FREQTYPE_L9;
     
     if (*fmt) {
-        if      (!strcmp(fmt,"rtcm2")) format=STRFMT_RTCM2;
+		if      (!strcmp(fmt,"rtcm2")) format=STRFMT_RTCM2;
         else if (!strcmp(fmt,"rtcm3")) format=STRFMT_RTCM3;
         else if (!strcmp(fmt,"nov"  )) format=STRFMT_OEM4;
         else if (!strcmp(fmt,"oem3" )) format=STRFMT_OEM3;
         else if (!strcmp(fmt,"ubx"  )) format=STRFMT_UBX;
         else if (!strcmp(fmt,"ss2"  )) format=STRFMT_SS2;
         else if (!strcmp(fmt,"hemis")) format=STRFMT_CRES;
-        else if (!strcmp(fmt,"stq"  )) format=STRFMT_STQ;
+		else if (!strcmp(fmt,"stq"  )) format=STRFMT_STQ;
         else if (!strcmp(fmt,"javad")) format=STRFMT_JAVAD;
         else if (!strcmp(fmt,"nvs"  )) format=STRFMT_NVS;
         else if (!strcmp(fmt,"binex")) format=STRFMT_BINEX;

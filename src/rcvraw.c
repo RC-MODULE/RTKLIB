@@ -677,17 +677,17 @@ static void decode_gps_subfrm4(const unsigned char *buff, alm_t *alm,
             ion[1]=getbits(buff,i, 8)*P2_27;     i+= 8;
             ion[2]=getbits(buff,i, 8)*P2_24;     i+= 8;
             ion[3]=getbits(buff,i, 8)*P2_24;     i+= 8;
-            ion[4]=getbits(buff,i, 8)*pow(2,11); i+= 8;
-            ion[5]=getbits(buff,i, 8)*pow(2,14); i+= 8;
-            ion[6]=getbits(buff,i, 8)*pow(2,16); i+= 8;
-            ion[7]=getbits(buff,i, 8)*pow(2,16);
+			ion[4]=getbits(buff,i, 8)*pow(2.0,11.0); i+= 8;
+			ion[5]=getbits(buff,i, 8)*pow(2.0,14.0); i+= 8;
+			ion[6]=getbits(buff,i, 8)*pow(2.0,16.0); i+= 8;
+			ion[7]=getbits(buff,i, 8)*pow(2.0,16.0);
         }
         if (utc) {
             i=120;
             utc[1]=getbits(buff,i,24)*P2_50;     i+=24;
             utc[0]=getbits(buff,i,32)*P2_30;     i+=32;
-            utc[2]=getbits(buff,i, 8)*pow(2,12); i+= 8;
-            utc[3]=getbitu(buff,i, 8);
+            utc[2]=getbits(buff,i, 8)*pow(2.0,12.0); i+= 8;
+			utc[3]=getbitu(buff,i, 8);
         }
         if (leaps) {
             i=192;
@@ -763,16 +763,16 @@ static void decode_qzs_subfrm45(const unsigned char *buff, alm_t *alm,
             ion[1]=getbits(buff,i, 8)*P2_27;     i+= 8;
             ion[2]=getbits(buff,i, 8)*P2_24;     i+= 8;
             ion[3]=getbits(buff,i, 8)*P2_24;     i+= 8;
-            ion[4]=getbits(buff,i, 8)*pow(2,11); i+= 8;
-            ion[5]=getbits(buff,i, 8)*pow(2,14); i+= 8;
-            ion[6]=getbits(buff,i, 8)*pow(2,16); i+= 8;
-            ion[7]=getbits(buff,i, 8)*pow(2,16);
+			ion[4]=getbits(buff,i, 8)*pow(2.0,11.0); i+= 8;
+			ion[5]=getbits(buff,i, 8)*pow(2.0,14.0); i+= 8;
+			ion[6]=getbits(buff,i, 8)*pow(2.0,16.0); i+= 8;
+			ion[7]=getbits(buff,i, 8)*pow(2.0,16.0);
         }
         if (utc) {
             i=120;
             utc[1]=getbits(buff,i,24)*P2_50;     i+=24;
             utc[0]=getbits(buff,i,32)*P2_30;     i+=32;
-            utc[2]=getbits(buff,i, 8)*pow(2,12); i+= 8;
+            utc[2]=getbits(buff,i, 8)*pow(2.0,12.0); i+= 8;
             utc[3]=getbitu(buff,i, 8);
         }
     }
@@ -999,7 +999,8 @@ extern int input_raw(raw_t *raw, int format, unsigned char data)
         case STRFMT_JAVAD: return input_javad(raw,data);
         case STRFMT_NVS  : return input_nvs  (raw,data);
         case STRFMT_BINEX: return input_bnx  (raw,data);
-        case STRFMT_RT17 : return input_rt17 (raw,data);
+		case STRFMT_RT17 : return input_rt17 (raw,data);
+		case STRFMT_DGRx : return input_dgr8 (raw,data);
         case STRFMT_SEPT : return input_sbf  (raw,data);
         case STRFMT_CMR  : return input_cmr  (raw,data);
         case STRFMT_TERSUS: return input_tersus(raw,data);
@@ -1029,7 +1030,8 @@ extern int input_rawf(raw_t *raw, int format, FILE *fp)
         case STRFMT_JAVAD: return input_javadf(raw,fp);
         case STRFMT_NVS  : return input_nvsf  (raw,fp);
         case STRFMT_BINEX: return input_bnxf  (raw,fp);
-        case STRFMT_RT17 : return input_rt17f (raw,fp);
+		case STRFMT_RT17 : return input_rt17f (raw,fp);
+		case STRFMT_DGRx : return input_dgr8f (raw,fp);
         case STRFMT_SEPT : return input_sbff  (raw,fp);
         case STRFMT_CMR  : return input_cmrf  (raw,fp);
         case STRFMT_TERSUS: return input_tersusf(raw,fp);

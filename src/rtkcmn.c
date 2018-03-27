@@ -225,16 +225,17 @@ const char *formatstrs[32]={    /* stream format strings */
     "Javad",                    /*  9 */
     "NVS BINR",                 /* 10 */
     "BINEX",                    /* 11 */
-    "Trimble RT17",             /* 12 */
-    "Septentrio",               /* 13 */
-    "CMR/CMR+",                 /* 14 */
-    "TERSUS",                   /* 15 */
-    "LEX Receiver",             /* 16 */
-    "RINEX",                    /* 17 */
-    "SP3",                      /* 18 */
-    "RINEX CLK",                /* 19 */
-    "SBAS",                     /* 20 */
-    "NMEA 0183",                /* 21 */
+	"Trimble RT17",             /* 12 */
+	"DGrX",						/* 13 */
+	"Septentrio",               /* 14 */
+	"CMR/CMR+",                 /* 15 */
+	"TERSUS",                   /* 16 */
+	"LEX Receiver",             /* 17 */
+	"RINEX",                    /* 18 */
+	"SP3",                      /* 19 */
+	"RINEX CLK",                /* 20 */
+	"SBAS",                     /* 21 */
+    "NMEA 0183",                /* 22 */
     NULL
 };
 static char *obscodes[]={       /* observation code strings */
@@ -2242,7 +2243,7 @@ extern int readpcv(const char *file, pcvs_t *pcvs)
     
     trace(3,"readpcv: file=%s\n",file);
     
-    if (!(ext=strrchr(file,'.'))) ext="";
+	if (!(ext=(char*)strrchr(file,'.'))) ext="";
     
     if (!strcmp(ext,".atx")||!strcmp(ext,".ATX")) {
         stat=readantex(file,pcvs);
@@ -3098,7 +3099,7 @@ extern int expath(const char *path, char *paths[], int nmax)
     
     trace(3,"expath  : path=%s nmax=%d\n",path,nmax);
     
-    if ((p=strrchr(path,'\\'))) {
+    if ((p=(char*)strrchr(path,'\\'))) {
         strncpy(dir,path,p-path+1); dir[p-path+1]='\0';
     }
     if ((h=FindFirstFile((LPCTSTR)path,&file))==INVALID_HANDLE_VALUE) {

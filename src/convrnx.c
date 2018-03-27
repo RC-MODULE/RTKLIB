@@ -1224,7 +1224,7 @@ static int convrnx_s(int sess, int format, rnxopt_t *opt, const char *file,
     unsigned char slips[MAXSAT][NFREQ+NEXOBS]={{0}};
     int i,j,nf,type,n[NOUTFILE+1]={0},staid=-1,abort=0;
     char path[1024],*paths[NOUTFILE],s[NOUTFILE][1024];
-    char *epath[MAXEXFILE]={0},*staname=*opt->staid?opt->staid:"0000";
+    char *epath[MAXEXFILE]={0},*staname=*opt->staid?opt->staid:(char*)"0000";
     
     trace(3,"convrnx_s: sess=%d format=%d file=%s ofile=%s %s %s %s %s %s %s %s %s\n",
           sess,format,file,ofile[0],ofile[1],ofile[2],ofile[3],ofile[4],

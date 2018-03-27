@@ -178,7 +178,7 @@ extern int convkml(const char *infile, const char *outfile, gtime_t ts,
         return -3;
     }
     if (!*outfile) {
-        if ((p=strrchr(infile,'.'))) {
+        if ((p=(char*)strrchr(infile,'.'))) {
             strncpy(file,infile,p-infile);
             strcpy(file+(p-infile),".kml");
         }
