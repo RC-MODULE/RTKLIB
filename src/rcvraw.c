@@ -998,10 +998,10 @@ extern int input_raw(raw_t *raw, int format, unsigned char data)
         case STRFMT_GW10 : return input_gw10 (raw,data);
         case STRFMT_JAVAD: return input_javad(raw,data);
         case STRFMT_NVS  : return input_nvs  (raw,data);
-        case STRFMT_BINEX: return input_bnx  (raw,data);
+		case STRFMT_BINEX: return input_bnx  (raw,data);
 		case STRFMT_RT17 : return input_rt17 (raw,data);
 		case STRFMT_DGRx : return input_dgr8 (raw,data);
-        case STRFMT_SEPT : return input_sbf  (raw,data);
+		case STRFMT_SEPT : return input_sbf  (raw,data);
         case STRFMT_CMR  : return input_cmr  (raw,data);
         case STRFMT_TERSUS: return input_tersus(raw,data);
         case STRFMT_LEXR : return input_lexr (raw,data);
@@ -1022,7 +1022,7 @@ extern int input_rawf(raw_t *raw, int format, FILE *fp)
     switch (format) {
         case STRFMT_OEM4 : return input_oem4f (raw,fp);
         case STRFMT_OEM3 : return input_oem3f (raw,fp);
-        case STRFMT_UBX  : return input_ubxf  (raw,fp);
+		case STRFMT_UBX  : return input_ubxf  (raw,fp);
         case STRFMT_SS2  : return input_ss2f  (raw,fp);
         case STRFMT_CRES : return input_cresf (raw,fp);
         case STRFMT_STQ  : return input_stqf  (raw,fp);
@@ -1032,7 +1032,7 @@ extern int input_rawf(raw_t *raw, int format, FILE *fp)
         case STRFMT_BINEX: return input_bnxf  (raw,fp);
 		case STRFMT_RT17 : return input_rt17f (raw,fp);
 		case STRFMT_DGRx : return input_dgr8f (raw,fp);
-        case STRFMT_SEPT : return input_sbff  (raw,fp);
+		case STRFMT_SEPT : return input_sbff  (raw,fp);
         case STRFMT_CMR  : return input_cmrf  (raw,fp);
         case STRFMT_TERSUS: return input_tersusf(raw,fp);
         case STRFMT_LEXR : return input_lexrf (raw,fp);
