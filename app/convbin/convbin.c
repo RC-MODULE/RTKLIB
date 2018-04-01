@@ -506,7 +506,9 @@ static int cmdopts(int argc, char **argv, rnxopt_t *opt, char **ifile,
         else if (!strcmp(fmt,"javad")) format=STRFMT_JAVAD;
         else if (!strcmp(fmt,"nvs"  )) format=STRFMT_NVS;
         else if (!strcmp(fmt,"binex")) format=STRFMT_BINEX;
-        else if (!strcmp(fmt,"rt17" )) format=STRFMT_RT17;
+		else if (!strcmp(fmt, "rt17")) format = STRFMT_RT17;
+		else if (!strcmp(fmt, "dgr4")) format = STRFMT_DGr4;
+		else if (!strcmp(fmt, "dgr9")) format = STRFMT_DGr9;
         else if (!strcmp(fmt,"sbf"  )) format=STRFMT_SEPT;
         else if (!strcmp(fmt,"cmr"  )) format=STRFMT_CMR;
         else if (!strcmp(fmt,"tersus")) format=STRFMT_TERSUS;
@@ -526,6 +528,8 @@ static int cmdopts(int argc, char **argv, rnxopt_t *opt, char **ifile,
         else if (!strcmp(p,".bnx"  ))  format=STRFMT_BINEX;
         else if (!strcmp(p,".binex"))  format=STRFMT_BINEX;
         else if (!strcmp(p,".rt17" ))  format=STRFMT_RT17;
+		else if (!strcmp(p, ".dgr4"))   format = STRFMT_DGr4;
+		else if (!strcmp(p, ".dgr9"))   format = STRFMT_DGr9;
         else if (!strcmp(p,".sbf"  ))  format=STRFMT_SEPT;
         else if (!strcmp(p,".cmr"  ))  format=STRFMT_CMR;
         else if (!strcmp(p,".trs"  ))  format=STRFMT_TERSUS;

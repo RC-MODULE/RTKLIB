@@ -226,7 +226,7 @@ const char *formatstrs[32]={    /* stream format strings */
     "NVS BINR",                 /* 10 */
     "BINEX",                    /* 11 */
 	"Trimble RT17",             /* 12 */
-	"DGrX",						/* 13 */
+	"DGr9",						/* 13 */
 	"Septentrio",               /* 14 */
 	"CMR/CMR+",                 /* 15 */
 	"TERSUS",                   /* 16 */
