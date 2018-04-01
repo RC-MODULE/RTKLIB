@@ -1,2 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<BorlandProject/>
+<BorlandProject>
+	<Transactions>
+    <Transaction>1899/12/30 00:00:00.000.110,=G:\Visual Studio\RTKLIB\src\rcv\dgr8.cpp</Transaction>
+    <Transaction>1899/12/30 00:00:00.000.401,G:\Visual Studio\RTKLIB\src\rcv\dgr8.cpp=</Transaction>
+    <Transaction>1899/12/30 00:00:00.000.472,=G:\Visual Studio\RTKLIB\src\rcv\dgr8.cpp</Transaction>
+    <Transaction>1899/12/30 00:00:00.000.778,=G:\Visual Studio\RTKLIB\src\rcv\DGrX.hpp</Transaction>
+    <Transaction>1899/12/30 00:00:00.000.790,=G:\Visual Studio\RTKLIB\src\rcv\DGrX.cpp</Transaction>
+    <Transaction>1899/12/30 00:00:00.000.000,G:\Visual Studio\RTKLIB\src\rcv\DGrX.cpp=</Transaction>
+    <Transaction>1899/12/30 00:00:00.000.032,G:\Visual Studio\RTKLIB\src\rcv\DGrX.hpp=</Transaction>
+  </Transactions>
+</BorlandProject>

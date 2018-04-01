@@ -1,0 +1,58 @@
+﻿  convbin.c
+  sbas.c
+  rtkcmn.c
+g:\visual studio\rtklib\src\rtkcmn.c(3109): warning C4477: 'sprintf' : format string '%s' requires an argument of type 'char *', but variadic argument 2 has type 'WCHAR *'
+  g:\visual studio\rtklib\src\rtkcmn.c(3109): note: consider using '%ls' in the format string
+  g:\visual studio\rtklib\src\rtkcmn.c(3109): note: consider using '%lls' in the format string
+  g:\visual studio\rtklib\src\rtkcmn.c(3109): note: consider using '%Ls' in the format string
+  g:\visual studio\rtklib\src\rtkcmn.c(3109): note: consider using '%ws' in the format string
+g:\visual studio\rtklib\src\rtkcmn.c(3112): warning C4477: 'sprintf' : format string '%s' requires an argument of type 'char *', but variadic argument 2 has type 'WCHAR *'
+  g:\visual studio\rtklib\src\rtkcmn.c(3112): note: consider using '%ls' in the format string
+  g:\visual studio\rtklib\src\rtkcmn.c(3112): note: consider using '%lls' in the format string
+  g:\visual studio\rtklib\src\rtkcmn.c(3112): note: consider using '%Ls' in the format string
+  g:\visual studio\rtklib\src\rtkcmn.c(3112): note: consider using '%ws' in the format string
+g:\visual studio\rtklib\src\rtkcmn.c(3172): warning C4133: 'function': incompatible types - from 'char [1024]' to 'LPCWSTR'
+  rtcm3.c
+  rtcm2.c
+  rtcm.c
+  rinex.c
+  ublox.c
+  ss2.c
+  skytraq.c
+g:\visual studio\rtklib\src\rcv\skytraq.c(197): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+g:\visual studio\rtklib\src\rcv\skytraq.c(319): warning C4244: '=': conversion from 'unsigned short' to 'unsigned char', possible loss of data
+g:\visual studio\rtklib\src\rcv\skytraq.c(326): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+  nvs.c
+g:\visual studio\rtklib\src\rcv\nvs.c(105): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+g:\visual studio\rtklib\src\rcv\nvs.c(267): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+  novatel.c
+  javad.c
+  gw10.c
+  crescent.c
+  rcvraw.c
+  preceph.c
+  convrnx.c
+  Generating Code...
+C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(1189,5): warning MSB8012: TargetPath(G:\Visual Studio\RTKLIB\app\convbin\msc\Debug\msc.exe) does not match the Linker's OutputFile property value (G:\Visual Studio\RTKLIB\app\convbin\msc\Debug\convbin.exe). This may cause your project to build incorrectly. To correct this, please make sure that $(OutDir), $(TargetName) and $(TargetExt) property values match the value specified in %(Link.OutputFile).
+C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(1191,5): warning MSB8012: TargetName(msc) does not match the Linker's OutputFile property value (convbin). This may cause your project to build incorrectly. To correct this, please make sure that $(OutDir), $(TargetName) and $(TargetExt) property values match the value specified in %(Link.OutputFile).
+convrnx.obj : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/SAFESEH' specification
+convrnx.obj : error LNK2019: unresolved external symbol _pntpos referenced in function _setapppos
+convrnx.obj : error LNK2019: unresolved external symbol _lexoutmsg referenced in function _convlex
+rcvraw.obj : error LNK2019: unresolved external symbol _init_rt17 referenced in function _init_raw
+rcvraw.obj : error LNK2019: unresolved external symbol _init_cmr referenced in function _init_raw
+rcvraw.obj : error LNK2019: unresolved external symbol _free_rt17 referenced in function _free_raw
+rcvraw.obj : error LNK2019: unresolved external symbol _free_cmr referenced in function _free_raw
+rcvraw.obj : error LNK2019: unresolved external symbol _input_bnx referenced in function _input_raw
+rcvraw.obj : error LNK2019: unresolved external symbol _input_rt17 referenced in function _input_raw
+rcvraw.obj : error LNK2019: unresolved external symbol _input_dgr8 referenced in function _input_raw
+rcvraw.obj : error LNK2019: unresolved external symbol _input_sbf referenced in function _input_raw
+rcvraw.obj : error LNK2019: unresolved external symbol _input_cmr referenced in function _input_raw
+rcvraw.obj : error LNK2019: unresolved external symbol _input_tersus referenced in function _input_raw
+rcvraw.obj : error LNK2019: unresolved external symbol _input_bnxf referenced in function _input_rawf
+rcvraw.obj : error LNK2019: unresolved external symbol _input_rt17f referenced in function _input_rawf
+rcvraw.obj : error LNK2019: unresolved external symbol _input_dgr8f referenced in function _input_rawf
+rcvraw.obj : error LNK2019: unresolved external symbol _input_sbff referenced in function _input_rawf
+rcvraw.obj : error LNK2019: unresolved external symbol _input_cmrf referenced in function _input_rawf
+rcvraw.obj : error LNK2019: unresolved external symbol _input_tersusf referenced in function _input_rawf
+rtcm.obj : error LNK2019: unresolved external symbol _encode_rtcm3 referenced in function _gen_rtcm3
+G:\Visual Studio\RTKLIB\app\convbin\msc\Debug\convbin.exe : fatal error LNK1120: 19 unresolved externals

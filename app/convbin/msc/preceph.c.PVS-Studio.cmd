@@ -1,0 +1,1 @@
+@call "F:\PVS-Studio\x64\PVS-Studio.exe" --cfg "G:\Visual Studio\RTKLIB\app\convbin\msc\preceph.c.PVS-Studio.cfg"

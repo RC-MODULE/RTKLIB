@@ -351,8 +351,9 @@ static int input_strfile(strfile_t *str)
             str->sat=str->rtcm.ephsat;
         }
     }
-    else if (str->format<=MAXRCVFMT) {
-        if ((type=input_rawf(&str->raw,str->format,str->fp))>=1) {
+	else if (str->format<=MAXRCVFMT) {
+		type=input_rawf(&str->raw,str->format,str->fp);
+		if ((type)>=1) {
             str->time=str->raw.time;
             str->sat=str->raw.ephsat;
         }
@@ -386,7 +387,8 @@ static int open_strfile(strfile_t *str, const char *file)
         /* read head to resolve time ambiguity */
         if (str->time.time==0) {
             str->raw.flag=1;
-            while (input_strfile(str)>=-1&&str->time.time==0) ;
+			while (input_strfile(str)>=-1&&str->time.time==0) // read raw file, wait for time to become non-zero
+				;
             str->raw.flag=1;
             rewind(str->fp);
         }
@@ -1287,12 +1289,17 @@ static int convrnx_s(int sess, int format, rnxopt_t *opt, const char *file,
         if (!open_strfile(str,epath[i])) continue;
         
         /* input message */
-        for (j=0;(type=input_strfile(str))>=-1;j++) {
-            
-            if (j%11==1&&(abort=showstat(sess,te,te,n))) break;
+		for (j=0;;j++) {
+			type = input_strfile(str);
+			if(!(type>=-1))
+				break;
+
+			if (j%11==1&&(abort=showstat(sess,te,te,n)))
+				break;
             
             /* avioid duplicated if overlapped data */
-            if (tend.time&&timediff(str->time,tend)<=0.0) continue;
+			if (tend.time&&timediff(str->time,tend)<=0.0)
+				continue;
             
             /* convert message */
             switch (type) {
@@ -1308,7 +1315,8 @@ static int convrnx_s(int sess, int format, rnxopt_t *opt, const char *file,
             if (type==1&&!opt->autopos&&norm(opt->apppos,3)<=0.0) {
                 setapppos(str,opt);
             }
-            if (opt->te.time&&timediff(te,opt->te)>=-opt->ttol) break;
+			if (opt->te.time&&timediff(te,opt->te)>=-opt->ttol)
+				break;
         }
         /* close stream file */
         close_strfile(str);
