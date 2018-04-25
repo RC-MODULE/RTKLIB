@@ -164,7 +164,7 @@ public:
 				status.Reset();
 			}
 		} data;
-		static_assert(sizeof(DGrX_rev_9::RawMeasurementData::Data) == 37, "MeasuredPosition size is wrong");
+		static_assert(sizeof(DGrX_rev_9::RawMeasurementData::Data) == 37, "RawMeasurementData size is wrong");
 
 		void Preprocess() {
 			SwapEndian(data.l1_phase);
@@ -376,8 +376,9 @@ public:
 				std::uint8_t KalmanFilterState : 1;
 			} solution_mode;
 			RAIMState raim_state;
-			std::uint16_t tx_time : 6;
-			std::uint16_t wn : 10;
+			//std::uint16_t tx_time : 6;
+			//std::uint16_t wn : 10;
+			std::uint16_t wn = 0;
 		} data;
 		static_assert(sizeof(DGrX_rev_9::MeasuredPositionData::Data) == 41, "MeasuredPositionData size is wrong");
 
@@ -391,6 +392,7 @@ public:
 			SwapEndian(data.y_dot);
 			SwapEndian(data.z_dot);
 			SwapEndian(data.r_dot);
+			SwapEndian(data.wn);
 		}
 	public:
 		MeasuredPositionData() = default;
@@ -448,9 +450,9 @@ public:
 			return data.dop * std::pow(2, -3);
 		}
 
-		double TxTime() {
-			return data.tx_time * 2;
-		}
+		//double TxTime() {
+		//	return data.tx_time * 2;
+		//}
 	};
 
 	class GPSEphemerisData : Message {

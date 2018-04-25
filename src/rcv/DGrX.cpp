@@ -30,9 +30,12 @@ namespace rev_4 {
 				throw std::runtime_error("Nullptr provided");
 
 			auto& message_data = message->Data();
-			raw->time = gpst2time(message_data.wn, message_data.rcv_time * 1e-3);
-			return ReturnCodes::input_observation_data;
-
+			if (static_cast<int>(message_data.fix_quality.fix_status)) {
+				raw->time = gpst2time(message_data.wn, message_data.rcv_time * 1e-3);
+				return ReturnCodes::input_observation_data;
+			}
+			else
+				return ReturnCodes::no_message;
 		}
 		catch (...) {
 			//return ReturnCodes::error_message;
@@ -92,15 +95,20 @@ namespace rev_4 {
 
 namespace rev_9 {
 	int decode_position(DGrX_rev_9::MeasuredPositionData *message, raw_t *raw) {
-		//std::array<double, 6> gpst0 = { 1980, 1, 6, 0, 0, 0 };
+		std::array<double, 6> gpst0 = { 1980, 1, 6, 0, 0, 0 };
 		//raw->time = timeadd(epoch2time(gpst0.data()), min*60.0 + msec*0.001);
 		try {
 			if (message == nullptr || raw == nullptr)
 				throw std::runtime_error("Nullptr provided");
 
 			auto& message_data = message->Data();
-			raw->time = gpst2time(message_data.wn, message_data.rcv_time * 1e-3);
-			return ReturnCodes::input_observation_data;
+			if (static_cast<int>(message_data.fix_quality.fix_status)) {
+				raw->time = timeadd(epoch2time(gpst0.data()), message_data.rcv_time * 0.001);
+				//raw->time = gpst2time(message_data.wn, message_data.rcv_time * 1e-3);
+				return ReturnCodes::input_observation_data;
+			}
+			else
+				return ReturnCodes::no_message;
 
 		}
 		catch (...) {

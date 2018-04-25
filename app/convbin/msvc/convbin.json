@@ -1,0 +1,201 @@
+[
+  {
+    "directory": "G:/Visual Studio/RTKLIB/app/convbin/msvc",
+    "command": "clang-tool -fms-extensions -fms-compatibility -fms-compatibility-version=19  -isystem \"G:/Visual Studio/RTKLIB/src\"  -isystem \"G:/vcpkg/installed/x64-windows/include\"  -isystem \"F:/Microsoft Visual Studio 14.0/VC/include\"  -isystem \"F:/Microsoft Visual Studio 14.0/VC/atlmfc/include\"  -isystem \"C:/Program Files (x86)/Windows Kits/10/Include/10.0.10240.0/ucrt\"  -isystem \"C:/Program Files (x86)/Windows Kits/8.1/Include/um\"  -isystem \"C:/Program Files (x86)/Windows Kits/8.1/Include/shared\"  -isystem \"C:/Program Files (x86)/Windows Kits/8.1/Include/winrt\"  -D _DEBUG  -D _MT  -D _DLL  -D QT  -D ENAGLO  -D ENAGAL  -D ENAQZS  -D ENACMP  -D ENAIRN  -D ENALEO  -D _CRT_SECURE_NO_WARNINGS  -D _WINSOCK_DEPRECATED_NO_WARNINGS  -D WIN32  -D _MBCS -std=c1x  \"G:/Visual Studio/RTKLIB/src/convrnx.c\"",
+    "file": "G:/Visual Studio/RTKLIB/src/convrnx.c"
+  },
+
+  {
+    "directory": "G:/Visual Studio/RTKLIB/app/convbin/msvc",
+    "command": "clang-tool -fms-extensions -fms-compatibility -fms-compatibility-version=19  -isystem \"G:/Visual Studio/RTKLIB/src\"  -isystem \"G:/vcpkg/installed/x64-windows/include\"  -isystem \"F:/Microsoft Visual Studio 14.0/VC/include\"  -isystem \"F:/Microsoft Visual Studio 14.0/VC/atlmfc/include\"  -isystem \"C:/Program Files (x86)/Windows Kits/10/Include/10.0.10240.0/ucrt\"  -isystem \"C:/Program Files (x86)/Windows Kits/8.1/Include/um\"  -isystem \"C:/Program Files (x86)/Windows Kits/8.1/Include/shared\"  -isystem \"C:/Program Files (x86)/Windows Kits/8.1/Include/winrt\"  -D _DEBUG  -D _MT  -D _DLL  -D QT  -D ENAGLO  -D ENAGAL  -D ENAQZS  -D ENACMP  -D ENAIRN  -D ENALEO  -D _CRT_SECURE_NO_WARNINGS  -D _WINSOCK_DEPRECATED_NO_WARNINGS  -D WIN32  -D _MBCS -std=c1x  \"G:/Visual Studio/RTKLIB/src/ephemeris.c\"",
+    "file": "G:/Visual Studio/RTKLIB/src/ephemeris.c"
+  },
+
+  {
+    "directory": "G:/Visual Studio/RTKLIB/app/convbin/msvc",
+    "command": "clang-tool -fms-extensions -fms-compatibility -fms-compatibility-version=19  -isystem \"G:/Visual Studio/RTKLIB/src\"  -isystem \"G:/vcpkg/installed/x64-windows/include\"  -isystem \"F:/Microsoft Visual Studio 14.0/VC/include\"  -isystem \"F:/Microsoft Visual Studio 14.0/VC/atlmfc/include\"  -isystem \"C:/Program Files (x86)/Windows Kits/10/Include/10.0.10240.0/ucrt\"  -isystem \"C:/Program Files (x86)/Windows Kits/8.1/Include/um\"  -isystem \"C:/Program Files (x86)/Windows Kits/8.1/Include/shared\"  -isystem \"C:/Program Files (x86)/Windows Kits/8.1/Include/winrt\"  -D _DEBUG  -D _MT  -D _DLL  -D QT  -D ENAGLO  -D ENAGAL  -D ENAQZS  -D ENACMP  -D ENAIRN  -D ENALEO  -D _CRT_SECURE_NO_WARNINGS  -D _WINSOCK_DEPRECATED_NO_WARNINGS  -D WIN32  -D _MBCS -std=c1x  \"G:/Visual Studio/RTKLIB/src/geoid.c\"",
+    "file": "G:/Visual Studio/RTKLIB/src/geoid.c"
+  },
+
+  {
+    "directory": "G:/Visual Studio/RTKLIB/app/convbin/msvc",
+    "command": "clang-tool -fms-extensions -fms-compatibility -fms-compatibility-version=19  -isystem \"G:/Visual Studio/RTKLIB/src\"  -isystem \"G:/vcpkg/installed/x64-windows/include\"  -isystem \"F:/Microsoft Visual Studio 14.0/VC/include\"  -isystem \"F:/Microsoft Visual Studio 14.0/VC/atlmfc/include\"  -isystem \"C:/Program Files (x86)/Windows Kits/10/Include/10.0.10240.0/ucrt\"  -isystem \"C:/Program Files (x86)/Windows Kits/8.1/Include/um\"  -isystem \"C:/Program Files (x86)/Windows Kits/8.1/Include/shared\"  -isystem \"C:/Program Files (x86)/Windows Kits/8.1/Include/winrt\"  -D _DEBUG  -D _MT  -D _DLL  -D QT  -D ENAGLO  -D ENAGAL  -D ENAQZS  -D ENACMP  -D ENAIRN  -D ENALEO  -D _CRT_SECURE_NO_WARNINGS  -D _WINSOCK_DEPRECATED_NO_WARNINGS  -D WIN32  -D _MBCS -std=c1x  \"G:/Visual Studio/RTKLIB/src/ionex.c\"",
+    "file": "G:/Visual Studio/RTKLIB/src/ionex.c"
+  },
+
+  {
+    "directory": "G:/Visual Studio/RTKLIB/app/convbin/msvc",
+    "command": "clang-tool -fms-extensions -fms-compatibility -fms-compatibility-version=19  -isystem \"G:/Visual Studio/RTKLIB/src\"  -isystem \"G:/vcpkg/installed/x64-windows/include\"  -isystem \"F:/Microsoft Visual Studio 14.0/VC/include\"  -isystem \"F:/Microsoft Visual Studio 14.0/VC/atlmfc/include\"  -isystem \"C:/Program Files (x86)/Windows Kits/10/Include/10.0.10240.0/ucrt\"  -isystem \"C:/Program Files (x86)/Windows Kits/8.1/Include/um\"  -isystem \"C:/Program Files (x86)/Windows Kits/8.1/Include/shared\"  -isystem \"C:/Program Files (x86)/Windows Kits/8.1/Include/winrt\"  -D _DEBUG  -D _MT  -D _DLL  -D QT  -D ENAGLO  -D ENAGAL  -D ENAQZS  -D ENACMP  -D ENAIRN  -D ENALEO  -D _CRT_SECURE_NO_WARNINGS  -D _WINSOCK_DEPRECATED_NO_WARNINGS  -D WIN32  -D _MBCS -std=c1x  \"G:/Visual Studio/RTKLIB/src/pntpos.c\"",
+    "file": "G:/Visual Studio/RTKLIB/src/pntpos.c"
+  },
+
+  {
+    "directory": "G:/Visual Studio/RTKLIB/app/convbin/msvc",
+    "command": "clang-tool -fms-extensions -fms-compatibility -fms-compatibility-version=19  -isystem \"G:/Visual Studio/RTKLIB/src\"  -isystem \"G:/vcpkg/installed/x64-windows/include\"  -isystem \"F:/Microsoft Visual Studio 14.0/VC/include\"  -isystem \"F:/Microsoft Visual Studio 14.0/VC/atlmfc/include\"  -isystem \"C:/Program Files (x86)/Windows Kits/10/Include/10.0.10240.0/ucrt\"  -isystem \"C:/Program Files (x86)/Windows Kits/8.1/Include/um\"  -isystem \"C:/Program Files (x86)/Windows Kits/8.1/Include/shared\"  -isystem \"C:/Program Files (x86)/Windows Kits/8.1/Include/winrt\"  -D _DEBUG  -D _MT  -D _DLL  -D QT  -D ENAGLO  -D ENAGAL  -D ENAQZS  -D ENACMP  -D ENAIRN  -D ENALEO  -D _CRT_SECURE_NO_WARNINGS  -D _WINSOCK_DEPRECATED_NO_WARNINGS  -D WIN32  -D _MBCS -std=c1x  \"G:/Visual Studio/RTKLIB/src/preceph.c\"",
+    "file": "G:/Visual Studio/RTKLIB/src/preceph.c"
+  },
+
+  {
+    "directory": "G:/Visual Studio/RTKLIB/app/convbin/msvc",
+    "command": "clang-tool -fms-extensions -fms-compatibility -fms-compatibility-version=19  -isystem \"G:/Visual Studio/RTKLIB/src\"  -isystem \"G:/vcpkg/installed/x64-windows/include\"  -isystem \"F:/Microsoft Visual Studio 14.0/VC/include\"  -isystem \"F:/Microsoft Visual Studio 14.0/VC/atlmfc/include\"  -isystem \"C:/Program Files (x86)/Windows Kits/10/Include/10.0.10240.0/ucrt\"  -isystem \"C:/Program Files (x86)/Windows Kits/8.1/Include/um\"  -isystem \"C:/Program Files (x86)/Windows Kits/8.1/Include/shared\"  -isystem \"C:/Program Files (x86)/Windows Kits/8.1/Include/winrt\"  -D _DEBUG  -D _MT  -D _DLL  -D QT  -D ENAGLO  -D ENAGAL  -D ENAQZS  -D ENACMP  -D ENAIRN  -D ENALEO  -D _CRT_SECURE_NO_WARNINGS  -D _WINSOCK_DEPRECATED_NO_WARNINGS  -D WIN32  -D _MBCS -std=c1x  \"G:/Visual Studio/RTKLIB/src/qzslex.c\"",
+    "file": "G:/Visual Studio/RTKLIB/src/qzslex.c"
+  },
+
+  {
+    "directory": "G:/Visual Studio/RTKLIB/app/convbin/msvc",
+    "command": "clang-tool -fms-extensions -fms-compatibility -fms-compatibility-version=19  -isystem \"G:/Visual Studio/RTKLIB/src\"  -isystem \"G:/vcpkg/installed/x64-windows/include\"  -isystem \"F:/Microsoft Visual Studio 14.0/VC/include\"  -isystem \"F:/Microsoft Visual Studio 14.0/VC/atlmfc/include\"  -isystem \"C:/Program Files (x86)/Windows Kits/10/Include/10.0.10240.0/ucrt\"  -isystem \"C:/Program Files (x86)/Windows Kits/8.1/Include/um\"  -isystem \"C:/Program Files (x86)/Windows Kits/8.1/Include/shared\"  -isystem \"C:/Program Files (x86)/Windows Kits/8.1/Include/winrt\"  -D _DEBUG  -D _MT  -D _DLL  -D QT  -D ENAGLO  -D ENAGAL  -D ENAQZS  -D ENACMP  -D ENAIRN  -D ENALEO  -D _CRT_SECURE_NO_WARNINGS  -D _WINSOCK_DEPRECATED_NO_WARNINGS  -D WIN32  -D _MBCS -std=c1x  \"G:/Visual Studio/RTKLIB/src/rcvraw.c\"",
+    "file": "G:/Visual Studio/RTKLIB/src/rcvraw.c"
+  },
+
+  {
+    "directory": "G:/Visual Studio/RTKLIB/app/convbin/msvc",
+    "command": "clang-tool -fms-extensions -fms-compatibility -fms-compatibility-version=19  -isystem \"G:/Visual Studio/RTKLIB/src\"  -isystem \"G:/vcpkg/installed/x64-windows/include\"  -isystem \"F:/Microsoft Visual Studio 14.0/VC/include\"  -isystem \"F:/Microsoft Visual Studio 14.0/VC/atlmfc/include\"  -isystem \"C:/Program Files (x86)/Windows Kits/10/Include/10.0.10240.0/ucrt\"  -isystem \"C:/Program Files (x86)/Windows Kits/8.1/Include/um\"  -isystem \"C:/Program Files (x86)/Windows Kits/8.1/Include/shared\"  -isystem \"C:/Program Files (x86)/Windows Kits/8.1/Include/winrt\"  -D _DEBUG  -D _MT  -D _DLL  -D QT  -D ENAGLO  -D ENAGAL  -D ENAQZS  -D ENACMP  -D ENAIRN  -D ENALEO  -D _CRT_SECURE_NO_WARNINGS  -D _WINSOCK_DEPRECATED_NO_WARNINGS  -D WIN32  -D _MBCS -std=c1x  \"G:/Visual Studio/RTKLIB/src/rinex.c\"",
+    "file": "G:/Visual Studio/RTKLIB/src/rinex.c"
+  },
+
+  {
+    "directory": "G:/Visual Studio/RTKLIB/app/convbin/msvc",
+    "command": "clang-tool -fms-extensions -fms-compatibility -fms-compatibility-version=19  -isystem \"G:/Visual Studio/RTKLIB/src\"  -isystem \"G:/vcpkg/installed/x64-windows/include\"  -isystem \"F:/Microsoft Visual Studio 14.0/VC/include\"  -isystem \"F:/Microsoft Visual Studio 14.0/VC/atlmfc/include\"  -isystem \"C:/Program Files (x86)/Windows Kits/10/Include/10.0.10240.0/ucrt\"  -isystem \"C:/Program Files (x86)/Windows Kits/8.1/Include/um\"  -isystem \"C:/Program Files (x86)/Windows Kits/8.1/Include/shared\"  -isystem \"C:/Program Files (x86)/Windows Kits/8.1/Include/winrt\"  -D _DEBUG  -D _MT  -D _DLL  -D QT  -D ENAGLO  -D ENAGAL  -D ENAQZS  -D ENACMP  -D ENAIRN  -D ENALEO  -D _CRT_SECURE_NO_WARNINGS  -D _WINSOCK_DEPRECATED_NO_WARNINGS  -D WIN32  -D _MBCS -std=c1x  \"G:/Visual Studio/RTKLIB/src/rtcm.c\"",
+    "file": "G:/Visual Studio/RTKLIB/src/rtcm.c"
+  },
+
+  {
+    "directory": "G:/Visual Studio/RTKLIB/app/convbin/msvc",
+    "command": "clang-tool -fms-extensions -fms-compatibility -fms-compatibility-version=19  -isystem \"G:/Visual Studio/RTKLIB/src\"  -isystem \"G:/vcpkg/installed/x64-windows/include\"  -isystem \"F:/Microsoft Visual Studio 14.0/VC/include\"  -isystem \"F:/Microsoft Visual Studio 14.0/VC/atlmfc/include\"  -isystem \"C:/Program Files (x86)/Windows Kits/10/Include/10.0.10240.0/ucrt\"  -isystem \"C:/Program Files (x86)/Windows Kits/8.1/Include/um\"  -isystem \"C:/Program Files (x86)/Windows Kits/8.1/Include/shared\"  -isystem \"C:/Program Files (x86)/Windows Kits/8.1/Include/winrt\"  -D _DEBUG  -D _MT  -D _DLL  -D QT  -D ENAGLO  -D ENAGAL  -D ENAQZS  -D ENACMP  -D ENAIRN  -D ENALEO  -D _CRT_SECURE_NO_WARNINGS  -D _WINSOCK_DEPRECATED_NO_WARNINGS  -D WIN32  -D _MBCS -std=c1x  \"G:/Visual Studio/RTKLIB/src/rtcm2.c\"",
+    "file": "G:/Visual Studio/RTKLIB/src/rtcm2.c"
+  },
+
+  {
+    "directory": "G:/Visual Studio/RTKLIB/app/convbin/msvc",
+    "command": "clang-tool -fms-extensions -fms-compatibility -fms-compatibility-version=19  -isystem \"G:/Visual Studio/RTKLIB/src\"  -isystem \"G:/vcpkg/installed/x64-windows/include\"  -isystem \"F:/Microsoft Visual Studio 14.0/VC/include\"  -isystem \"F:/Microsoft Visual Studio 14.0/VC/atlmfc/include\"  -isystem \"C:/Program Files (x86)/Windows Kits/10/Include/10.0.10240.0/ucrt\"  -isystem \"C:/Program Files (x86)/Windows Kits/8.1/Include/um\"  -isystem \"C:/Program Files (x86)/Windows Kits/8.1/Include/shared\"  -isystem \"C:/Program Files (x86)/Windows Kits/8.1/Include/winrt\"  -D _DEBUG  -D _MT  -D _DLL  -D QT  -D ENAGLO  -D ENAGAL  -D ENAQZS  -D ENACMP  -D ENAIRN  -D ENALEO  -D _CRT_SECURE_NO_WARNINGS  -D _WINSOCK_DEPRECATED_NO_WARNINGS  -D WIN32  -D _MBCS -std=c1x  \"G:/Visual Studio/RTKLIB/src/rtcm3.c\"",
+    "file": "G:/Visual Studio/RTKLIB/src/rtcm3.c"
+  },
+
+  {
+    "directory": "G:/Visual Studio/RTKLIB/app/convbin/msvc",
+    "command": "clang-tool -fms-extensions -fms-compatibility -fms-compatibility-version=19  -isystem \"G:/Visual Studio/RTKLIB/src\"  -isystem \"G:/vcpkg/installed/x64-windows/include\"  -isystem \"F:/Microsoft Visual Studio 14.0/VC/include\"  -isystem \"F:/Microsoft Visual Studio 14.0/VC/atlmfc/include\"  -isystem \"C:/Program Files (x86)/Windows Kits/10/Include/10.0.10240.0/ucrt\"  -isystem \"C:/Program Files (x86)/Windows Kits/8.1/Include/um\"  -isystem \"C:/Program Files (x86)/Windows Kits/8.1/Include/shared\"  -isystem \"C:/Program Files (x86)/Windows Kits/8.1/Include/winrt\"  -D _DEBUG  -D _MT  -D _DLL  -D QT  -D ENAGLO  -D ENAGAL  -D ENAQZS  -D ENACMP  -D ENAIRN  -D ENALEO  -D _CRT_SECURE_NO_WARNINGS  -D _WINSOCK_DEPRECATED_NO_WARNINGS  -D WIN32  -D _MBCS -std=c1x  \"G:/Visual Studio/RTKLIB/src/rtcm3e.c\"",
+    "file": "G:/Visual Studio/RTKLIB/src/rtcm3e.c"
+  },
+
+  {
+    "directory": "G:/Visual Studio/RTKLIB/app/convbin/msvc",
+    "command": "clang-tool -fms-extensions -fms-compatibility -fms-compatibility-version=19  -isystem \"G:/Visual Studio/RTKLIB/src\"  -isystem \"G:/vcpkg/installed/x64-windows/include\"  -isystem \"F:/Microsoft Visual Studio 14.0/VC/include\"  -isystem \"F:/Microsoft Visual Studio 14.0/VC/atlmfc/include\"  -isystem \"C:/Program Files (x86)/Windows Kits/10/Include/10.0.10240.0/ucrt\"  -isystem \"C:/Program Files (x86)/Windows Kits/8.1/Include/um\"  -isystem \"C:/Program Files (x86)/Windows Kits/8.1/Include/shared\"  -isystem \"C:/Program Files (x86)/Windows Kits/8.1/Include/winrt\"  -D _DEBUG  -D _MT  -D _DLL  -D QT  -D ENAGLO  -D ENAGAL  -D ENAQZS  -D ENACMP  -D ENAIRN  -D ENALEO  -D _CRT_SECURE_NO_WARNINGS  -D _WINSOCK_DEPRECATED_NO_WARNINGS  -D WIN32  -D _MBCS -std=c1x  \"G:/Visual Studio/RTKLIB/src/rtkcmn.c\"",
+    "file": "G:/Visual Studio/RTKLIB/src/rtkcmn.c"
+  },
+
+  {
+    "directory": "G:/Visual Studio/RTKLIB/app/convbin/msvc",
+    "command": "clang-tool -fms-extensions -fms-compatibility -fms-compatibility-version=19  -isystem \"G:/Visual Studio/RTKLIB/src\"  -isystem \"G:/vcpkg/installed/x64-windows/include\"  -isystem \"F:/Microsoft Visual Studio 14.0/VC/include\"  -isystem \"F:/Microsoft Visual Studio 14.0/VC/atlmfc/include\"  -isystem \"C:/Program Files (x86)/Windows Kits/10/Include/10.0.10240.0/ucrt\"  -isystem \"C:/Program Files (x86)/Windows Kits/8.1/Include/um\"  -isystem \"C:/Program Files (x86)/Windows Kits/8.1/Include/shared\"  -isystem \"C:/Program Files (x86)/Windows Kits/8.1/Include/winrt\"  -D _DEBUG  -D _MT  -D _DLL  -D QT  -D ENAGLO  -D ENAGAL  -D ENAQZS  -D ENACMP  -D ENAIRN  -D ENALEO  -D _CRT_SECURE_NO_WARNINGS  -D _WINSOCK_DEPRECATED_NO_WARNINGS  -D WIN32  -D _MBCS -std=c1x  \"G:/Visual Studio/RTKLIB/src/sbas.c\"",
+    "file": "G:/Visual Studio/RTKLIB/src/sbas.c"
+  },
+
+  {
+    "directory": "G:/Visual Studio/RTKLIB/app/convbin/msvc",
+    "command": "clang-tool -fms-extensions -fms-compatibility -fms-compatibility-version=19  -isystem \"G:/Visual Studio/RTKLIB/src\"  -isystem \"G:/vcpkg/installed/x64-windows/include\"  -isystem \"F:/Microsoft Visual Studio 14.0/VC/include\"  -isystem \"F:/Microsoft Visual Studio 14.0/VC/atlmfc/include\"  -isystem \"C:/Program Files (x86)/Windows Kits/10/Include/10.0.10240.0/ucrt\"  -isystem \"C:/Program Files (x86)/Windows Kits/8.1/Include/um\"  -isystem \"C:/Program Files (x86)/Windows Kits/8.1/Include/shared\"  -isystem \"C:/Program Files (x86)/Windows Kits/8.1/Include/winrt\"  -D _DEBUG  -D _MT  -D _DLL  -D QT  -D ENAGLO  -D ENAGAL  -D ENAQZS  -D ENACMP  -D ENAIRN  -D ENALEO  -D _CRT_SECURE_NO_WARNINGS  -D _WINSOCK_DEPRECATED_NO_WARNINGS  -D WIN32  -D _MBCS -std=c1x  \"G:/Visual Studio/RTKLIB/src/solution.c\"",
+    "file": "G:/Visual Studio/RTKLIB/src/solution.c"
+  },
+
+  {
+    "directory": "G:/Visual Studio/RTKLIB/app/convbin/msvc",
+    "command": "clang-tool -fms-extensions -fms-compatibility -fms-compatibility-version=19  -isystem \"G:/Visual Studio/RTKLIB/src\"  -isystem \"G:/vcpkg/installed/x64-windows/include\"  -isystem \"F:/Microsoft Visual Studio 14.0/VC/include\"  -isystem \"F:/Microsoft Visual Studio 14.0/VC/atlmfc/include\"  -isystem \"C:/Program Files (x86)/Windows Kits/10/Include/10.0.10240.0/ucrt\"  -isystem \"C:/Program Files (x86)/Windows Kits/8.1/Include/um\"  -isystem \"C:/Program Files (x86)/Windows Kits/8.1/Include/shared\"  -isystem \"C:/Program Files (x86)/Windows Kits/8.1/Include/winrt\"  -D _DEBUG  -D _MT  -D _DLL  -D QT  -D ENAGLO  -D ENAGAL  -D ENAQZS  -D ENACMP  -D ENAIRN  -D ENALEO  -D _CRT_SECURE_NO_WARNINGS  -D _WINSOCK_DEPRECATED_NO_WARNINGS  -D WIN32  -D _MBCS -std=c1x  \"G:/Visual Studio/RTKLIB/src/stream.c\"",
+    "file": "G:/Visual Studio/RTKLIB/src/stream.c"
+  },
+
+  {
+    "directory": "G:/Visual Studio/RTKLIB/app/convbin/msvc",
+    "command": "clang-tool -fms-extensions -fms-compatibility -fms-compatibility-version=19  -isystem \"G:/Visual Studio/RTKLIB/src\"  -isystem \"G:/vcpkg/installed/x64-windows/include\"  -isystem \"F:/Microsoft Visual Studio 14.0/VC/include\"  -isystem \"F:/Microsoft Visual Studio 14.0/VC/atlmfc/include\"  -isystem \"C:/Program Files (x86)/Windows Kits/10/Include/10.0.10240.0/ucrt\"  -isystem \"C:/Program Files (x86)/Windows Kits/8.1/Include/um\"  -isystem \"C:/Program Files (x86)/Windows Kits/8.1/Include/shared\"  -isystem \"C:/Program Files (x86)/Windows Kits/8.1/Include/winrt\"  -D _DEBUG  -D _MT  -D _DLL  -D QT  -D ENAGLO  -D ENAGAL  -D ENAQZS  -D ENACMP  -D ENAIRN  -D ENALEO  -D _CRT_SECURE_NO_WARNINGS  -D _WINSOCK_DEPRECATED_NO_WARNINGS  -D WIN32  -D _MBCS -std=c++14  \"G:/Visual Studio/RTKLIB/app/convbin/convbin.cpp\"",
+    "file": "G:/Visual Studio/RTKLIB/app/convbin/convbin.cpp"
+  },
+
+  {
+    "directory": "G:/Visual Studio/RTKLIB/app/convbin/msvc",
+    "command": "clang-tool -fms-extensions -fms-compatibility -fms-compatibility-version=19  -isystem \"G:/Visual Studio/RTKLIB/src\"  -isystem \"G:/vcpkg/installed/x64-windows/include\"  -isystem \"F:/Microsoft Visual Studio 14.0/VC/include\"  -isystem \"F:/Microsoft Visual Studio 14.0/VC/atlmfc/include\"  -isystem \"C:/Program Files (x86)/Windows Kits/10/Include/10.0.10240.0/ucrt\"  -isystem \"C:/Program Files (x86)/Windows Kits/8.1/Include/um\"  -isystem \"C:/Program Files (x86)/Windows Kits/8.1/Include/shared\"  -isystem \"C:/Program Files (x86)/Windows Kits/8.1/Include/winrt\"  -D _DEBUG  -D _MT  -D _DLL  -D QT  -D ENAGLO  -D ENAGAL  -D ENAQZS  -D ENACMP  -D ENAIRN  -D ENALEO  -D _CRT_SECURE_NO_WARNINGS  -D _WINSOCK_DEPRECATED_NO_WARNINGS  -D WIN32  -D _MBCS -std=c1x  \"G:/Visual Studio/RTKLIB/src/rcv/binex.c\"",
+    "file": "G:/Visual Studio/RTKLIB/src/rcv/binex.c"
+  },
+
+  {
+    "directory": "G:/Visual Studio/RTKLIB/app/convbin/msvc",
+    "command": "clang-tool -fms-extensions -fms-compatibility -fms-compatibility-version=19  -isystem \"G:/Visual Studio/RTKLIB/src\"  -isystem \"G:/vcpkg/installed/x64-windows/include\"  -isystem \"F:/Microsoft Visual Studio 14.0/VC/include\"  -isystem \"F:/Microsoft Visual Studio 14.0/VC/atlmfc/include\"  -isystem \"C:/Program Files (x86)/Windows Kits/10/Include/10.0.10240.0/ucrt\"  -isystem \"C:/Program Files (x86)/Windows Kits/8.1/Include/um\"  -isystem \"C:/Program Files (x86)/Windows Kits/8.1/Include/shared\"  -isystem \"C:/Program Files (x86)/Windows Kits/8.1/Include/winrt\"  -D _DEBUG  -D _MT  -D _DLL  -D QT  -D ENAGLO  -D ENAGAL  -D ENAQZS  -D ENACMP  -D ENAIRN  -D ENALEO  -D _CRT_SECURE_NO_WARNINGS  -D _WINSOCK_DEPRECATED_NO_WARNINGS  -D WIN32  -D _MBCS -std=c1x  \"G:/Visual Studio/RTKLIB/src/rcv/cmr.c\"",
+    "file": "G:/Visual Studio/RTKLIB/src/rcv/cmr.c"
+  },
+
+  {
+    "directory": "G:/Visual Studio/RTKLIB/app/convbin/msvc",
+    "command": "clang-tool -fms-extensions -fms-compatibility -fms-compatibility-version=19  -isystem \"G:/Visual Studio/RTKLIB/src\"  -isystem \"G:/vcpkg/installed/x64-windows/include\"  -isystem \"F:/Microsoft Visual Studio 14.0/VC/include\"  -isystem \"F:/Microsoft Visual Studio 14.0/VC/atlmfc/include\"  -isystem \"C:/Program Files (x86)/Windows Kits/10/Include/10.0.10240.0/ucrt\"  -isystem \"C:/Program Files (x86)/Windows Kits/8.1/Include/um\"  -isystem \"C:/Program Files (x86)/Windows Kits/8.1/Include/shared\"  -isystem \"C:/Program Files (x86)/Windows Kits/8.1/Include/winrt\"  -D _DEBUG  -D _MT  -D _DLL  -D QT  -D ENAGLO  -D ENAGAL  -D ENAQZS  -D ENACMP  -D ENAIRN  -D ENALEO  -D _CRT_SECURE_NO_WARNINGS  -D _WINSOCK_DEPRECATED_NO_WARNINGS  -D WIN32  -D _MBCS -std=c1x  \"G:/Visual Studio/RTKLIB/src/rcv/crescent.c\"",
+    "file": "G:/Visual Studio/RTKLIB/src/rcv/crescent.c"
+  },
+
+  {
+    "directory": "G:/Visual Studio/RTKLIB/app/convbin/msvc",
+    "command": "clang-tool -fms-extensions -fms-compatibility -fms-compatibility-version=19  -isystem \"G:/Visual Studio/RTKLIB/src\"  -isystem \"G:/vcpkg/installed/x64-windows/include\"  -isystem \"F:/Microsoft Visual Studio 14.0/VC/include\"  -isystem \"F:/Microsoft Visual Studio 14.0/VC/atlmfc/include\"  -isystem \"C:/Program Files (x86)/Windows Kits/10/Include/10.0.10240.0/ucrt\"  -isystem \"C:/Program Files (x86)/Windows Kits/8.1/Include/um\"  -isystem \"C:/Program Files (x86)/Windows Kits/8.1/Include/shared\"  -isystem \"C:/Program Files (x86)/Windows Kits/8.1/Include/winrt\"  -D _DEBUG  -D _MT  -D _DLL  -D QT  -D ENAGLO  -D ENAGAL  -D ENAQZS  -D ENACMP  -D ENAIRN  -D ENALEO  -D _CRT_SECURE_NO_WARNINGS  -D _WINSOCK_DEPRECATED_NO_WARNINGS  -D WIN32  -D _MBCS -std=c++14  \"G:/Visual Studio/RTKLIB/src/rcv/DGrX.cpp\"",
+    "file": "G:/Visual Studio/RTKLIB/src/rcv/DGrX.cpp"
+  },
+
+  {
+    "directory": "G:/Visual Studio/RTKLIB/app/convbin/msvc",
+    "command": "clang-tool -fms-extensions -fms-compatibility -fms-compatibility-version=19  -isystem \"G:/Visual Studio/RTKLIB/src\"  -isystem \"G:/vcpkg/installed/x64-windows/include\"  -isystem \"F:/Microsoft Visual Studio 14.0/VC/include\"  -isystem \"F:/Microsoft Visual Studio 14.0/VC/atlmfc/include\"  -isystem \"C:/Program Files (x86)/Windows Kits/10/Include/10.0.10240.0/ucrt\"  -isystem \"C:/Program Files (x86)/Windows Kits/8.1/Include/um\"  -isystem \"C:/Program Files (x86)/Windows Kits/8.1/Include/shared\"  -isystem \"C:/Program Files (x86)/Windows Kits/8.1/Include/winrt\"  -D _DEBUG  -D _MT  -D _DLL  -D QT  -D ENAGLO  -D ENAGAL  -D ENAQZS  -D ENACMP  -D ENAIRN  -D ENALEO  -D _CRT_SECURE_NO_WARNINGS  -D _WINSOCK_DEPRECATED_NO_WARNINGS  -D WIN32  -D _MBCS -std=c1x  \"G:/Visual Studio/RTKLIB/src/rcv/gw10.c\"",
+    "file": "G:/Visual Studio/RTKLIB/src/rcv/gw10.c"
+  },
+
+  {
+    "directory": "G:/Visual Studio/RTKLIB/app/convbin/msvc",
+    "command": "clang-tool -fms-extensions -fms-compatibility -fms-compatibility-version=19  -isystem \"G:/Visual Studio/RTKLIB/src\"  -isystem \"G:/vcpkg/installed/x64-windows/include\"  -isystem \"F:/Microsoft Visual Studio 14.0/VC/include\"  -isystem \"F:/Microsoft Visual Studio 14.0/VC/atlmfc/include\"  -isystem \"C:/Program Files (x86)/Windows Kits/10/Include/10.0.10240.0/ucrt\"  -isystem \"C:/Program Files (x86)/Windows Kits/8.1/Include/um\"  -isystem \"C:/Program Files (x86)/Windows Kits/8.1/Include/shared\"  -isystem \"C:/Program Files (x86)/Windows Kits/8.1/Include/winrt\"  -D _DEBUG  -D _MT  -D _DLL  -D QT  -D ENAGLO  -D ENAGAL  -D ENAQZS  -D ENACMP  -D ENAIRN  -D ENALEO  -D _CRT_SECURE_NO_WARNINGS  -D _WINSOCK_DEPRECATED_NO_WARNINGS  -D WIN32  -D _MBCS -std=c1x  \"G:/Visual Studio/RTKLIB/src/rcv/javad.c\"",
+    "file": "G:/Visual Studio/RTKLIB/src/rcv/javad.c"
+  },
+
+  {
+    "directory": "G:/Visual Studio/RTKLIB/app/convbin/msvc",
+    "command": "clang-tool -fms-extensions -fms-compatibility -fms-compatibility-version=19  -isystem \"G:/Visual Studio/RTKLIB/src\"  -isystem \"G:/vcpkg/installed/x64-windows/include\"  -isystem \"F:/Microsoft Visual Studio 14.0/VC/include\"  -isystem \"F:/Microsoft Visual Studio 14.0/VC/atlmfc/include\"  -isystem \"C:/Program Files (x86)/Windows Kits/10/Include/10.0.10240.0/ucrt\"  -isystem \"C:/Program Files (x86)/Windows Kits/8.1/Include/um\"  -isystem \"C:/Program Files (x86)/Windows Kits/8.1/Include/shared\"  -isystem \"C:/Program Files (x86)/Windows Kits/8.1/Include/winrt\"  -D _DEBUG  -D _MT  -D _DLL  -D QT  -D ENAGLO  -D ENAGAL  -D ENAQZS  -D ENACMP  -D ENAIRN  -D ENALEO  -D _CRT_SECURE_NO_WARNINGS  -D _WINSOCK_DEPRECATED_NO_WARNINGS  -D WIN32  -D _MBCS -std=c1x  \"G:/Visual Studio/RTKLIB/src/rcv/novatel.c\"",
+    "file": "G:/Visual Studio/RTKLIB/src/rcv/novatel.c"
+  },
+
+  {
+    "directory": "G:/Visual Studio/RTKLIB/app/convbin/msvc",
+    "command": "clang-tool -fms-extensions -fms-compatibility -fms-compatibility-version=19  -isystem \"G:/Visual Studio/RTKLIB/src\"  -isystem \"G:/vcpkg/installed/x64-windows/include\"  -isystem \"F:/Microsoft Visual Studio 14.0/VC/include\"  -isystem \"F:/Microsoft Visual Studio 14.0/VC/atlmfc/include\"  -isystem \"C:/Program Files (x86)/Windows Kits/10/Include/10.0.10240.0/ucrt\"  -isystem \"C:/Program Files (x86)/Windows Kits/8.1/Include/um\"  -isystem \"C:/Program Files (x86)/Windows Kits/8.1/Include/shared\"  -isystem \"C:/Program Files (x86)/Windows Kits/8.1/Include/winrt\"  -D _DEBUG  -D _MT  -D _DLL  -D QT  -D ENAGLO  -D ENAGAL  -D ENAQZS  -D ENACMP  -D ENAIRN  -D ENALEO  -D _CRT_SECURE_NO_WARNINGS  -D _WINSOCK_DEPRECATED_NO_WARNINGS  -D WIN32  -D _MBCS -std=c1x  \"G:/Visual Studio/RTKLIB/src/rcv/nvs.c\"",
+    "file": "G:/Visual Studio/RTKLIB/src/rcv/nvs.c"
+  },
+
+  {
+    "directory": "G:/Visual Studio/RTKLIB/app/convbin/msvc",
+    "command": "clang-tool -fms-extensions -fms-compatibility -fms-compatibility-version=19  -isystem \"G:/Visual Studio/RTKLIB/src\"  -isystem \"G:/vcpkg/installed/x64-windows/include\"  -isystem \"F:/Microsoft Visual Studio 14.0/VC/include\"  -isystem \"F:/Microsoft Visual Studio 14.0/VC/atlmfc/include\"  -isystem \"C:/Program Files (x86)/Windows Kits/10/Include/10.0.10240.0/ucrt\"  -isystem \"C:/Program Files (x86)/Windows Kits/8.1/Include/um\"  -isystem \"C:/Program Files (x86)/Windows Kits/8.1/Include/shared\"  -isystem \"C:/Program Files (x86)/Windows Kits/8.1/Include/winrt\"  -D _DEBUG  -D _MT  -D _DLL  -D QT  -D ENAGLO  -D ENAGAL  -D ENAQZS  -D ENACMP  -D ENAIRN  -D ENALEO  -D _CRT_SECURE_NO_WARNINGS  -D _WINSOCK_DEPRECATED_NO_WARNINGS  -D WIN32  -D _MBCS -std=c1x  \"G:/Visual Studio/RTKLIB/src/rcv/rcvlex.c\"",
+    "file": "G:/Visual Studio/RTKLIB/src/rcv/rcvlex.c"
+  },
+
+  {
+    "directory": "G:/Visual Studio/RTKLIB/app/convbin/msvc",
+    "command": "clang-tool -fms-extensions -fms-compatibility -fms-compatibility-version=19  -isystem \"G:/Visual Studio/RTKLIB/src\"  -isystem \"G:/vcpkg/installed/x64-windows/include\"  -isystem \"F:/Microsoft Visual Studio 14.0/VC/include\"  -isystem \"F:/Microsoft Visual Studio 14.0/VC/atlmfc/include\"  -isystem \"C:/Program Files (x86)/Windows Kits/10/Include/10.0.10240.0/ucrt\"  -isystem \"C:/Program Files (x86)/Windows Kits/8.1/Include/um\"  -isystem \"C:/Program Files (x86)/Windows Kits/8.1/Include/shared\"  -isystem \"C:/Program Files (x86)/Windows Kits/8.1/Include/winrt\"  -D _DEBUG  -D _MT  -D _DLL  -D QT  -D ENAGLO  -D ENAGAL  -D ENAQZS  -D ENACMP  -D ENAIRN  -D ENALEO  -D _CRT_SECURE_NO_WARNINGS  -D _WINSOCK_DEPRECATED_NO_WARNINGS  -D WIN32  -D _MBCS -std=c1x  \"G:/Visual Studio/RTKLIB/src/rcv/rt17.c\"",
+    "file": "G:/Visual Studio/RTKLIB/src/rcv/rt17.c"
+  },
+
+  {
+    "directory": "G:/Visual Studio/RTKLIB/app/convbin/msvc",
+    "command": "clang-tool -fms-extensions -fms-compatibility -fms-compatibility-version=19  -isystem \"G:/Visual Studio/RTKLIB/src\"  -isystem \"G:/vcpkg/installed/x64-windows/include\"  -isystem \"F:/Microsoft Visual Studio 14.0/VC/include\"  -isystem \"F:/Microsoft Visual Studio 14.0/VC/atlmfc/include\"  -isystem \"C:/Program Files (x86)/Windows Kits/10/Include/10.0.10240.0/ucrt\"  -isystem \"C:/Program Files (x86)/Windows Kits/8.1/Include/um\"  -isystem \"C:/Program Files (x86)/Windows Kits/8.1/Include/shared\"  -isystem \"C:/Program Files (x86)/Windows Kits/8.1/Include/winrt\"  -D _DEBUG  -D _MT  -D _DLL  -D QT  -D ENAGLO  -D ENAGAL  -D ENAQZS  -D ENACMP  -D ENAIRN  -D ENALEO  -D _CRT_SECURE_NO_WARNINGS  -D _WINSOCK_DEPRECATED_NO_WARNINGS  -D WIN32  -D _MBCS -std=c1x  \"G:/Visual Studio/RTKLIB/src/rcv/septentrio.c\"",
+    "file": "G:/Visual Studio/RTKLIB/src/rcv/septentrio.c"
+  },
+
+  {
+    "directory": "G:/Visual Studio/RTKLIB/app/convbin/msvc",
+    "command": "clang-tool -fms-extensions -fms-compatibility -fms-compatibility-version=19  -isystem \"G:/Visual Studio/RTKLIB/src\"  -isystem \"G:/vcpkg/installed/x64-windows/include\"  -isystem \"F:/Microsoft Visual Studio 14.0/VC/include\"  -isystem \"F:/Microsoft Visual Studio 14.0/VC/atlmfc/include\"  -isystem \"C:/Program Files (x86)/Windows Kits/10/Include/10.0.10240.0/ucrt\"  -isystem \"C:/Program Files (x86)/Windows Kits/8.1/Include/um\"  -isystem \"C:/Program Files (x86)/Windows Kits/8.1/Include/shared\"  -isystem \"C:/Program Files (x86)/Windows Kits/8.1/Include/winrt\"  -D _DEBUG  -D _MT  -D _DLL  -D QT  -D ENAGLO  -D ENAGAL  -D ENAQZS  -D ENACMP  -D ENAIRN  -D ENALEO  -D _CRT_SECURE_NO_WARNINGS  -D _WINSOCK_DEPRECATED_NO_WARNINGS  -D WIN32  -D _MBCS -std=c1x  \"G:/Visual Studio/RTKLIB/src/rcv/skytraq.c\"",
+    "file": "G:/Visual Studio/RTKLIB/src/rcv/skytraq.c"
+  },
+
+  {
+    "directory": "G:/Visual Studio/RTKLIB/app/convbin/msvc",
+    "command": "clang-tool -fms-extensions -fms-compatibility -fms-compatibility-version=19  -isystem \"G:/Visual Studio/RTKLIB/src\"  -isystem \"G:/vcpkg/installed/x64-windows/include\"  -isystem \"F:/Microsoft Visual Studio 14.0/VC/include\"  -isystem \"F:/Microsoft Visual Studio 14.0/VC/atlmfc/include\"  -isystem \"C:/Program Files (x86)/Windows Kits/10/Include/10.0.10240.0/ucrt\"  -isystem \"C:/Program Files (x86)/Windows Kits/8.1/Include/um\"  -isystem \"C:/Program Files (x86)/Windows Kits/8.1/Include/shared\"  -isystem \"C:/Program Files (x86)/Windows Kits/8.1/Include/winrt\"  -D _DEBUG  -D _MT  -D _DLL  -D QT  -D ENAGLO  -D ENAGAL  -D ENAQZS  -D ENACMP  -D ENAIRN  -D ENALEO  -D _CRT_SECURE_NO_WARNINGS  -D _WINSOCK_DEPRECATED_NO_WARNINGS  -D WIN32  -D _MBCS -std=c1x  \"G:/Visual Studio/RTKLIB/src/rcv/ss2.c\"",
+    "file": "G:/Visual Studio/RTKLIB/src/rcv/ss2.c"
+  },
+
+  {
+    "directory": "G:/Visual Studio/RTKLIB/app/convbin/msvc",
+    "command": "clang-tool -fms-extensions -fms-compatibility -fms-compatibility-version=19  -isystem \"G:/Visual Studio/RTKLIB/src\"  -isystem \"G:/vcpkg/installed/x64-windows/include\"  -isystem \"F:/Microsoft Visual Studio 14.0/VC/include\"  -isystem \"F:/Microsoft Visual Studio 14.0/VC/atlmfc/include\"  -isystem \"C:/Program Files (x86)/Windows Kits/10/Include/10.0.10240.0/ucrt\"  -isystem \"C:/Program Files (x86)/Windows Kits/8.1/Include/um\"  -isystem \"C:/Program Files (x86)/Windows Kits/8.1/Include/shared\"  -isystem \"C:/Program Files (x86)/Windows Kits/8.1/Include/winrt\"  -D _DEBUG  -D _MT  -D _DLL  -D QT  -D ENAGLO  -D ENAGAL  -D ENAQZS  -D ENACMP  -D ENAIRN  -D ENALEO  -D _CRT_SECURE_NO_WARNINGS  -D _WINSOCK_DEPRECATED_NO_WARNINGS  -D WIN32  -D _MBCS -std=c1x  \"G:/Visual Studio/RTKLIB/src/rcv/tersus.c\"",
+    "file": "G:/Visual Studio/RTKLIB/src/rcv/tersus.c"
+  },
+
+  {
+    "directory": "G:/Visual Studio/RTKLIB/app/convbin/msvc",
+    "command": "clang-tool -fms-extensions -fms-compatibility -fms-compatibility-version=19  -isystem \"G:/Visual Studio/RTKLIB/src\"  -isystem \"G:/vcpkg/installed/x64-windows/include\"  -isystem \"F:/Microsoft Visual Studio 14.0/VC/include\"  -isystem \"F:/Microsoft Visual Studio 14.0/VC/atlmfc/include\"  -isystem \"C:/Program Files (x86)/Windows Kits/10/Include/10.0.10240.0/ucrt\"  -isystem \"C:/Program Files (x86)/Windows Kits/8.1/Include/um\"  -isystem \"C:/Program Files (x86)/Windows Kits/8.1/Include/shared\"  -isystem \"C:/Program Files (x86)/Windows Kits/8.1/Include/winrt\"  -D _DEBUG  -D _MT  -D _DLL  -D QT  -D ENAGLO  -D ENAGAL  -D ENAQZS  -D ENACMP  -D ENAIRN  -D ENALEO  -D _CRT_SECURE_NO_WARNINGS  -D _WINSOCK_DEPRECATED_NO_WARNINGS  -D WIN32  -D _MBCS -std=c1x  \"G:/Visual Studio/RTKLIB/src/rcv/ublox.c\"",
+    "file": "G:/Visual Studio/RTKLIB/src/rcv/ublox.c"
+  }
+
+
+]
