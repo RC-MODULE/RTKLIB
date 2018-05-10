@@ -72,6 +72,20 @@ public:
 		void SwapEndian(std::array<T, sz> &arr) {
 			SwapEndian(reinterpret_cast<std::uint8_t*>(arr.data()), arr.size() * sizeof(T));
 		}
+
+		bool CheckCRC(MID mid, std::uint8_t *data, std::size_t sz, std::uint16_t crc) {
+			std::vector<std::uint8_t> vec(data, data + sz);
+			vec.insert(vec.begin(), static_cast<std::uint8_t>(mid));
+
+			auto ptr_16bit = reinterpret_cast<std::uint16_t*>(vec.data());
+
+			std::uint32_t checksum = 0;
+			for (std::size_t i = 0; i < sz / 2; ++i) {
+				checksum += ptr_16bit[i];
+			}
+			return checksum == static_cast<std::uint32_t>(crc);
+		}
+
 	};
 
 	class FirmwareSchematicVersion final : public Message {
@@ -234,6 +248,10 @@ public:
 		double L2Pseudorange() {
 			return data.l2_pseudorange * std::pow(10, -10);
 		}
+
+		double Doppler() {
+			return data.doppler * std::pow(10, -4);
+		}
 	};
 
 	class MeasuredPositionData final : public Message {
@@ -385,7 +403,7 @@ public:
 		}
 	};
 
-	class GPSEphemerisData : Message {
+	class GPSEphemerisData : public Message {
 	private:
 		struct Data {
 			std::uint8_t prn = 0;
@@ -490,6 +508,10 @@ public:
 			return data.tgd * std::pow(2, 4);
 		}
 
+		double Tow() {
+			return data.tow * 6;
+		}
+
 		double Af2() {
 			return data.af2 * std::pow(2, -55);
 		}
@@ -499,7 +521,7 @@ public:
 		}
 
 		double Af0() {
-			return data.af2 * std::pow(2, -31);
+			return data.af0 * std::pow(2, -31);
 		}
 
 		double Cuc() {

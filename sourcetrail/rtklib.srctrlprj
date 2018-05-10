@@ -1,22 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <config>
     <source_groups>
-        <source_group_04580642-0fd0-4db9-b410-164dcca7b50b>
-            <build_file_path>
-                <compilation_db_path>G:/Visual Studio/RTKLIB/app/convbin/msvc/convbin.json</compilation_db_path>
-            </build_file_path>
-            <compiler_flags>
-                <compiler_flag>-std=c++17</compiler_flag>
-            </compiler_flags>
-            <name>C/C++ from Compilation Database</name>
-            <source_paths>
-                <source_path>../app/convbin</source_path>
-                <source_path>../src</source_path>
-            </source_paths>
-            <status>enabled</status>
-            <type>C/C++ from Compilation Database</type>
-        </source_group_04580642-0fd0-4db9-b410-164dcca7b50b>
-        <source_group_1a9e43d4-aa96-4cbe-b776-c4a2b8b92ec7>
+        <source_group_12167188-ab5f-486f-b48e-20a07ec911b3>
             <build_file_path>
                 <compilation_db_path>G:/Visual Studio/RTKLIB/app/convbin/msvc/convbin.json</compilation_db_path>
             </build_file_path>
@@ -27,7 +12,7 @@
             </source_paths>
             <status>enabled</status>
             <type>C/C++ from Compilation Database</type>
-        </source_group_1a9e43d4-aa96-4cbe-b776-c4a2b8b92ec7>
+        </source_group_12167188-ab5f-486f-b48e-20a07ec911b3>
     </source_groups>
     <version>5</version>
 </config>

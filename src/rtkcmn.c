@@ -226,16 +226,18 @@ const char *formatstrs[32]={    /* stream format strings */
     "NVS BINR",                 /* 10 */
     "BINEX",                    /* 11 */
 	"Trimble RT17",             /* 12 */
-	"DGr9",						/* 13 */
-	"Septentrio",               /* 14 */
-	"CMR/CMR+",                 /* 15 */
-	"TERSUS",                   /* 16 */
-	"LEX Receiver",             /* 17 */
-	"RINEX",                    /* 18 */
-	"SP3",                      /* 19 */
-	"RINEX CLK",                /* 20 */
-	"SBAS",                     /* 21 */
-    "NMEA 0183",                /* 22 */
+	"",							/* 13 */
+	"DataGrid ver. 4",			/* 14 */
+	"DataGrid ver. 9",			/* 15 */
+	"Septentrio",               /* 16 */
+	"CMR/CMR+",                 /* 17 */
+	"TERSUS",                   /* 18 */
+	"LEX Receiver",             /* 19 */
+	"RINEX",                    /* 20 */
+	"SP3",                      /* 21 */
+	"RINEX CLK",                /* 22 */
+	"SBAS",                     /* 23 */
+	"NMEA 0183",                /* 24 */
     NULL
 };
 static char *obscodes[]={       /* observation code strings */
