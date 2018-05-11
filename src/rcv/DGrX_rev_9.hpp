@@ -239,7 +239,7 @@ public:
 		}
 	};
 
-	class L5E5G3MeasurementData : Message {
+	class L5E5G3MeasurementData : public Message {
 	private:
 		struct Data {
 			std::uint8_t sv_number = 0;
@@ -455,7 +455,7 @@ public:
 		//}
 	};
 
-	class GPSEphemerisData : Message {
+	class GPSEphemerisData : public Message {
 	private:
 		struct Data {
 			std::uint8_t prn = 0;
@@ -637,7 +637,7 @@ public:
 		}
 	};
 
-	class GalileoEphemerisData : Message {
+	class GalileoEphemerisData : public Message {
 	private:
 		struct Data {
 			enum class Health :std::uint16_t {

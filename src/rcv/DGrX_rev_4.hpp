@@ -2,6 +2,7 @@
 #define _DGrX_REV_4_HPP
 
 #include <array>
+#include <cmath>
 #include <cstdint>
 #include <fstream>
 #include <memory>
@@ -505,7 +506,7 @@ public:
 		}
 
 		double Toc() {
-			return data.tgd * std::pow(2, 4);
+			return data.toc * std::pow(2, 4);
 		}
 
 		double Tow() {
@@ -710,6 +711,10 @@ public:
 
 		double Tn() {
 			return data.tn * std::pow(2, -30);
+		}
+
+		double Tb() {
+			return data.tb * 15.0 * 60.0;
 		}
 
 		double Gn() {
