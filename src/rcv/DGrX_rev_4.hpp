@@ -1132,7 +1132,11 @@ public:
 		std::array<char, 3> sequence_to_sync = { 'G', 'R', '8' };
 		std::array<char, 3> read_sequence;
 		log_file.read(read_sequence.data(), read_sequence.size());
-		return (read_sequence == sequence_to_sync) ? true : false;
+		if (read_sequence == sequence_to_sync)
+			return true;
+
+		log_file.seekg(static_cast<std::size_t>(log_file.tellg()) - sequence_to_sync.size());
+		return false;
 	}
 };
 #pragma pack(pop)

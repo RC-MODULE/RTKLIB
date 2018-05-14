@@ -8,8 +8,6 @@
 #include "rtklib.h"
 
 namespace {
-	gtime_t latest_time;
-
 	enum ReturnCodes {
 		end_of_file = -2,
 		error_message = -1,
@@ -20,10 +18,31 @@ namespace {
 		input_ion_utc_parameter = 9,
 		input_lex_message = 31
 	};
+	
+	const double Pi = 4 * std::atan(1.0);
 
 	std::vector<std::int32_t> used_svs;
 
-	const double Pi = 4 * std::atan(1.0);
+	std::int32_t whole_1024_weeks = 0;
+
+	struct OverlapCounter final {
+	private:
+		std::size_t pre = 0;
+		std::size_t post = 0;
+		std::size_t count = 0;
+	public:
+		void Update(std::size_t wn) {
+			pre = post;
+			post = wn;
+			if (pre > post)
+				++count;
+		}
+
+		std::size_t Count() {
+			return count;
+		}
+	} overlap_counter;
+
 
 	double SemicyclesToRadians(double val) {
 		return val * Pi;
@@ -42,62 +61,77 @@ namespace {
 		ep[3] = ep[4] = ep[5] = 0.0;
 		return timeadd(epoch2time(ep), tod);
 	}
+
+	void GetWnFromFile(FILE *fp) {
+		if (whole_1024_weeks)
+			return;
+
+		struct _stat s;
+		auto q = _fstat(_fileno(fp), &s);
+		auto time = s.st_mtime;
+		gtime_t time_32bit;
+		time_32bit.time = time;
+
+		auto week = 0;
+		time2gpst(time_32bit, &week);
+		whole_1024_weeks = (week / 1024) * 1024;
+	}
 }
 
 namespace rev_4 {
 	int DecodePosition(DGrX_rev_4::MeasuredPositionData *message, raw_t *raw) {
-		//std::array<double, 6> gpst0 = { 1980, 1, 6, 0, 0, 0 };
-		//raw->time = timeadd(epoch2time(gpst0.data()), min*60.0 + msec*0.001);
 		try {
 			if (message == nullptr || raw == nullptr)
 				throw std::runtime_error("Nullptr provided");
 
 			auto& message_data = message->Data();
 			if (static_cast<int>(message_data.fix_quality.fix_status)) {
-				raw->time = gpst2time(message_data.wn + 1024, message_data.rcv_time * 1e-3);
-				latest_time = raw->time;
-				raw->obs.data[0].time = latest_time;
-				used_svs.clear();
+
+				overlap_counter.Update(message_data.wn);
+				auto wn = message_data.wn + whole_1024_weeks + overlap_counter.Count();
+
+				raw->time = gpst2time(wn, message_data.rcv_time * 1e-3);
 				if (raw->obs.n) {
+					for (std::size_t i = 0; i < used_svs.size(); ++i)
+						raw->obs.data[i].time = raw->time;
+
+					std::sort(raw->obs.data, raw->obs.data + used_svs.size(), [](const auto &lhs, const auto &rhs) {
+						return lhs.sat < rhs.sat;
+					});
+
+					raw->ephsat = 0;
 					used_svs.clear();
 					return ReturnCodes::input_observation_data;
 				}
-				else 
+				else
 					return ReturnCodes::no_message;
 			}
-			else
+			else {
+				used_svs.clear();
 				return ReturnCodes::no_message;
+			}
 		}
 		catch (...) {
-			//return ReturnCodes::error_message;
-
 			return ReturnCodes::no_message;
 		}
 		return ReturnCodes::no_message;
 	}
-
-#if 0
-	typedef struct {        /* observation data record */
-	gtime_t time;       /* receiver sampling time (GPST) */
-	unsigned char sat, rcv; /* satellite/receiver number */
-	unsigned char SNR[NFREQ + NEXOBS]; /* signal strength (0.25 dBHz) */
-	unsigned char LLI[NFREQ + NEXOBS]; /* loss of lock indicator */
-	unsigned char code[NFREQ + NEXOBS]; /* code indicator (CODE_???) */
-	double L[NFREQ + NEXOBS]; /* observation data carrier-phase (cycle) */
-	double P[NFREQ + NEXOBS]; /* observation data pseudorange (m) */
-	float  D[NFREQ + NEXOBS]; /* observation data doppler frequency (Hz) */
-} obsd_t;
-#endif
-
+	
 	int DecodeRawData(DGrX_rev_4::RawMeasurementData *message, raw_t *raw) {
-		if(used_svs.empty())
+		if (used_svs.empty()) {
 			raw->obs.n = 0;
-		if (std::find(used_svs.begin(), used_svs.end(), message->Data().PRN) == used_svs.end()) {
+
+		}
+
+		auto is_used = std::find(used_svs.begin(), used_svs.end(), message->Data().PRN);
+		auto cur_n = raw->obs.n;
+		if (is_used == used_svs.end()) {
 			used_svs.push_back(message->Data().PRN);
 			raw->obs.n++;
 		}
-		auto cur_n = raw->obs.n;
-		raw->obs.data[cur_n].time = latest_time;
+		else
+			cur_n = std::distance(used_svs.begin(), is_used);
+
 		raw->obs.data->rcv = 0;
 		raw->obs.data[cur_n].sat = message->Data().PRN;
 		
@@ -114,30 +148,6 @@ namespace rev_4 {
 		return ReturnCodes::no_message;
 	}
 
-#if 0
-	typedef struct {        /* GPS/QZS/GAL broadcast ephemeris type */
-	int sat;            /* satellite number */
-	int iode, iodc;      /* IODE,IODC */
-	int sva;            /* SV accuracy (URA index) */
-	int svh;            /* SV health (0:ok) */
-	int week;           /* GPS/QZS: gps week, GAL: galileo week */
-	int code;           /* GPS/QZS: code on L2, GAL/CMP: data sources */
-	int flag;           /* GPS/QZS: L2 P data flag, CMP: nav type */
-	gtime_t toe, toc, ttr; /* Toe,Toc,T_trans */
-						   /* SV orbit parameters */
-	double A, e, i0, OMG0, omg, M0, deln, OMGd, idot;
-	double crc, crs, cuc, cus, cic, cis;
-	double toes;        /* Toe (s) in week */
-	double fit;         /* fit interval (h) */
-	double f0, f1, f2;    /* SV clock parameters (af0,af1,af2) */
-	double tgd[4];      /* group delay parameters */
-						/* GPS/QZS:tgd[0]=TGD */
-						/* GAL    :tgd[0]=BGD E5a/E1,tgd[1]=BGD E5b/E1 */
-						/* CMP    :tgd[0]=BGD1,tgd[1]=BGD2 */
-	double Adot, ndot;   /* Adot,ndot for CNAV */
-} eph_t;
-#endif
-
 	int DecodeEphemeris(DGrX_rev_4::GPSEphemerisData *message, raw_t *raw) {
 		try {
 			if (message == nullptr || raw == nullptr)
@@ -152,10 +162,12 @@ namespace rev_4 {
 			eph.iodc = data.iodc;
 			eph.sva = data.prec_and_health.ura;
 			eph.svh = data.prec_and_health.satellite_health;
-			eph.week = data.wn + 1024; //
-			eph.code = 1; //??
-			//eph.flag = 0; //??
-			eph.toe = gpst2time(eph.week, message->Toe());   ///!!! time
+
+			overlap_counter.Update(data.wn);
+			eph.week = data.wn + whole_1024_weeks + overlap_counter.Count();
+			
+			eph.code = 1;
+			eph.toe = gpst2time(eph.week, message->Toe());
 			eph.toc = gpst2time(eph.week, message->Toc());
 			eph.ttr = gpst2time(eph.week, message->Tow());
 			eph.A = message->Roota() * message->Roota();
@@ -189,22 +201,6 @@ namespace rev_4 {
 		return ReturnCodes::no_message;
 	}
 
-#if 0
-	typedef struct {        /* GLONASS broadcast ephemeris type */
-		int sat;            /* satellite number */
-		int iode;           /* IODE (0-6 bit of tb field) */
-		int frq;            /* satellite frequency number */
-		int svh, sva, age;    /* satellite health, accuracy, age of operation */
-		gtime_t toe;        /* epoch of epherides (gpst) */
-		gtime_t tof;        /* message frame time (gpst) */
-		double pos[3];      /* satellite position (ecef) (m) */
-		double vel[3];      /* satellite velocity (ecef) (m/s) */
-		double acc[3];      /* satellite acceleration (ecef) (m/s^2) */
-		double taun, gamn;   /* SV clock bias (s)/relative freq bias */
-		double dtaun;       /* delay between L1 and L2 (s) */
-	} geph_t;
-#endif
-
 	int DecodeEphemeris(DGrX_rev_4::GLONASSEphemerisData *message, raw_t *raw) {
 		try {
 			if (message == nullptr || raw == nullptr)
@@ -215,13 +211,12 @@ namespace rev_4 {
 			auto &eph = raw->nav.geph[cur_sv - 1];
 			eph.sat = satno(SYS_GLO, cur_sv);
 			raw->ephsat = eph.sat;
-			//eph.iode = data.
 			eph.frq = data.litera;
-			eph.svh = data.health; ///?
+			eph.svh = data.health;
 			eph.sva = data.en;
 			eph.toe = utc2gpst(adjday(raw->time, message->Tb() - 10800.0));
 
-			auto tk = data.tk.hh * 60.0*60.0 + data.tk.mm * 60.0 + data.tk.ss * 30.0; //? convert to minutes?
+			auto tk = data.tk.hh * 60.0*60.0 + data.tk.mm * 60.0 + data.tk.ss * 30.0;
 			eph.tof = utc2gpst(adjday(raw->time, tk - 10800.0));
 
 			eph.pos[0] = message->X();
@@ -246,10 +241,9 @@ namespace rev_4 {
 
 		return ReturnCodes::no_message;
 	}
-	
+
 	int ConvertToRaw(DGrX_rev_4::Message *message, raw_t *raw) {
 		if (message == nullptr || raw == nullptr)
-			//return ReturnCodes::error_message;
 			return ReturnCodes::no_message;
 		auto type = message->GetMID();
 		switch (type)
@@ -384,6 +378,7 @@ extern "C" int input_dgrx_9(raw_t *raw, unsigned char data) {
 
 extern "C" int input_dgrx_4f(raw_t *raw, FILE *fp) {
 	//trace(4, "input_dgr8f:\n");
+	GetWnFromFile(fp);
 
 	std::ifstream log_file(fp);
 	std::uint8_t last_byte = 0;
@@ -404,6 +399,7 @@ extern "C" int input_dgrx_4f(raw_t *raw, FILE *fp) {
 
 extern "C" int input_dgrx_9f(raw_t *raw, FILE *fp) {
 	//trace(4, "input_dgr8f:\n");
+	GetWnFromFile(fp);
 
 	std::ifstream log_file(fp);
 	std::uint8_t last_byte = 0;
