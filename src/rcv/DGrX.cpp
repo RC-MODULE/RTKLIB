@@ -44,14 +44,18 @@ namespace {
 	} overlap_counter;
 
 
-	double SemicyclesToRadians(double val) {
+	inline double SemicyclesToRadians(double val) {
 		return val * Pi;
 	}
 
-	double RadiansToSemicycles(double val) {
+	inline double RadiansToSemicycles(double val) {
 		return val / Pi;
 	}
 
+	inline double KilometersToMeters(double val) {
+		return val * 1e3;
+	}
+	
 	gtime_t adjday(gtime_t time, double tod) {
 		double ep[6], tod_p;
 		time2epoch(time, ep);
@@ -216,18 +220,18 @@ namespace rev_4 {
 			eph.sva = data.en;
 			eph.toe = utc2gpst(adjday(raw->time, message->Tb() - 10800.0));
 
-			auto tk = data.tk.hh * 60.0*60.0 + data.tk.mm * 60.0 + data.tk.ss * 30.0;
-			eph.tof = utc2gpst(adjday(raw->time, tk - 10800.0));
+			//auto tk = data.tk.hh * 60.0*60.0 + data.tk.mm * 60.0 + data.tk.ss * 30.0; // empty field
+			//eph.tof = utc2gpst(adjday(raw->time, tk - 10800.0));
 
-			eph.pos[0] = message->X();
-			eph.vel[0] = message->Xdot();
-			eph.acc[0] = message->Xdotdot();
-			eph.pos[1] = message->Y();
-			eph.vel[1] = message->Ydot();
-			eph.acc[1] = message->Ydotdot();
-			eph.pos[2] = message->Z();
-			eph.vel[2] = message->Zdot();
-			eph.acc[2] = message->Zdotdot();
+			eph.pos[0] = KilometersToMeters(message->X());
+			eph.vel[0] = KilometersToMeters(message->Xdot());
+			eph.acc[0] = KilometersToMeters(message->Xdotdot());
+			eph.pos[1] = KilometersToMeters(message->Y());
+			eph.vel[1] = KilometersToMeters(message->Ydot());
+			eph.acc[1] = KilometersToMeters(message->Ydotdot());
+			eph.pos[2] = KilometersToMeters(message->Z());
+			eph.vel[2] = KilometersToMeters(message->Zdot());
+			eph.acc[2] = KilometersToMeters(message->Zdotdot());
 
 			eph.taun = message->Tn();
 			eph.gamn = message->Gn();
