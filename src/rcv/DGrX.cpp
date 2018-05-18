@@ -88,7 +88,7 @@ namespace rev_4 {
 			if (message == nullptr || raw == nullptr)
 				throw std::runtime_error("Nullptr provided");
 
-			auto& message_data = message->Data();
+			auto& message_data = message->GetData();
 			if (static_cast<int>(message_data.fix_quality.fix_status)) {
 
 				overlap_counter.Update(message_data.wn);
@@ -127,24 +127,24 @@ namespace rev_4 {
 
 		}
 
-		auto is_used = std::find(used_svs.begin(), used_svs.end(), message->Data().PRN);
+		auto is_used = std::find(used_svs.begin(), used_svs.end(), message->GetData().PRN);
 		auto cur_n = raw->obs.n;
 		if (is_used == used_svs.end()) {
-			used_svs.push_back(message->Data().PRN);
+			used_svs.push_back(message->GetData().PRN);
 			raw->obs.n++;
 		}
 		else
 			cur_n = std::distance(used_svs.begin(), is_used);
 
 		raw->obs.data->rcv = 0;
-		raw->obs.data[cur_n].sat = message->Data().PRN;
+		raw->obs.data[cur_n].sat = message->GetData().PRN;
 		
 		raw->obs.data[cur_n].L[0] = message->L1Phase();
 		raw->obs.data[cur_n].L[1] = message->L2Phase();
 		raw->obs.data[cur_n].P[0] = message->L1Pseudorange() * CLIGHT;
 		raw->obs.data[cur_n].P[1] = message->L2Pseudorange() * CLIGHT;
 		raw->obs.data[cur_n].D[0] = static_cast<float>(message->Doppler());
-		raw->obs.data[cur_n].SNR[0] = message->Data().snr;
+		raw->obs.data[cur_n].SNR[0] = message->GetData().snr;
 		raw->obs.data[cur_n].LLI[0] = 0;
 		raw->obs.data[cur_n].code[0] = CODE_L1C;
 		raw->obs.data[cur_n].code[1] = CODE_L2C;
@@ -157,7 +157,7 @@ namespace rev_4 {
 			if (message == nullptr || raw == nullptr)
 				throw std::runtime_error("Nullptr provided");
 
-			auto &data = message->Data();
+			auto &data = message->GetData();
 			auto cur_sv = data.prn;
 			auto &eph = raw->nav.eph[cur_sv - 1];
 			raw->ephsat = cur_sv;
@@ -210,7 +210,7 @@ namespace rev_4 {
 			if (message == nullptr || raw == nullptr)
 				throw std::runtime_error("Nullptr provided");
 
-			auto &data = message->Data();
+			auto &data = message->GetData();
 			auto cur_sv = data.sv_id - 32;
 			auto &eph = raw->nav.geph[cur_sv - 1];
 			eph.sat = satno(SYS_GLO, cur_sv);
@@ -220,8 +220,8 @@ namespace rev_4 {
 			eph.sva = data.en;
 			eph.toe = utc2gpst(adjday(raw->time, message->Tb() - 10800.0));
 
-			//auto tk = data.tk.hh * 60.0*60.0 + data.tk.mm * 60.0 + data.tk.ss * 30.0; // empty field
-			//eph.tof = utc2gpst(adjday(raw->time, tk - 10800.0));
+			auto tk = data.tk.hh * 60.0*60.0 + data.tk.mm * 60.0 + data.tk.ss * 30.0; // empty field
+			eph.tof = utc2gpst(adjday(raw->time, tk - 10800.0));
 
 			eph.pos[0] = KilometersToMeters(message->X());
 			eph.vel[0] = KilometersToMeters(message->Xdot());
@@ -372,6 +372,9 @@ namespace rev_9 {
 
 extern "C" int input_dgrx_4(raw_t *raw, unsigned char data) {
 	// not implemented yet
+
+	//if(raw->nbyte == 0)
+
 	return error_message;
 }
 

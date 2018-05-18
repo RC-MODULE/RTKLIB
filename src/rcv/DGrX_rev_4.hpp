@@ -32,9 +32,7 @@ public:
 	struct Message {
 		virtual MID GetMID() = 0;
 
-		virtual ~Message() {
-
-		}
+		virtual ~Message() = default;
 	protected:
 		template <typename T>
 		void SwapEndian(T &val) = 0;
@@ -91,6 +89,7 @@ public:
 
 	class FirmwareSchematicVersion final : public Message {
 	private:
+		friend DGrX_rev_4;
 		struct Data {
 			std::uint8_t : 8;
 			std::uint32_t fw_version = 0;
@@ -125,13 +124,14 @@ public:
 			Preprocess();
 		}
 
-		auto& Data() {
+		auto& GetData() {
 			return data;
 		}
 	};
 
 	class RawMeasurementData final : public Message {
 	private:
+		friend DGrX_rev_4;
 		struct Data {
 			std::uint8_t PRN = 0;
 			std::uint8_t : 8;
@@ -202,7 +202,7 @@ public:
 			Preprocess();
 		}
 
-		auto& Data() {
+		auto& GetData() {
 			return data;
 		}
 
@@ -257,6 +257,7 @@ public:
 
 	class MeasuredPositionData final : public Message {
 	private:
+		friend DGrX_rev_4;
 		struct Data {
 			enum class RAIMState :std::uint8_t {
 				ok = 0,
@@ -359,7 +360,7 @@ public:
 			Preprocess();
 		}
 
-		auto& Data() {
+		auto& GetData() {
 			return data;
 		}
 
@@ -406,6 +407,7 @@ public:
 
 	class GPSEphemerisData : public Message {
 	private:
+		friend DGrX_rev_4;
 		struct Data {
 			std::uint8_t prn = 0;
 			std::uint32_t tow = 0;
@@ -497,7 +499,7 @@ public:
 			Preprocess();
 		}
 
-		auto& Data() {
+		auto& GetData() {
 			return data;
 		}
 
@@ -592,6 +594,7 @@ public:
 
 	class GLONASSEphemerisData final : public Message {
 	private:
+		friend DGrX_rev_4;
 		struct Data {
 			std::uint8_t sv_id = 0;
 			std::uint8_t : 8;
@@ -669,7 +672,7 @@ public:
 			Preprocess();
 		}
 
-		auto& Data() {
+		auto& GetData() {
 			return data;
 		}
 
@@ -728,6 +731,7 @@ public:
 
 	class RAIMAlertLimit final : public Message {
 	private:
+		friend DGrX_rev_4;
 		struct Data {
 			enum class LimitType :std::uint8_t {
 				user_defined = 0,
@@ -761,13 +765,14 @@ public:
 			Preprocess();
 		}
 
-		auto& Data() {
+		auto& GetData() {
 			return data;
 		}
 	};
 
 	class CommandAcknowledgement final : public Message {
 	private:
+		friend DGrX_rev_4;
 		struct Data {
 			std::uint8_t ack_id = 0;
 		} data;
@@ -788,13 +793,14 @@ public:
 			file.read(reinterpret_cast<char*>(&data), sizeof(data));
 		}
 
-		auto& Data() {
+		auto& GetData() {
 			return data;
 		}
 	};
 
 	class CommandNAcknowledgement final : public Message {
 	private:
+		friend DGrX_rev_4;
 		struct Data {
 			std::uint8_t nack_id = 0;
 		} data;
@@ -815,13 +821,14 @@ public:
 			file.read(reinterpret_cast<char*>(&data), sizeof(data));
 		}
 
-		auto& Data() {
+		auto& GetData() {
 			return data;
 		}
 	};
 
 	class LLAOutputMessage final : public Message {
 	private:
+		friend DGrX_rev_4;
 		struct Data {
 			std::uint8_t : 8;
 			std::uint32_t rcv_time = 0;
@@ -854,7 +861,7 @@ public:
 			Preprocess();
 		}
 
-		auto& Data() {
+		auto& GetData() {
 			return data;
 		}
 
@@ -873,6 +880,7 @@ public:
 
 	class DebugData final : public Message {
 	private:
+		friend DGrX_rev_4;
 		struct Data {
 			std::uint8_t : 8;
 			std::uint32_t clk_err_sum = 0;
@@ -905,13 +913,14 @@ public:
 			Preprocess();
 		}
 
-		auto& Data() {
+		auto& GetData() {
 			return data;
 		}
 	};
 
 	class ExcludedSV final : public Message {
 	private:
+		friend DGrX_rev_4;
 		struct Data {
 			enum class SystemID : std::uint8_t {
 				gps = 0,
@@ -954,13 +963,14 @@ public:
 			file.read(reinterpret_cast<char*>(&data), sizeof(data));
 		}
 
-		auto& Data() {
+		auto& GetData() {
 			return data;
 		}
 	};
 
 	class AlmanacStatus final : public Message {
 	private:
+		friend DGrX_rev_4;
 		struct Data {
 			enum class Status : std::uint8_t {
 				no_almanac = 0,
@@ -989,7 +999,7 @@ public:
 			file.read(reinterpret_cast<char*>(&data), sizeof(data));
 		}
 
-		auto& Data() {
+		auto& GetData() {
 			return data;
 		}
 	};
@@ -997,6 +1007,7 @@ public:
 
 	class ClockStatus final : public Message {
 	private:
+		friend DGrX_rev_4;
 		struct Data {
 			std::uint8_t : 8;
 			std::uint16_t wn = 0;
@@ -1035,7 +1046,7 @@ public:
 			Preprocess();
 		}
 
-		auto& Data() {
+		auto& GetData() {
 			return data;
 		}
 
@@ -1138,6 +1149,22 @@ public:
 		log_file.seekg(static_cast<std::size_t>(log_file.tellg()) - sequence_to_sync.size());
 		return false;
 	}
+
+	const static inline std::unordered_map<MID, std::size_t> struct_sizes {
+		{ MID::CommandAcknowledgement,		sizeof(CommandAcknowledgement::Data) },
+		{ MID::CommandNAcknowledgement,		sizeof(CommandNAcknowledgement::Data) },
+		{ MID::AlmanacStatus,				sizeof(AlmanacStatus::Data) },
+		{ MID::DebugData,					sizeof(DebugData::Data) },
+		{ MID::ClockStatus,					sizeof(ClockStatus::Data) },
+		{ MID::GLONASSEphemerisData,		sizeof(GLONASSEphemerisData::Data) },
+		{ MID::LLAOutputMessage,			sizeof(LLAOutputMessage::Data) },
+		{ MID::GPSEphemerisData,			sizeof(GPSEphemerisData::Data) },
+		{ MID::RAIMAlertLimit,				sizeof(RAIMAlertLimit::Data) },
+		{ MID::RawMeasurementData,			sizeof(RawMeasurementData::Data) },
+		{ MID::ExcludedSV,					sizeof(ExcludedSV::Data) },
+		{ MID::FirmwareSchematicVersion,	sizeof(FirmwareSchematicVersion::Data) },
+		{ MID::MeasuredPositionData,		sizeof(MeasuredPositionData::Data) },
+	};
 };
 #pragma pack(pop)
 
