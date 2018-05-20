@@ -43,7 +43,6 @@ namespace {
 		}
 	} overlap_counter;
 
-
 	inline double SemicyclesToRadians(double val) {
 		return val * Pi;
 	}
@@ -80,6 +79,71 @@ namespace {
 		time2gpst(time_32bit, &week);
 		whole_1024_weeks = (week / 1024) * 1024;
 	}
+
+	class ByteSync final {
+	private:
+		std::array<unsigned char, 4> sync_sequence{'D', 'G', 'R', '8'};
+		std::vector<unsigned char> message_data;
+		std::size_t current_byte = 0;
+		std::size_t message_size = 0;
+
+	public:
+		ByteSync() {
+			std::size_t max_size = 0;
+			for (auto&el : DGrX_rev_4::struct_sizes)
+				if (el.second > max_size)
+					max_size = el.second;
+			max_size += sync_sequence.size() + 1; // message: DGR8{MID}{Message data};
+			message_data.reserve(max_size);
+		}
+
+		bool EmplaceData(unsigned char data) {
+			bool is_ready = false;
+			if (current_byte < sync_sequence.size()) {
+				message_data.clear();
+				// check header
+				if (data == sync_sequence.at(current_byte))
+					++current_byte;
+				else
+					current_byte = 0;
+			}
+			else if (current_byte == sync_sequence.size()) {
+				message_size = DGrX_rev_4::struct_sizes.at(static_cast<DGrX_rev_4::MID>(data)) + 1;
+				if (message_size) {
+					message_data.emplace_back(data);
+					++current_byte;
+				}
+				else
+					current_byte = 0;
+			}
+			else {
+				message_data.emplace_back(data);
+				if (message_data.size() == message_size) {
+					is_ready = true;
+					current_byte = 0;
+				}
+				else {
+					++current_byte;
+				}
+			}
+
+			return is_ready;
+		}
+	
+		auto& GetMessageData() {
+			return message_data;
+		}
+	} byte_sync;
+
+	template<typename CharT, typename VecT = CharT, typename TraitsT = std::char_traits<CharT> >
+	class vectorwrapbuf : public std::basic_streambuf<CharT, TraitsT> {
+	public:
+		vectorwrapbuf(std::vector<VecT> &vec) {
+			setg(reinterpret_cast<CharT*>(vec.data()), reinterpret_cast<CharT*>(vec.data()),
+				reinterpret_cast<CharT*>(vec.data()) + vec.size());
+		}
+	};
+
 }
 
 namespace rev_4 {
@@ -371,11 +435,13 @@ namespace rev_9 {
 }
 
 extern "C" int input_dgrx_4(raw_t *raw, unsigned char data) {
-	// not implemented yet
-
-	//if(raw->nbyte == 0)
-
-	return error_message;
+	if (byte_sync.EmplaceData(data)) {
+		vectorwrapbuf<char, unsigned char> v(byte_sync.GetMessageData());
+		std::istream is(&v);
+		return rev_4::ConvertToRaw(DGrX_rev_4::ReadStruct(is).get(), raw);
+	}
+	return ReturnCodes::no_message;
+	//return error_message;
 }
 
 extern "C" int input_dgrx_9(raw_t *raw, unsigned char data) {

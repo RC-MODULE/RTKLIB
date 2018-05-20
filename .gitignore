@@ -34,3 +34,5 @@ _ReSharper*/
 [Tt]est[Rr]esult*
 .vs/
 *.*db
+.qmake.stash
+*tlog

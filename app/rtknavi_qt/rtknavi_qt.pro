@@ -4,40 +4,15 @@
 #
 #-------------------------------------------------
 
-QT       += widgets core gui
+QT       += widgets core gui serialport
 
-greaterThan(QT_MAJOR_VERSION, 4) {
-    QT += widgets serialport
-    DEFINES += QT5
-}
-
-lessThan(QT_MAJOR_VERSION, 5) {
-    LIBS += -lqextserialport-1.2
-    DEFINES += QEXTSERIALPORT
-}
-
-include(../../RTKLib.pri)
+include(../app.pri)
 
 TARGET = rtknavi_qt
 TEMPLATE = app
 
-INCLUDEPATH += ../../src/ ../appcmn_qt ../rtkplot_qt
+INCLUDEPATH += ../../src/ ../appcmn_qt
 
-linux{
-    RTKLIB =../../src/libRTKLib.a
-    LIBS += -lpng $${RTKLIB}
-}
-win32 {
-    CONFIG(debug) {
-        RTKLIB = ../../src/debug/libRTKLib.a
-    } else {
-        RTKLIB =../../src/release/libRTKLib.a
-    }
-
-    LIBS+= $${RTKLIB} -lWs2_32 -lwinmm
-}
-
-PRE_TARGETDEPS = $${RTKLIB}
 SOURCES += \
     ../appcmn_qt/aboutdlg.cpp \
     ../appcmn_qt/cmdoptdlg.cpp \

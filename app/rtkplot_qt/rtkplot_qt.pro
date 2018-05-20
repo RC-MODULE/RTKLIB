@@ -4,49 +4,23 @@
 #
 #-------------------------------------------------
 
-QT       += widgets core gui xml
-
-greaterThan(QT_MAJOR_VERSION, 4) {
-    QT += widgets serialport
-    DEFINES += QT5
-}
-
-lessThan(QT_MAJOR_VERSION, 5) {
-    LIBS += -lqextserialport-1.2
-    DEFINES += QEXTSERIALPORT
-}
+QT       += widgets core gui xml serialport
 
 qtHaveModule(webenginewidgets) {
-    QT+= webenginewidgets
-    DEFINES+=QWEBENGINE
+    QT += webenginewidgets
+    DEFINES +=QWEBENGINE
 } else {
     qtHaveModule(webkitwidgets) {
-        QT+= webkitwidgets
-        DEFINES+= QWEBKIT
+        QT += webkitwidgets
+        DEFINES += QWEBKIT
     }
 }
-include(../../RTKLib.pri)
+include(../app.pri)
 
 TARGET = rtkplot_qt
 TEMPLATE = app
 
-INCLUDEPATH += ../../src/ ../appcmn_qt ../rtkplot_qt
-
-linux{
-    RTKLIB =../../src/libRTKLib.a
-    LIBS += -lpng $${RTKLIB} -lpthread
-}
-win32 {
-    CONFIG(debug) {
-        RTKLIB = ../../src/debug/libRTKLib.a
-    } else {
-        RTKLIB =../../src/release/libRTKLib.a
-    }
-
-    LIBS+= $${RTKLIB} -lWs2_32 -lwinmm
-}
-
-PRE_TARGETDEPS = $${RTKLIB}
+INCLUDEPATH += ../../src/ ../appcmn_qt
 
 SOURCES += \
     ../appcmn_qt/aboutdlg.cpp \

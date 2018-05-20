@@ -1596,6 +1596,10 @@ public:
 		log_file.read(read_sequence.data(), read_sequence.size());
 		return (read_sequence == sequence_to_sync) ? true : false;
 	}
+
+	const static inline std::unordered_map<MID, std::size_t> struct_sizes{
+
+	};
 };
 #pragma pack(pop)
 

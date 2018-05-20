@@ -69,16 +69,16 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <OutDir>..\..\..\src\$(Configuration)\</OutDir>
+    <OutDir>..\..\..\lib\$(Configuration)\</OutDir>
     <IntDir />
-    <TargetName>libRTKLib</TargetName>
-    <TargetExt>.a</TargetExt>
+    <TargetName>RTKLib</TargetName>
+    <TargetExt>.lib</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <OutDir>..\..\..\src\$(Configuration)\</OutDir>
+    <OutDir>..\..\..\lib\</OutDir>
     <IntDir />
-    <TargetName>libRTKLib</TargetName>
-    <TargetExt>.a</TargetExt>
+    <TargetName>RTKLib</TargetName>
+    <TargetExt>.lib</TargetExt>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

@@ -427,34 +427,34 @@ extern "C" {
 #define STR_UDPCLI   13                 /* stream type: UDP server */
 #define STR_MEMBUF   14                 /* stream type: memory buffer */
 
-#define STRFMT_RTCM2 0                  /* stream format: RTCM 2 */
-#define STRFMT_RTCM3 1                  /* stream format: RTCM 3 */
-#define STRFMT_OEM4  2                  /* stream format: NovAtel OEMV/4 */
-#define STRFMT_OEM3  3                  /* stream format: NovAtel OEM3 */
-#define STRFMT_UBX   4                  /* stream format: u-blox LEA-*T */
-#define STRFMT_SS2   5                  /* stream format: NovAtel Superstar II */
-#define STRFMT_CRES  6                  /* stream format: Hemisphere */
-#define STRFMT_STQ   7                  /* stream format: SkyTraq S1315F */
-#define STRFMT_GW10  8                  /* stream format: Furuno GW10 */
-#define STRFMT_JAVAD 9                  /* stream format: JAVAD GRIL/GREIS */
-#define STRFMT_NVS   10                 /* stream format: NVS NVC08C */
-#define STRFMT_BINEX 11                 /* stream format: BINEX */
-#define STRFMT_RT17  12                 /* stream format: Trimble RT17 */
-#define STRFMT_DGr4  14
-#define STRFMT_DGr9  15
-#define STRFMT_SEPT  16                 /* stream format: Septentrio */
-#define STRFMT_CMR   17                 /* stream format: CMR/CMR+ */
-#define STRFMT_TERSUS 18                /* stream format: TERSUS */
-#define STRFMT_LEXR  19                /* stream format: Furuno LPY-10000 */
-#define STRFMT_RINEX 20                 /* stream format: RINEX */
-#define STRFMT_SP3   21                 /* stream format: SP3 */
-#define STRFMT_RNXCLK 22                /* stream format: RINEX CLK */
-#define STRFMT_SBAS  23                 /* stream format: SBAS messages */
-#define STRFMT_NMEA  24                 /* stream format: NMEA 0183 */
+#define STRFMT_RTCM2	0				/* stream format: RTCM 2 */
+#define STRFMT_RTCM3	1				/* stream format: RTCM 3 */
+#define STRFMT_OEM4		2				/* stream format: NovAtel OEMV/4 */
+#define STRFMT_OEM3		3				/* stream format: NovAtel OEM3 */
+#define STRFMT_UBX		4				/* stream format: u-blox LEA-*T */
+#define STRFMT_SS2		5				/* stream format: NovAtel Superstar II */
+#define STRFMT_CRES		6				/* stream format: Hemisphere */
+#define STRFMT_STQ		7				/* stream format: SkyTraq S1315F */
+#define STRFMT_GW10		8				/* stream format: Furuno GW10 */
+#define STRFMT_JAVAD	9				/* stream format: JAVAD GRIL/GREIS */
+#define STRFMT_NVS		10				/* stream format: NVS NVC08C */
+#define STRFMT_BINEX	11				/* stream format: BINEX */
+#define STRFMT_RT17		12				/* stream format: Trimble RT17 */
+#define STRFMT_DGr4		13				/* stream format: DataGrid ver. 4 */
+#define STRFMT_DGr9		14				/* stream format: DataGrid ver. 9 */
+#define STRFMT_SEPT		15				/* stream format: Septentrio */
+#define STRFMT_CMR		16				/* stream format: CMR/CMR+ */
+#define STRFMT_TERSUS	17				/* stream format: TERSUS */
+#define STRFMT_LEXR		18				/* stream format: Furuno LPY-10000 */
+#define STRFMT_RINEX	19				/* stream format: RINEX */
+#define STRFMT_SP3		20				/* stream format: SP3 */
+#define STRFMT_RNXCLK	21				/* stream format: RINEX CLK */
+#define STRFMT_SBAS		22				/* stream format: SBAS messages */
+#define STRFMT_NMEA		23				/* stream format: NMEA 0183 */
 #ifndef EXTLEX
-#define MAXRCVFMT    17                 /* max number of receiver format */
+#define MAXRCVFMT		17				/* max number of receiver format */
 #else
-#define MAXRCVFMT    18
+#define MAXRCVFMT		18
 #endif
 
 #define STR_MODE_R  0x1                 /* stream mode: read */
@@ -1906,7 +1906,7 @@ EXPORT int lexioncorr(gtime_t time, const nav_t *nav, const double *pos,
                       const double *azel, double *delay, double *var);
 
 /* application defined functions ---------------------------------------------*/
-extern int showmsg(char *format,...);
+extern int showmsg(const char *format,...);
 extern void settspan(gtime_t ts, gtime_t te);
 extern void settime(gtime_t time);
 

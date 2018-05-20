@@ -758,6 +758,24 @@ static void set_obstype(int format, rnxopt_t *opt)
         {0},
         {0},
     };
+    static const unsigned char codes_dgr4[NSATSYS][8]={ /* DataGrid ver. 4 */
+        {CODE_L1C,CODE_L2C},
+        {CODE_L1C,CODE_L2C},
+        {0},
+        {0},
+        {0},
+        {0},
+        {0},
+    };
+    static const unsigned char codes_dgr9[NSATSYS][8]={ /* DataGrid ver. 9 */
+        {CODE_L1C,CODE_L2C,CODE_L5I},
+        {CODE_L1C,CODE_L2C,CODE_L3I},
+        {0},
+        {0},
+        {0},
+        {0},
+        {0},
+    };
     static const unsigned char codes_cmr[NSATSYS][8]={ /* cmr */
         {CODE_L1C,CODE_L1P,CODE_L2C,CODE_L2P,CODE_L2W},
         {CODE_L1C,CODE_L1P,CODE_L2C,CODE_L2P},
@@ -790,8 +808,10 @@ static void set_obstype(int format, rnxopt_t *opt)
             case STRFMT_CRES : codes=codes_cres [i]; break;
             case STRFMT_JAVAD: codes=codes_javad[i]; break;
             case STRFMT_BINEX: codes=codes_rinex[i]; break;
-            case STRFMT_RT17 : codes=codes_rt17 [i]; break;
-            case STRFMT_CMR  : codes=codes_cmr  [i]; break;
+			case STRFMT_RT17: codes = codes_rt17[i]; break;
+			//case STRFMT_DGr4: codes = codes_dgr4[i]; break;
+			//case STRFMT_DGr9: codes = codes_dgr9[i]; break;
+			case STRFMT_CMR  : codes=codes_cmr  [i]; break;
             case STRFMT_RINEX: codes=codes_rinex[i]; break;
             default:           codes=codes_other[i]; break;
         }

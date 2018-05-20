@@ -6,33 +6,12 @@
 
 QT       += widgets core gui
 
-greaterThan(QT_MAJOR_VERSION, 4) {
-    QT += widgets
-    DEFINES += QT5
-}
-
-include(../../RTKLib.pri)
+include(../app.pri)
 
 TARGET = rtkpost_qt
 TEMPLATE = app
 
-INCLUDEPATH += ../../src/ ../appcmn_qt 
-
-linux{
-    RTKLIB =../../src/libRTKLib.a
-    LIBS += -lpng $${RTKLIB}
-}
-win32 {
-    CONFIG(debug) {
-        RTKLIB = ../../src/debug/libRTKLib.a
-    } else {
-        RTKLIB =../../src/release/libRTKLib.a
-    }
-
-    LIBS+= $${RTKLIB} -lWs2_32 -lwinmm
-}
-
-PRE_TARGETDEPS = $${RTKLIB}
+INCLUDEPATH += ../../src/ ../appcmn_qt
 
 SOURCES += \ 
     extopt.cpp \

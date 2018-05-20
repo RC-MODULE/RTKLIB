@@ -355,7 +355,8 @@ public:
 			return MID::MeasuredPositionData;
 		}
 
-		void Read(std::ifstream &file) {
+		template <typename T>
+		void Read(T &file) {
 			file.read(reinterpret_cast<char*>(&data), sizeof(data));
 			Preprocess();
 		}
@@ -1090,7 +1091,8 @@ public:
 		return dst;
 	}
 
-	static std::unique_ptr<Message> ReadStruct(std::ifstream &log_file) {
+	template <typename T>
+	static std::unique_ptr<Message> ReadStruct(T &log_file) {
 		MID cur_mid;
 		log_file.read(reinterpret_cast<char*>(&cur_mid), sizeof(cur_mid));
 
