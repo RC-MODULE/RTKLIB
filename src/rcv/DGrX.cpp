@@ -5,7 +5,7 @@
 #define WIN32
 #endif
 
-#include "rtklib.h"
+#include "..\rtklib.h"
 
 namespace {
 	enum ReturnCodes {
