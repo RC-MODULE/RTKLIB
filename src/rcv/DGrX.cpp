@@ -1,11 +1,12 @@
 #include "DGrX_rev_4.hpp"
-#include "DGrX_rev_9.hpp"
+//#include "DGrX_rev_9.hpp"
 
 #ifndef WIN32
 #define WIN32
 #endif
 
 #include "..\rtklib.h"
+#include <sys/stat.h>
 
 namespace {
 	enum ReturnCodes {
@@ -82,13 +83,14 @@ namespace {
 
 	class ByteSync final {
 	private:
-		std::array<unsigned char, 4> sync_sequence{'D', 'G', 'R', '8'};
+		std::array<unsigned char, 4> sync_sequence;
 		std::vector<unsigned char> message_data;
 		std::size_t current_byte = 0;
 		std::size_t message_size = 0;
 
 	public:
 		ByteSync() {
+			sync_sequence = {'D', 'G', 'R', '8'};
 			std::size_t max_size = 0;
 			for (auto&el : DGrX_rev_4::struct_sizes)
 				if (el.second > max_size)
@@ -130,16 +132,15 @@ namespace {
 			return is_ready;
 		}
 	
-		auto& GetMessageData() {
+		std::vector<unsigned char>& GetMessageData() {
 			return message_data;
 		}
 	} byte_sync;
 
 	template<typename CharT, typename VecT = CharT, typename TraitsT = std::char_traits<CharT> >
-	class vectorwrapbuf : public std::basic_streambuf<CharT, TraitsT> {
-	public:
+	struct vectorwrapbuf : public std::basic_streambuf<CharT, TraitsT> {
 		vectorwrapbuf(std::vector<VecT> &vec) {
-			setg(reinterpret_cast<CharT*>(vec.data()), reinterpret_cast<CharT*>(vec.data()),
+			this->setg(reinterpret_cast<CharT*>(vec.data()), reinterpret_cast<CharT*>(vec.data()),
 				reinterpret_cast<CharT*>(vec.data()) + vec.size());
 		}
 	};
@@ -163,7 +164,7 @@ namespace rev_4 {
 					for (std::size_t i = 0; i < used_svs.size(); ++i)
 						raw->obs.data[i].time = raw->time;
 
-					std::sort(raw->obs.data, raw->obs.data + used_svs.size(), [](const auto &lhs, const auto &rhs) {
+					std::sort(raw->obs.data, raw->obs.data + used_svs.size(), [](const obsd_t &lhs, const obsd_t &rhs) {
 						return lhs.sat < rhs.sat;
 					});
 
@@ -188,7 +189,6 @@ namespace rev_4 {
 	int DecodeRawData(DGrX_rev_4::RawMeasurementData *message, raw_t *raw) {
 		if (used_svs.empty()) {
 			raw->obs.n = 0;
-
 		}
 
 		auto is_used = std::find(used_svs.begin(), used_svs.end(), message->GetData().PRN);
@@ -357,6 +357,7 @@ namespace rev_4 {
 	}
 }
 
+#if 0
 namespace rev_9 {
 	int DecodePosition(DGrX_rev_9::MeasuredPositionData *message, raw_t *raw) {
 		std::array<double, 6> gpst0 = { 1980, 1, 6, 0, 0, 0 };
@@ -436,6 +437,7 @@ namespace rev_9 {
 		return 0;
 	}
 }
+#endif
 
 extern "C" int input_dgrx_4(raw_t *raw, unsigned char data) {
 	if (byte_sync.EmplaceData(data)) {
@@ -475,21 +477,22 @@ extern "C" int input_dgrx_4f(raw_t *raw, FILE *fp) {
 
 extern "C" int input_dgrx_9f(raw_t *raw, FILE *fp) {
 	//trace(4, "input_dgr8f:\n");
-	GetWnFromFile(fp);
-
-	std::ifstream log_file(fp);
-	std::uint8_t last_byte = 0;
-	for (int i = 0;; ++i) {
-		log_file >> last_byte;
-		if (log_file.eof())
-			return -2;
-		if(last_byte == 0x44)
-			if (DGrX_rev_9::Sync(log_file))
-				break;
-		if (i >= 4096)
-			return 0;
-
-	}
-	
-	return rev_9::ConvertToRaw(DGrX_rev_9::ReadStruct(log_file).get(), raw);
+//	GetWnFromFile(fp);
+//
+//	std::ifstream log_file(fp);
+//	std::uint8_t last_byte = 0;
+//	for (int i = 0;; ++i) {
+//		log_file >> last_byte;
+//		if (log_file.eof())
+//			return -2;
+//		if(last_byte == 0x44)
+//			if (DGrX_rev_9::Sync(log_file))
+//				break;
+//		if (i >= 4096)
+//			return 0;
+//
+//	}
+//
+//	return rev_9::ConvertToRaw(DGrX_rev_9::ReadStruct(log_file).get(), raw);
+	return error_message;
 }

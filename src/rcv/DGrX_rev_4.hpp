@@ -5,7 +5,9 @@
 #include <cmath>
 #include <cstdint>
 #include <fstream>
+#include <ios>
 #include <memory>
+#include <sstream>
 #include <string>
 #include <vector>
 #include <unordered_map>
@@ -34,28 +36,21 @@ public:
 
 		virtual ~Message() = default;
 	protected:
-		template <typename T>
-		void SwapEndian(T &val) = 0;
-
-		template <>
-		void SwapEndian<std::int32_t>(std::int32_t &val) {
+		void SwapEndian(std::int32_t &val) {
 			std::int32_t tmp = ((val << 8) & 0xFF00FF00) | ((val >> 8) & 0xFF00FF);
 			val = (tmp << 16) | ((tmp >> 16) & 0xFFFF);
 		}
 
-		template <>
-		void SwapEndian<std::uint32_t>(std::uint32_t &val) {
+		void SwapEndian(std::uint32_t &val) {
 			std::uint32_t tmp = ((val << 8) & 0xFF00FF00) | ((val >> 8) & 0xFF00FF);
 			val = (tmp << 16) | (tmp >> 16);
 		}
 
-		template <>
-		void SwapEndian<std::int16_t>(std::int16_t &val) {
+		void SwapEndian(std::int16_t &val) {
 			val = (val << 8) | ((val >> 8) & 0xFF);
 		}
 
-		template <>
-		void SwapEndian<std::uint16_t>(std::uint16_t &val) {
+		void SwapEndian(std::uint16_t &val) {
 			val = (val << 8) | (val >> 8);
 		}
 
@@ -124,7 +119,7 @@ public:
 			Preprocess();
 		}
 
-		auto& GetData() {
+		Data& GetData() {
 			return data;
 		}
 	};
@@ -202,7 +197,7 @@ public:
 			Preprocess();
 		}
 
-		auto& GetData() {
+		Data& GetData() {
 			return data;
 		}
 
@@ -361,7 +356,7 @@ public:
 			Preprocess();
 		}
 
-		auto& GetData() {
+		Data& GetData() {
 			return data;
 		}
 
@@ -500,7 +495,7 @@ public:
 			Preprocess();
 		}
 
-		auto& GetData() {
+		Data& GetData() {
 			return data;
 		}
 
@@ -673,7 +668,7 @@ public:
 			Preprocess();
 		}
 
-		auto& GetData() {
+		Data& GetData() {
 			return data;
 		}
 
@@ -766,7 +761,7 @@ public:
 			Preprocess();
 		}
 
-		auto& GetData() {
+		Data& GetData() {
 			return data;
 		}
 	};
@@ -794,7 +789,7 @@ public:
 			file.read(reinterpret_cast<char*>(&data), sizeof(data));
 		}
 
-		auto& GetData() {
+		Data& GetData() {
 			return data;
 		}
 	};
@@ -822,7 +817,7 @@ public:
 			file.read(reinterpret_cast<char*>(&data), sizeof(data));
 		}
 
-		auto& GetData() {
+		Data& GetData() {
 			return data;
 		}
 	};
@@ -862,7 +857,7 @@ public:
 			Preprocess();
 		}
 
-		auto& GetData() {
+		Data& GetData() {
 			return data;
 		}
 
@@ -914,7 +909,7 @@ public:
 			Preprocess();
 		}
 
-		auto& GetData() {
+		Data& GetData() {
 			return data;
 		}
 	};
@@ -964,7 +959,7 @@ public:
 			file.read(reinterpret_cast<char*>(&data), sizeof(data));
 		}
 
-		auto& GetData() {
+		Data& GetData() {
 			return data;
 		}
 	};
@@ -1000,7 +995,7 @@ public:
 			file.read(reinterpret_cast<char*>(&data), sizeof(data));
 		}
 
-		auto& GetData() {
+		Data& GetData() {
 			return data;
 		}
 	};
@@ -1047,7 +1042,7 @@ public:
 			Preprocess();
 		}
 
-		auto& GetData() {
+		Data& GetData() {
 			return data;
 		}
 
@@ -1152,21 +1147,7 @@ public:
 		return false;
 	}
 
-	const static inline std::unordered_map<MID, std::size_t> struct_sizes {
-		{ MID::CommandAcknowledgement,		sizeof(CommandAcknowledgement::Data) },
-		{ MID::CommandNAcknowledgement,		sizeof(CommandNAcknowledgement::Data) },
-		{ MID::AlmanacStatus,				sizeof(AlmanacStatus::Data) },
-		{ MID::DebugData,					sizeof(DebugData::Data) },
-		{ MID::ClockStatus,					sizeof(ClockStatus::Data) },
-		{ MID::GLONASSEphemerisData,		sizeof(GLONASSEphemerisData::Data) },
-		{ MID::LLAOutputMessage,			sizeof(LLAOutputMessage::Data) },
-		{ MID::GPSEphemerisData,			sizeof(GPSEphemerisData::Data) },
-		{ MID::RAIMAlertLimit,				sizeof(RAIMAlertLimit::Data) },
-		{ MID::RawMeasurementData,			sizeof(RawMeasurementData::Data) },
-		{ MID::ExcludedSV,					sizeof(ExcludedSV::Data) },
-		{ MID::FirmwareSchematicVersion,	sizeof(FirmwareSchematicVersion::Data) },
-		{ MID::MeasuredPositionData,		sizeof(MeasuredPositionData::Data) },
-	};
+	static std::unordered_map<MID, std::size_t> struct_sizes;
 };
 #pragma pack(pop)
 
