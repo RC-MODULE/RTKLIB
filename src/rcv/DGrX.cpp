@@ -211,7 +211,10 @@ namespace rev_4 {
 		raw->obs.data[cur_n].SNR[0] = message->GetData().snr;
 		raw->obs.data[cur_n].LLI[0] = 0;
 		raw->obs.data[cur_n].code[0] = CODE_L1C;
-		raw->obs.data[cur_n].code[1] = CODE_L2C;
+		if(message->GetData().PRN < NSATGPS)
+			raw->obs.data[cur_n].code[1] = CODE_L2S;
+		else
+			raw->obs.data[cur_n].code[1] = CODE_L2C;
 
 		return ReturnCodes::no_message;
 	}
