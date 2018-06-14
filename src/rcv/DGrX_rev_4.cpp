@@ -1,6 +1,7 @@
 #include "DGrX_rev_4.hpp"
 
-std::unordered_map<DGrX_rev_4::MID, std::size_t> DGrX_rev_4::struct_sizes{
+#if defined(__BORLANDC__)
+std::map<DGrX_rev_4::MID, std::size_t> DGrX_rev_4::struct_sizes{
 	{ MID::CommandAcknowledgement,		sizeof(CommandAcknowledgement::Data) },
 	{ MID::CommandNAcknowledgement,		sizeof(CommandNAcknowledgement::Data) },
 	{ MID::AlmanacStatus,				sizeof(AlmanacStatus::Data) },
@@ -15,3 +16,4 @@ std::unordered_map<DGrX_rev_4::MID, std::size_t> DGrX_rev_4::struct_sizes{
 	{ MID::FirmwareSchematicVersion,	sizeof(FirmwareSchematicVersion::Data) },
 	{ MID::MeasuredPositionData,		sizeof(MeasuredPositionData::Data) },
 };
+#endif

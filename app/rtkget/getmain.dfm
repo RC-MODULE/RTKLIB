@@ -37,7 +37,6 @@ object MainForm: TMainForm
     BevelInner = bvRaised
     BevelOuter = bvLowered
     TabOrder = 0
-    ExplicitWidth = 463
     object Label6: TLabel
       Left = 12
       Top = 264
@@ -400,9 +399,6 @@ object MainForm: TMainForm
     Align = alBottom
     BevelOuter = bvNone
     TabOrder = 1
-    ExplicitTop = 301
-    ExplicitWidth = 465
-    ExplicitHeight = 32
     object BtnFile: TButton
       Left = 1
       Top = 1
@@ -482,7 +478,6 @@ object MainForm: TMainForm
     ParentShowHint = False
     ShowHint = True
     TabOrder = 2
-    ExplicitWidth = 463
     object MsgLabel1: TLabel
       Left = 2
       Top = 2
@@ -523,7 +518,6 @@ object MainForm: TMainForm
     ParentDoubleBuffered = False
     ParentFont = False
     TabOrder = 3
-    ExplicitWidth = 463
     object MsgLabel3: TLabel
       Left = 25
       Top = 2
@@ -534,7 +528,6 @@ object MainForm: TMainForm
       Color = clWhite
       ParentColor = False
       Layout = tlCenter
-      ExplicitLeft = 26
       ExplicitWidth = 3
       ExplicitHeight = 13
     end
@@ -603,7 +596,6 @@ object MainForm: TMainForm
     ParentShowHint = False
     ShowHint = True
     TabOrder = 4
-    ExplicitWidth = 463
     object Image1: TImage
       Left = 444
       Top = 6

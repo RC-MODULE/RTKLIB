@@ -134,5 +134,8 @@
     <ClInclude Include="..\..\..\src\rcv\DGrX_rev_9.hpp">
       <Filter>Source Files\Receiver Protocols</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\src\rcv\DGrX.hpp">
+      <Filter>Source Files\Receiver Protocols</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

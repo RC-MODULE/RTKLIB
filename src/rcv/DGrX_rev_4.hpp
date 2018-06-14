@@ -2,15 +2,16 @@
 #define _DGrX_REV_4_HPP
 
 #include <array>
+#include <cassert>
 #include <cmath>
 #include <cstdint>
 #include <fstream>
 #include <ios>
+#include <map>
 #include <memory>
 #include <sstream>
 #include <string>
 #include <vector>
-#include <unordered_map>
 
 #pragma pack(push, 1)
 class DGrX_rev_4 {
@@ -80,6 +81,11 @@ public:
 			return checksum == static_cast<std::uint32_t>(crc);
 		}
 
+		template <typename T, typename Struct>
+		void CopyData(const std::vector<T> &data, Struct &&s) {
+			assert((data.size() - 1) * sizeof(T) == sizeof(s));
+			std::memcpy(&s, data.data() + 1, sizeof(s));
+		}
 	};
 
 	class FirmwareSchematicVersion final : public Message {
@@ -104,9 +110,16 @@ public:
 		}
 	public:
 		FirmwareSchematicVersion() = default;
+
 		template <typename T>
 		FirmwareSchematicVersion(T &file) {
 			Read(file);
+		}
+
+		template <typename T>
+		FirmwareSchematicVersion(const std::vector<T> &message) {
+			CopyData(message, data);
+			Preprocess();
 		}
 
 		virtual MID GetMID() final {
@@ -182,9 +195,16 @@ public:
 		}
 	public:
 		RawMeasurementData() = default;
+
 		template <typename T>
 		RawMeasurementData(T &file) {
 			Read(file);
+		}
+
+		template <typename T>
+		RawMeasurementData(const std::vector<T> &message) {
+			CopyData(message, data);
+			Preprocess();
 		}
 
 		virtual MID GetMID() final {
@@ -341,9 +361,17 @@ public:
 		}
 	public:
 		MeasuredPositionData() = default;
+
 		template <typename T>
 		MeasuredPositionData(T &file) {
 			Read(file);
+		}
+
+		template <typename T>
+		MeasuredPositionData(const std::vector<T> &message) {
+			CopyData(message, data);
+			Preprocess();
+
 		}
 
 		virtual MID GetMID() final {
@@ -480,9 +508,16 @@ public:
 		}
 	public:
 		GPSEphemerisData() = default;
+
 		template <typename T>
 		GPSEphemerisData(T &file) {
 			Read(file);
+		}
+
+		template <typename T>
+		GPSEphemerisData(const std::vector<T> &message) {
+			CopyData(message, data);
+			Preprocess();
 		}
 
 		virtual MID GetMID() final {
@@ -653,9 +688,16 @@ public:
 		}
 	public:
 		GLONASSEphemerisData() = default;
+
 		template <typename T>
 		GLONASSEphemerisData(T &file) {
 			Read(file);
+		}
+
+		template <typename T>
+		GLONASSEphemerisData(const std::vector<T> &message) {
+			CopyData(message, data);
+			Preprocess();
 		}
 
 		virtual MID GetMID() final {
@@ -746,9 +788,16 @@ public:
 		}
 	public:
 		RAIMAlertLimit() = default;
+
 		template <typename T>
 		RAIMAlertLimit(T &file) {
 			Read(file);
+		}
+
+		template <typename T>
+		RAIMAlertLimit(const std::vector<T> &message) {
+			CopyData(message, data);
+			Preprocess();
 		}
 
 		virtual MID GetMID() final {
@@ -775,9 +824,15 @@ public:
 		static_assert(sizeof(DGrX_rev_4::CommandAcknowledgement::Data) == 1, "CommandAcknowledgement size is wrong");
 	public:
 		CommandAcknowledgement() = default;
+
 		template <typename T>
 		CommandAcknowledgement(T &file) {
 			Read(file);
+		}
+
+		template <typename T>
+		CommandAcknowledgement(const std::vector<T> &message) {
+			CopyData(message, data);
 		}
 
 		virtual MID GetMID() final {
@@ -803,9 +858,15 @@ public:
 		static_assert(sizeof(DGrX_rev_4::CommandNAcknowledgement::Data) == 1, "CommandNAcknowledgement size is wrong");
 	public:
 		CommandNAcknowledgement() = default;
+
 		template <typename T>
 		CommandNAcknowledgement(T &file) {
 			Read(file);
+		}
+
+		template <typename T>
+		CommandNAcknowledgement(const std::vector<T> &message) {
+			CopyData(message, data);
 		}
 
 		virtual MID GetMID() final {
@@ -842,9 +903,16 @@ public:
 		}
 	public:
 		LLAOutputMessage() = default;
+
 		template <typename T>
 		LLAOutputMessage(T &file) {
 			Read(file);
+		}
+
+		template <typename T>
+		LLAOutputMessage(const std::vector<T> &message) {
+			CopyData(message, data);
+			Preprocess();
 		}
 
 		virtual MID GetMID() final {
@@ -945,9 +1013,15 @@ public:
 		static_assert(sizeof(DGrX_rev_4::ExcludedSV::Data) == 3, "ExcludedSV size is wrong");
 	public:
 		ExcludedSV() = default;
+
 		template <typename T>
 		ExcludedSV(T &file) {
 			Read(file);
+		}
+
+		template <typename T>
+		ExcludedSV(const std::vector<T> &message) {
+			CopyData(message, data);
 		}
 
 		virtual MID GetMID() final {
@@ -981,9 +1055,15 @@ public:
 		static_assert(sizeof(DGrX_rev_4::AlmanacStatus::Data) == 1, "AlmanacStatus size is wrong");
 	public:
 		AlmanacStatus() = default;
+
 		template <typename T>
 		AlmanacStatus(T &file) {
 			Read(file);
+		}
+
+		template <typename T>
+		AlmanacStatus(const std::vector<T> &message) {
+			CopyData(message, data);
 		}
 
 		virtual MID GetMID() final {
@@ -1027,9 +1107,16 @@ public:
 		}
 	public:
 		ClockStatus() = default;
+
 		template <typename T>
 		ClockStatus(T &file) {
 			Read(file);
+		}
+
+		template <typename T>
+		ClockStatus(const std::vector<T> &message) {
+			CopyData(message, data);
+			Preprocess();
 		}
 
 		virtual MID GetMID() final {
@@ -1084,6 +1171,56 @@ public:
 				dst.push_back(std::move(el));
 
 		return dst;
+	}
+
+	template <typename T>
+	static std::unique_ptr<Message> ReadStruct(const std::vector<T> &log_data) {
+		MID cur_mid;
+		cur_mid = static_cast<MID>(log_data.at(0));
+
+		switch (cur_mid)
+		{
+		case DGrX_rev_4::MID::CommandAcknowledgement:
+			return std::unique_ptr<Message>(new CommandAcknowledgement(log_data));
+			break;
+		case DGrX_rev_4::MID::CommandNAcknowledgement:
+			return std::unique_ptr<Message>(new CommandNAcknowledgement(log_data));
+			break;
+		case DGrX_rev_4::MID::AlmanacStatus:
+			return std::unique_ptr<Message>(new AlmanacStatus(log_data));
+			break;
+		case DGrX_rev_4::MID::ClockStatus:
+			return std::unique_ptr<Message>(new ClockStatus(log_data));
+			break;
+		case DGrX_rev_4::MID::GLONASSEphemerisData:
+			return std::unique_ptr<Message>(new GLONASSEphemerisData(log_data));
+			break;
+		case DGrX_rev_4::MID::LLAOutputMessage:
+			return std::unique_ptr<Message>(new LLAOutputMessage(log_data));
+			break;
+		case DGrX_rev_4::MID::GPSEphemerisData:
+			return std::unique_ptr<Message>(new GPSEphemerisData(log_data));
+			break;
+		case DGrX_rev_4::MID::RAIMAlertLimit:
+			return std::unique_ptr<Message>(new RAIMAlertLimit(log_data));
+			break;
+		case DGrX_rev_4::MID::RawMeasurementData:
+			return std::unique_ptr<Message>(new RawMeasurementData(log_data));
+			break;
+		case DGrX_rev_4::MID::ExcludedSV:
+			return std::unique_ptr<Message>(new ExcludedSV(log_data));
+			break;
+		case DGrX_rev_4::MID::FirmwareSchematicVersion:
+			return std::unique_ptr<Message>(new FirmwareSchematicVersion(log_data));
+			break;
+		case DGrX_rev_4::MID::MeasuredPositionData:
+			return std::unique_ptr<Message>(new MeasuredPositionData(log_data));
+			break;
+		default:
+			break;
+		}
+
+		return std::unique_ptr<Message>(nullptr);
 	}
 
 	template <typename T>
@@ -1147,8 +1284,27 @@ public:
 		return false;
 	}
 
-	static std::unordered_map<MID, std::size_t> struct_sizes;
+#if defined(__BORLANDC__)
+	static std::map<MID, std::size_t> struct_sizes;
+#else
+    const static inline std::map<DGrX_rev_4::MID, std::size_t> struct_sizes{
+        { MID::CommandAcknowledgement,		sizeof(CommandAcknowledgement::Data) },
+        { MID::CommandNAcknowledgement,		sizeof(CommandNAcknowledgement::Data) },
+        { MID::AlmanacStatus,				sizeof(AlmanacStatus::Data) },
+        { MID::DebugData,					sizeof(DebugData::Data) },
+        { MID::ClockStatus,					sizeof(ClockStatus::Data) },
+        { MID::GLONASSEphemerisData,		sizeof(GLONASSEphemerisData::Data) },
+        { MID::LLAOutputMessage,			sizeof(LLAOutputMessage::Data) },
+        { MID::GPSEphemerisData,			sizeof(GPSEphemerisData::Data) },
+        { MID::RAIMAlertLimit,				sizeof(RAIMAlertLimit::Data) },
+        { MID::RawMeasurementData,			sizeof(RawMeasurementData::Data) },
+        { MID::ExcludedSV,					sizeof(ExcludedSV::Data) },
+        { MID::FirmwareSchematicVersion,	sizeof(FirmwareSchematicVersion::Data) },
+        { MID::MeasuredPositionData,		sizeof(MeasuredPositionData::Data) },
+    };
+#endif
 };
 #pragma pack(pop)
 
 #endif // !_DGrX_REV_4_HPP
+

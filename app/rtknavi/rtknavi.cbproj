@@ -4,7 +4,7 @@
         <ProjectType>CppVCLApplication</ProjectType>
         <MainSource>rtknavi.cpp</MainSource>
         <Base>True</Base>
-        <Config Condition="'$(Config)'==''">Release</Config>
+        <Config Condition="'$(Config)'==''">Debug</Config>
         <FrameworkType>VCL</FrameworkType>
         <ProjectVersion>18.2</ProjectVersion>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
@@ -81,6 +81,7 @@
         <DCC_ResourcePath>..\..\..\rtklib_extlex;..\..\extlex;..\..\qzslex;..\..\src\rcv;..\..\src;..\appcmn;G:\rtklib_2.2\app\rtknavi;$(DCC_ResourcePath)</DCC_ResourcePath>
         <DCC_CBuilderOutput>JPHNE</DCC_CBuilderOutput>
         <BCC_IncludePath>$(BDS)\include;..\appcmn;..\..\src;$(BCC_IncludePath)</BCC_IncludePath>
+        <BCC_UseClassicCompiler>false</BCC_UseClassicCompiler>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win32)'!=''">
         <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
@@ -120,6 +121,7 @@
         <BCC_wpia>false</BCC_wpia>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <BCC_wpar>false</BCC_wpar>
+        <BCC_UserSuppliedOptions> -tWM</BCC_UserSuppliedOptions>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <DCC_AdditionalSwitches> -$O+</DCC_AdditionalSwitches>
@@ -138,6 +140,7 @@
         <Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <BT_BuildType>Debug</BT_BuildType>
+        <BCC_UserSuppliedOptions> -tWM</BCC_UserSuppliedOptions>
     </PropertyGroup>
     <ItemGroup>
         <CppCompile Include="..\appcmn\aboutdlg.cpp">
@@ -311,6 +314,18 @@
         <CppCompile Include="..\..\src\rcv\crescent.c">
             <BuildOrder>49</BuildOrder>
         </CppCompile>
+        <CppCompile Include="..\..\src\rcv\DGrX.cpp">
+            <BuildOrder>65</BuildOrder>
+        </CppCompile>
+        <None Include="..\..\src\rcv\DGrX.hpp">
+            <BuildOrder>62</BuildOrder>
+        </None>
+        <CppCompile Include="..\..\src\rcv\DGrX_rev_4.cpp">
+            <BuildOrder>63</BuildOrder>
+        </CppCompile>
+        <None Include="..\..\src\rcv\DGrX_rev_4.hpp">
+            <BuildOrder>64</BuildOrder>
+        </None>
         <CppCompile Include="..\..\src\rcv\gw10.c">
             <BuildOrder>50</BuildOrder>
         </CppCompile>
@@ -384,24 +399,24 @@
             <BuildOrder>46</BuildOrder>
         </CppCompile>
         <FormResources Include="..\appcmn\viewer.dfm"/>
-        <FormResources Include="..\appcmn\tcpoptdlg.dfm"/>
-        <FormResources Include="..\appcmn\serioptdlg.dfm"/>
         <FormResources Include="..\appcmn\vieweropt.dfm"/>
+        <FormResources Include="..\appcmn\serioptdlg.dfm"/>
+        <FormResources Include="..\appcmn\tcpoptdlg.dfm"/>
         <FormResources Include="markdlg.dfm"/>
-        <FormResources Include="logstrdlg.dfm"/>
-        <FormResources Include="instrdlg.dfm"/>
-        <FormResources Include="..\appcmn\refdlg.dfm"/>
-        <FormResources Include="..\appcmn\confdlg.dfm"/>
-        <FormResources Include="..\appcmn\cmdoptdlg.dfm"/>
-        <FormResources Include="..\appcmn\aboutdlg.dfm"/>
-        <FormResources Include="..\appcmn\ftpoptdlg.dfm"/>
-        <FormResources Include="..\appcmn\maskoptdlg.dfm"/>
-        <FormResources Include="..\appcmn\keydlg.dfm"/>
-        <FormResources Include="naviopt.dfm"/>
-        <FormResources Include="navimain.dfm"/>
         <FormResources Include="mondlg.dfm"/>
-        <FormResources Include="outstrdlg.dfm"/>
+        <FormResources Include="instrdlg.dfm"/>
+        <FormResources Include="logstrdlg.dfm"/>
+        <FormResources Include="..\appcmn\confdlg.dfm"/>
+        <FormResources Include="..\appcmn\ftpoptdlg.dfm"/>
+        <FormResources Include="..\appcmn\aboutdlg.dfm"/>
+        <FormResources Include="..\appcmn\cmdoptdlg.dfm"/>
+        <FormResources Include="..\appcmn\maskoptdlg.dfm"/>
+        <FormResources Include="..\appcmn\refdlg.dfm"/>
+        <FormResources Include="..\appcmn\keydlg.dfm"/>
+        <FormResources Include="navimain.dfm"/>
         <FormResources Include="rcvoptdlg.dfm"/>
+        <FormResources Include="naviopt.dfm"/>
+        <FormResources Include="outstrdlg.dfm"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
@@ -467,10 +482,7 @@
                     <Parameters Name="LoadAllSymbols">True</Parameters>
                     <Parameters Name="LoadUnspecifiedSymbols">False</Parameters>
                 </Parameters>
-                <Excluded_Packages>
-                    <Excluded_Packages Name="$(BDSBIN)\bcboffice2k240.bpl">Embarcadero C++Builder Office 2000 サーバー パッケージ</Excluded_Packages>
-                    <Excluded_Packages Name="$(BDSBIN)\bcbofficexp240.bpl">Embarcadero C++Builder Office XP サーバー パッケージ</Excluded_Packages>
-                </Excluded_Packages>
+                <Excluded_Packages/>
                 <ProjectProperties>
                     <ProjectProperties Name="AutoShowDeps">False</ProjectProperties>
                     <ProjectProperties Name="ManagePaths">True</ProjectProperties>

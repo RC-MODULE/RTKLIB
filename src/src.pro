@@ -75,9 +75,12 @@ SOURCES += rtkcmn.c \
     rcv/ss2.c \
     rcv/ublox.c \
     rcv/cmr.c \
-    rcv/tersus.c
+    rcv/tersus.c \
+    rcv/DGrX_rev_4.cpp
 
-HEADERS += rtklib.h
+HEADERS += rtklib.h \
+    rcv/DGrX.hpp \
+    rcv/DGrX_rev_4.hpp
 
 unix {
     target.path = /usr/lib
