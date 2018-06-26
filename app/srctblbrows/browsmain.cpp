@@ -51,7 +51,7 @@ static char *getsrctbl(const char *path)
 	MainForm->ShowMsg("connecting...");
 	
 	while(p<buff+MAXSRCTBL-1) {
-		ns=strread(&str,p,buff+MAXSRCTBL-p-1); *(p+ns)='\0';
+		ns=strread(&str,(unsigned char*)p,buff+MAXSRCTBL-p-1); *(p+ns)='\0';
 		if (p-len-3>buff&&strstr(p-len-3,ENDSRCTBL)) break;
 		p+=ns;
 		Sleep(NTRIP_CYCLE);

@@ -1,6 +1,7 @@
 #ifndef _DGRx_HPP
 #define _DGRx_HPP
 
+#include <chrono>
 #include "DGrX_rev_4.hpp"
 //#include "DGrX_rev_9.hpp"
 #include "..\rtklib.h"
@@ -57,7 +58,7 @@ namespace DGrX {
 		return val * 1e3;
 	}
 
-	gtime_t adjday(gtime_t time, double tod) {
+	gtime_t adjday(const gtime_t &time, double tod) {
 		double ep[6], tod_p;
 		time2epoch(time, ep);
 		tod_p = ep[3] * 3600.0 + ep[4] * 60.0 + ep[5];
@@ -82,19 +83,34 @@ namespace DGrX {
 		whole_1024_weeks = (week / 1024) * 1024;
 	}
 
-		class ByteSync final {
+	void GetWnFromSystem() {
+		if (whole_1024_weeks)
+			return;
+
+		auto time = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
+		gtime_t time_32bit;
+		time_32bit.time = time;
+
+		auto week = 0;
+		time2gpst(time_32bit, &week);
+		whole_1024_weeks = (week / 1024) * 1024;
+	}
+
+	class ByteSync final {
 	private:
 		std::array<unsigned char, 4> sync_sequence;
 		std::vector<unsigned char> message_data;
 		std::size_t current_byte = 0;
 		std::size_t message_size = 0;
 		bool is_init = false;
+		std::unordered_map<DGrX_rev_4::MID, std::size_t> struct_sizes;
 
 	public:
 		void Init(){
 			sync_sequence = { 'D', 'G', 'R', '8' };
 			std::size_t max_size = 0;
-			for (auto&el : DGrX_rev_4::struct_sizes)
+			struct_sizes = DGrX_rev_4::GetStructSizes();
+			for (auto&el : struct_sizes)
 				if (el.second > max_size)
 					max_size = el.second;
 			max_size += sync_sequence.size() + 1; // message: DGR8{MID}{Message data};
@@ -115,7 +131,7 @@ namespace DGrX {
 					current_byte = 0;
 			}
 			else if (current_byte == sync_sequence.size()) {
-				message_size = DGrX_rev_4::struct_sizes.at(static_cast<DGrX_rev_4::MID>(data)) + 1;
+				message_size = struct_sizes.at(static_cast<DGrX_rev_4::MID>(data)) + 1;
 				if (message_size) {
 					message_data.emplace_back(data);
 					++current_byte;
@@ -142,14 +158,6 @@ namespace DGrX {
 		}
 	} byte_sync;
 
-	template<typename CharT, typename VecT = CharT, typename TraitsT = std::char_traits<CharT> >
-	struct vectorwrapbuf : public std::basic_streambuf<CharT, TraitsT> {
-		vectorwrapbuf(std::vector<VecT> &vec) {
-			this->setg(reinterpret_cast<CharT*>(vec.data()), reinterpret_cast<CharT*>(vec.data()),
-				reinterpret_cast<CharT*>(vec.data()) + vec.size());
-		}
-	};
-
 	namespace rev_4 {
 		int DecodePosition(DGrX_rev_4::MeasuredPositionData *message, raw_t *raw) {
 			try {
@@ -162,7 +170,7 @@ namespace DGrX {
 					overlap_counter.Update(message_data.wn);
 					auto wn = message_data.wn + whole_1024_weeks + overlap_counter.Count();
 
-					raw->time = gpst2time(wn, message_data.rcv_time * 1e-3);
+					raw->time = gpst2time(static_cast<int>(wn), message_data.rcv_time * 1e-3);
 					if (raw->obs.n) {
 						for (std::size_t i = 0; i < used_svs.size(); ++i)
 							raw->obs.data[i].time = raw->time;
@@ -193,25 +201,28 @@ namespace DGrX {
 			if (used_svs.empty()) {
 				raw->obs.n = 0;
 			}
+			if (message == nullptr)
+				return ReturnCodes::error_message;
 
-			auto is_used = std::find(used_svs.begin(), used_svs.end(), message->GetData().PRN);
+			auto &data = message->GetData();
+			auto is_used = std::find(used_svs.begin(), used_svs.end(), data.PRN);
 			auto cur_n = raw->obs.n;
 			if (is_used == used_svs.end()) {
-				used_svs.push_back(message->GetData().PRN);
+				used_svs.push_back(data.PRN);
 				raw->obs.n++;
 			}
 			else
-				cur_n = std::distance(used_svs.begin(), is_used);
+				cur_n = static_cast<int>(std::distance(used_svs.begin(), is_used));
 
 			raw->obs.data->rcv = 0;
-			raw->obs.data[cur_n].sat = message->GetData().PRN;
+			raw->obs.data[cur_n].sat = data.PRN;
 
 			raw->obs.data[cur_n].L[0] = message->L1Phase();
 			raw->obs.data[cur_n].L[1] = message->L2Phase();
 			raw->obs.data[cur_n].P[0] = message->L1Pseudorange() * CLIGHT;
 			raw->obs.data[cur_n].P[1] = message->L2Pseudorange() * CLIGHT;
 			raw->obs.data[cur_n].D[0] = static_cast<float>(message->Doppler());
-			raw->obs.data[cur_n].SNR[0] = message->GetData().snr * 4.0;
+			raw->obs.data[cur_n].SNR[0] = static_cast<std::uint8_t>(message->GetData().snr * 4.0);
 			raw->obs.data[cur_n].LLI[0] = 0;
 			raw->obs.data[cur_n].code[0] = CODE_L1C;
 			if (message->GetData().PRN <= NSATGPS)
@@ -238,7 +249,7 @@ namespace DGrX {
 				eph.svh = data.prec_and_health.satellite_health;
 
 				overlap_counter.Update(data.wn);
-				eph.week = data.wn + whole_1024_weeks + overlap_counter.Count();
+				eph.week = static_cast<int>(data.wn + whole_1024_weeks + overlap_counter.Count());
 
 				eph.code = 1;
 				eph.toe = gpst2time(eph.week, message->Toe());

@@ -310,10 +310,10 @@
             <BuildOrder>22</BuildOrder>
             <BuildOrder>12</BuildOrder>
         </CppCompile>
-        <FormResources Include="codeopt.dfm"/>
-        <FormResources Include="..\appcmn\vieweropt.dfm"/>
         <FormResources Include="convmain.dfm"/>
+        <FormResources Include="codeopt.dfm"/>
         <FormResources Include="convopt.dfm"/>
+        <FormResources Include="..\appcmn\vieweropt.dfm"/>
         <FormResources Include="..\appcmn\confdlg.dfm"/>
         <FormResources Include="..\appcmn\aboutdlg.dfm"/>
         <FormResources Include="..\appcmn\keydlg.dfm"/>

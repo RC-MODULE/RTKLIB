@@ -630,7 +630,7 @@ void __fastcall TMainForm::Timer2Timer(TObject *Sender)
 	else {
 		if (!(msg=(unsigned char *)malloc(16000))) return;
 		
-		for (i=0,p=msg;i<MAXSTR;i++) {
+		for (i=0,p=(char*)msg;i<MAXSTR;i++) {
 			p+=sprintf(p,"[STREAM %d]\n",i);
 			strsum(strsvr.stream+i,&inb,&inr,&outb,&outr);
 			strstatx(strsvr.stream+i,p);
@@ -644,7 +644,7 @@ void __fastcall TMainForm::Timer2Timer(TObject *Sender)
 				p+=sprintf(p,"	outr	= %d\n",outr);
 			}
 		}
-		StrMonDialog->AddMsg(msg,strlen(msg));
+		StrMonDialog->AddMsg(msg,strlen((char*)msg));
 		
 		free(msg);
 	}

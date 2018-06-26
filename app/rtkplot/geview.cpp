@@ -339,7 +339,7 @@ void __fastcall TGoogleEarthView::UpdatePoint(void)
     
     for (i=0;i<Plot->NWayPnt;i++) {
         ecef2pos(Plot->PntPos[i],pos);
-        ExecFunc(f.sprintf("AddPoint('%s',%.9f,%.9f,%.2f)",Plot->PntName[i],
+        ExecFunc(f.sprintf("AddPoint('%s',%.9f,%.9f,%.2f)",Plot->PntName[i].c_str(),
                  pos[0]*R2D,pos[1]*R2D,pos[2]));
     }
 }

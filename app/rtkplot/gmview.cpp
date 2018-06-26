@@ -116,14 +116,14 @@ void __fastcall TGoogleMapView::AddMark(double lat, double lon,
     AnsiString title, AnsiString msg)
 {
     AnsiString f;
-    ExecFunc(f.sprintf("AddMark(%.9f,%.9f,\"%s\",\"%s\")",lat,lon,title,msg));
+    ExecFunc(f.sprintf("AddMark(%.9f,%.9f,\"%s\",\"%s\")",lat,lon,title.c_str(),msg.c_str()));
 }
 //---------------------------------------------------------------------------
 void __fastcall TGoogleMapView::SetMark(int index, const double *pos)
 {
     AnsiString f,title;
     title.sprintf("SOL%d",index);
-    ExecFunc(f.sprintf("PosMark(%.9f,%.9f,\"%s\")",pos[0]*R2D,pos[1]*R2D,title));
+    ExecFunc(f.sprintf("PosMark(%.9f,%.9f,\"%s\")",pos[0]*R2D,pos[1]*R2D,title.c_str()));
 	MarkPos[index-1][0]=pos[0]*R2D;
 	MarkPos[index-1][1]=pos[1]*R2D;
 }
@@ -132,14 +132,14 @@ void __fastcall TGoogleMapView::ShowMark(int index)
 {
     AnsiString f,title;
     title.sprintf("SOL%d",index);
-    ExecFunc(f.sprintf("ShowMark(\"%s\")",title));
+    ExecFunc(f.sprintf("ShowMark(\"%s\")",title.c_str()));
 }
 //---------------------------------------------------------------------------
 void __fastcall TGoogleMapView::HideMark(int index)
 {
     AnsiString f,title;
     title.sprintf("SOL%d",index);
-    ExecFunc(f.sprintf("HideMark(\"%s\")",title));
+    ExecFunc(f.sprintf("HideMark(\"%s\")",title.c_str()));
 }
 //---------------------------------------------------------------------------
 int __fastcall TGoogleMapView::GetState(void)

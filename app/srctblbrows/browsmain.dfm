@@ -2,7 +2,7 @@ object MainForm: TMainForm
   Left = 0
   Top = 0
   Caption = 'NTRIP Browser'
-  ClientHeight = 322
+  ClientHeight = 302
   ClientWidth = 634
   Color = clBtnFace
   Constraints.MinHeight = 150
@@ -168,7 +168,7 @@ object MainForm: TMainForm
     Left = 0
     Top = 22
     Width = 634
-    Height = 282
+    Height = 262
     Margins.Left = 1
     Margins.Top = 1
     Margins.Right = 1
@@ -202,12 +202,113 @@ object MainForm: TMainForm
       9
       12
       10)
+    RowHeights = (
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15)
   end
   object Table3: TMemo
     Left = 0
     Top = 22
     Width = 634
-    Height = 282
+    Height = 262
     Align = alClient
     BevelInner = bvNone
     BevelOuter = bvNone
@@ -228,7 +329,7 @@ object MainForm: TMainForm
     Left = 0
     Top = 22
     Width = 634
-    Height = 282
+    Height = 262
     Margins.Left = 1
     Margins.Top = 1
     Margins.Right = 1
@@ -262,12 +363,113 @@ object MainForm: TMainForm
       8
       6
       6)
+    RowHeights = (
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15)
   end
   object Table0: TStringGrid
     Left = 0
     Top = 22
     Width = 634
-    Height = 282
+    Height = 262
     Margins.Left = 1
     Margins.Top = 1
     Margins.Right = 1
@@ -302,10 +504,111 @@ object MainForm: TMainForm
       27
       43
       623)
+    RowHeights = (
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15
+      15)
   end
   object Panel2: TPanel
     Left = 0
-    Top = 304
+    Top = 284
     Width = 634
     Height = 18
     Align = alBottom

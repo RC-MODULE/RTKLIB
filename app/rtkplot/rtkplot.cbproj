@@ -89,6 +89,7 @@
         <DCC_ResourcePath>..\..\extlex;..\..\qzslex;..\..\src\qzsext;..\appcmn;..\..\src\rcv;..\..\src;..\rtkpost;..\src;C:\Documents and Settings\TTAKA\My Documents\Borland Studio Projects;D:\proj\rtklib_2.1\gui;$(DCC_ResourcePath)</DCC_ResourcePath>
         <DCC_CBuilderOutput>JPHNE</DCC_CBuilderOutput>
         <BCC_IncludePath>$(BDS)\include;..\..\src;..\appcmn;$(BCC_IncludePath)</BCC_IncludePath>
+        <BCC_UseClassicCompiler>false</BCC_UseClassicCompiler>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win32)'!=''">
         <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
@@ -129,7 +130,6 @@
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
         <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
-        <BCC_UserSuppliedOptions> -tWM -k</BCC_UserSuppliedOptions>
         <BCC_Defines>_DEBUG;$(BCC_Defines);$(BCC_Defines)</BCC_Defines>
         <Debugger_RunParams>-x 3</Debugger_RunParams>
         <Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
@@ -151,7 +151,6 @@
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
         <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
-        <BCC_UserSuppliedOptions> -tWM -r</BCC_UserSuppliedOptions>
         <Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
         <LinkPackageStatics>rtl.lib;vcl.lib;vclx.lib;vclimg.lib;bindengine.lib;bcbie.lib;vclie.lib</LinkPackageStatics>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
@@ -370,6 +369,21 @@
             <BuildOrder>37</BuildOrder>
             <BuildOrder>20</BuildOrder>
         </CppCompile>
+        <CppCompile Include="..\..\src\rcv\DGrX.cpp">
+            <BuildOrder>62</BuildOrder>
+        </CppCompile>
+        <None Include="..\..\src\rcv\DGrX.hpp">
+            <BuildOrder>63</BuildOrder>
+        </None>
+        <CppCompile Include="..\..\src\rcv\DGrX_rev_4.cpp">
+            <BuildOrder>64</BuildOrder>
+        </CppCompile>
+        <None Include="..\..\src\rcv\DGrX_rev_4.hpp">
+            <BuildOrder>65</BuildOrder>
+        </None>
+        <None Include="..\..\src\rcv\DGrX_rev_9.hpp">
+            <BuildOrder>66</BuildOrder>
+        </None>
         <CppCompile Include="..\..\src\rcv\gw10.c">
             <BuildOrder>36</BuildOrder>
             <BuildOrder>18</BuildOrder>
@@ -531,8 +545,8 @@
                     <Parameters Name="LoadUnspecifiedSymbols">False</Parameters>
                 </Parameters>
                 <Excluded_Packages>
-                    <Excluded_Packages Name="$(BDSBIN)\bcboffice2k250.bpl">Embarcadero C++Builder Office 2000 サーバー パッケージ</Excluded_Packages>
-                    <Excluded_Packages Name="$(BDSBIN)\bcbofficexp250.bpl">Embarcadero C++Builder Office XP サーバー パッケージ</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\bcboffice2k250.bpl">Embarcadero C++Builder Office 2000 Servers Package</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\bcbofficexp250.bpl">Embarcadero C++Builder Office XP Servers Package</Excluded_Packages>
                 </Excluded_Packages>
                 <ProjectProperties>
                     <ProjectProperties Name="AutoShowDeps">False</ProjectProperties>
@@ -573,6 +587,18 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
+                <DeployFile LocalName="..\..\src\rcv\novatel.c" Configuration="Release" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="Release_Build\rtkplot.exe" Configuration="Release" Class="ProjectOutput">
+                    <Platform Name="Win32">
+                        <RemoteName>rtkplot.exe</RemoteName>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
                 <DeployFile LocalName="..\..\src\ephemeris.c" Configuration="Release" Class="ProjectFile">
                     <Platform Name="Win32">
                         <RemoteDir>.\</RemoteDir>
@@ -587,18 +613,6 @@
                 </DeployFile>
                 <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin\cc32250mt.dll" Class="DependencyModule">
                     <Platform Name="Win32">
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
-                <DeployFile LocalName="Release_Build\rtkplot.exe" Configuration="Release" Class="ProjectOutput">
-                    <Platform Name="Win32">
-                        <RemoteName>rtkplot.exe</RemoteName>
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
-                <DeployFile LocalName="..\..\src\rcv\novatel.c" Configuration="Release" Class="ProjectFile">
-                    <Platform Name="Win32">
-                        <RemoteDir>.\</RemoteDir>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>

@@ -437,7 +437,7 @@ void __fastcall TPlot::ReadMapData(AnsiString file)
         image->LoadFromFile(file);
     }
     catch (Exception &exception) {
-        ShowMsg(s.sprintf("map file read error: %s",file));
+        ShowMsg(s.sprintf("map file read error: %s",file.c_str()));
         ShowLegend(NULL);
         return;
     }
@@ -647,7 +647,7 @@ void __fastcall TPlot::ReadSkyData(AnsiString file)
         image->LoadFromFile(file);
     }
     catch (Exception &exception) {
-        ShowMsg(s.sprintf("sky image file read error: %s",file));
+        ShowMsg(s.sprintf("sky image file read error: %s",file.c_str()));
         ShowLegend(NULL);
         return;
     }
@@ -818,7 +818,7 @@ void __fastcall TPlot::SaveWaypoint(AnsiString file)
             fprintf(fp," <ele>%.4f</ele>\n",PntPos[i][2]);
         }
         UTF8String str(PntName[i]);
-        fprintf(fp," <name>%s</name>\n",str); // UTF-8
+        fprintf(fp," <name>%s</name>\n",str.c_str()); // UTF-8
         fprintf(fp,"</wpt>\n");
     }
     fprintf(fp,"%s\n",TAILGPX);
@@ -871,8 +871,8 @@ void __fastcall TPlot::SaveDop(AnsiString file)
     
     if (!(fp=fopen(file.c_str(),"w"))) return;
     
-    tlabel=TimeLabel<=1?"TIME (GPST)":(TimeLabel<=2?"TIME (UTC)":"TIME (JST)");
-    
+	tlabel=(char*)(TimeLabel<=1?"TIME (GPST)":(TimeLabel<=2?"TIME (UTC)":"TIME (JST)"));
+
     fprintf(fp,"%% %-*s %6s %8s %8s %8s %8s (EL>=%.0fdeg)\n",TimeLabel==0?13:19,
             tlabel,"NSAT","GDOP","PDOP","HDOP","VDOP",ElMask);
     
@@ -923,8 +923,8 @@ void __fastcall TPlot::SaveSnrMp(AnsiString file)
     
     if (!(fp=fopen(file.c_str(),"w"))) return;
     
-    tlabel=TimeLabel<=1?"TIME (GPST)":(TimeLabel<=2?"TIME (UTC)":"TIME (JST)");
-    
+	tlabel=(char*)(TimeLabel<=1?"TIME (GPST)":(TimeLabel<=2?"TIME (UTC)":"TIME (JST)"));
+
     sprintf(mp,"%s MP(m)",ObsTypeText.c_str());
     fprintf(fp,"%% %-*s %6s %8s %8s %9s %10s\n",TimeLabel==0?13:19,tlabel,"SAT",
             "AZ(deg)","EL(deg)","SNR(dBHz)",mp);

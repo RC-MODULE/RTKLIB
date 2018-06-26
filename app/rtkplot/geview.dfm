@@ -231,9 +231,8 @@ object GoogleEarthView: TGoogleEarthView
       Left = 291
       Top = 1
       Width = 3
-      Height = 25
+      Height = 13
       Align = alLeft
-      ExplicitHeight = 13
     end
     object BtnShrink: TSpeedButton
       AlignWithMargins = True

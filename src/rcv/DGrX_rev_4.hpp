@@ -7,10 +7,10 @@
 #include <cstdint>
 #include <fstream>
 #include <ios>
-#include <map>
 #include <memory>
 #include <sstream>
 #include <string>
+#include <unordered_map>
 #include <vector>
 
 #pragma pack(push, 1)
@@ -1284,25 +1284,47 @@ public:
 		return false;
 	}
 
+	static std::unordered_map<MID, std::size_t> GetStructSizes() {
+		std::unordered_map<MID, std::size_t> struct_sizes {
+			{ MID::CommandAcknowledgement,		sizeof(CommandAcknowledgement::Data) },
+			{ MID::CommandNAcknowledgement,		sizeof(CommandNAcknowledgement::Data) },
+			{ MID::AlmanacStatus,				sizeof(AlmanacStatus::Data) },
+			{ MID::DebugData,					sizeof(DebugData::Data) },
+			{ MID::ClockStatus,					sizeof(ClockStatus::Data) },
+			{ MID::GLONASSEphemerisData,		sizeof(GLONASSEphemerisData::Data) },
+			{ MID::LLAOutputMessage,			sizeof(LLAOutputMessage::Data) },
+			{ MID::GPSEphemerisData,			sizeof(GPSEphemerisData::Data) },
+			{ MID::RAIMAlertLimit,				sizeof(RAIMAlertLimit::Data) },
+			{ MID::RawMeasurementData,			sizeof(RawMeasurementData::Data) },
+			{ MID::ExcludedSV,					sizeof(ExcludedSV::Data) },
+			{ MID::FirmwareSchematicVersion,	sizeof(FirmwareSchematicVersion::Data) },
+			{ MID::MeasuredPositionData,		sizeof(MeasuredPositionData::Data) },
+		};
+
+		return struct_sizes;
+	}
+
+/*
 #if defined(__BORLANDC__)
-	static std::map<MID, std::size_t> struct_sizes;
+	static std::unordered_map<MID, std::size_t> struct_sizes;
 #else
-    const static inline std::map<DGrX_rev_4::MID, std::size_t> struct_sizes{
-        { MID::CommandAcknowledgement,		sizeof(CommandAcknowledgement::Data) },
-        { MID::CommandNAcknowledgement,		sizeof(CommandNAcknowledgement::Data) },
-        { MID::AlmanacStatus,				sizeof(AlmanacStatus::Data) },
-        { MID::DebugData,					sizeof(DebugData::Data) },
-        { MID::ClockStatus,					sizeof(ClockStatus::Data) },
-        { MID::GLONASSEphemerisData,		sizeof(GLONASSEphemerisData::Data) },
-        { MID::LLAOutputMessage,			sizeof(LLAOutputMessage::Data) },
-        { MID::GPSEphemerisData,			sizeof(GPSEphemerisData::Data) },
-        { MID::RAIMAlertLimit,				sizeof(RAIMAlertLimit::Data) },
-        { MID::RawMeasurementData,			sizeof(RawMeasurementData::Data) },
-        { MID::ExcludedSV,					sizeof(ExcludedSV::Data) },
-        { MID::FirmwareSchematicVersion,	sizeof(FirmwareSchematicVersion::Data) },
-        { MID::MeasuredPositionData,		sizeof(MeasuredPositionData::Data) },
+    const static inline std::unordered_map<DGrX_rev_4::MID, std::size_t> struct_sizes{
+        //{ MID::CommandAcknowledgement,		sizeof(CommandAcknowledgement::Data) },
+        //{ MID::CommandNAcknowledgement,		sizeof(CommandNAcknowledgement::Data) },
+        //{ MID::AlmanacStatus,				sizeof(AlmanacStatus::Data) },
+        //{ MID::DebugData,					sizeof(DebugData::Data) },
+        //{ MID::ClockStatus,					sizeof(ClockStatus::Data) },
+        //{ MID::GLONASSEphemerisData,		sizeof(GLONASSEphemerisData::Data) },
+        //{ MID::LLAOutputMessage,			sizeof(LLAOutputMessage::Data) },
+        //{ MID::GPSEphemerisData,			sizeof(GPSEphemerisData::Data) },
+        //{ MID::RAIMAlertLimit,				sizeof(RAIMAlertLimit::Data) },
+        //{ MID::RawMeasurementData,			sizeof(RawMeasurementData::Data) },
+        //{ MID::ExcludedSV,					sizeof(ExcludedSV::Data) },
+        //{ MID::FirmwareSchematicVersion,	sizeof(FirmwareSchematicVersion::Data) },
+        //{ MID::MeasuredPositionData,		sizeof(MeasuredPositionData::Data) },
     };
 #endif
+*/
 };
 #pragma pack(pop)
 

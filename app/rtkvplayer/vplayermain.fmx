@@ -269,7 +269,6 @@ object MainForm: TMainForm
       item
         MultiResBitmap.Height = 13
         MultiResBitmap.Width = 13
-        MultiResBitmap.LoadSize = 2
         MultiResBitmap = <
           item
             Width = 13
@@ -286,7 +285,6 @@ object MainForm: TMainForm
         Name = 'Item 0'
       end
       item
-        MultiResBitmap.LoadSize = 2
         MultiResBitmap = <
           item
             Width = 13

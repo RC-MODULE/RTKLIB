@@ -44,7 +44,7 @@ USEFORM("..\rtknavi\naviopt.cpp", OptDialog);
 USEFORM("..\rtknavi\navimain.cpp", MainForm);
 USEFORM("..\rtknavi\rcvoptdlg.cpp", RcvOptDialog);
 //---------------------------------------------------------------------------
-WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
+int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 {
 	try
 	{
