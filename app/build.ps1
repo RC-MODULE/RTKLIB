@@ -60,7 +60,8 @@ Param
     }
 }
 
-Try{
+Try {
+    $StartTime = Get-Date
     $prior_location = Get-Location
     [Console]::OutputEncoding = [System.Text.Encoding]::GetEncoding("cp866")
     $script_location = $MyInvocation.MyCommand.Definition
@@ -80,6 +81,9 @@ Try{
     ForEach ($prj in $boarland_projects) {
         build_borland $prj "Win64"
     }
+    
+    $dst = ((Get-Date) - $StartTime).TotalSeconds
+    "Total build time: " + $dst + " seconds"
 }
 Catch{
     cd $prior_location

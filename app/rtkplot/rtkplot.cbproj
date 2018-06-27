@@ -90,6 +90,9 @@
         <DCC_CBuilderOutput>JPHNE</DCC_CBuilderOutput>
         <BCC_IncludePath>$(BDS)\include;..\..\src;..\appcmn;$(BCC_IncludePath)</BCC_IncludePath>
         <BCC_UseClassicCompiler>false</BCC_UseClassicCompiler>
+        <BCC_EnableBatchCompilation>true</BCC_EnableBatchCompilation>
+        <RunBCCOutOfProcess>true</RunBCCOutOfProcess>
+        <SubProcessesNumber>4</SubProcessesNumber>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win32)'!=''">
         <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
@@ -456,29 +459,29 @@
             <BuildOrder>48</BuildOrder>
         </CppCompile>
         <FormResources Include="..\appcmn\tcpoptdlg.dfm"/>
-        <FormResources Include="..\appcmn\serioptdlg.dfm"/>
-        <FormResources Include="..\appcmn\refdlg.dfm"/>
         <FormResources Include="..\appcmn\timedlg.dfm"/>
+        <FormResources Include="..\appcmn\refdlg.dfm"/>
+        <FormResources Include="..\appcmn\serioptdlg.dfm"/>
         <FormResources Include="..\appcmn\vieweropt.dfm"/>
-        <FormResources Include="..\appcmn\viewer.dfm"/>
-        <FormResources Include="..\appcmn\tspandlg.dfm"/>
-        <FormResources Include="..\appcmn\keydlg.dfm"/>
-        <FormResources Include="..\appcmn\confdlg.dfm"/>
-        <FormResources Include="..\appcmn\cmdoptdlg.dfm"/>
-        <FormResources Include="..\appcmn\aboutdlg.dfm"/>
-        <FormResources Include="..\appcmn\console.dfm"/>
-        <FormResources Include="..\appcmn\ftpoptdlg.dfm"/>
-        <FormResources Include="..\appcmn\fileoptdlg.dfm"/>
         <FormResources Include="conndlg.dfm"/>
-        <FormResources Include="pntdlg.dfm"/>
-        <FormResources Include="plotopt.dfm"/>
-        <FormResources Include="vmapdlg.dfm"/>
-        <FormResources Include="skydlg.dfm"/>
-        <FormResources Include="satdlg.dfm"/>
-        <FormResources Include="plotmain.dfm"/>
-        <FormResources Include="mapdlg.dfm"/>
-        <FormResources Include="gmview.dfm"/>
+        <FormResources Include="..\appcmn\tspandlg.dfm"/>
+        <FormResources Include="..\appcmn\viewer.dfm"/>
+        <FormResources Include="..\appcmn\confdlg.dfm"/>
+        <FormResources Include="..\appcmn\console.dfm"/>
+        <FormResources Include="..\appcmn\aboutdlg.dfm"/>
+        <FormResources Include="..\appcmn\cmdoptdlg.dfm"/>
+        <FormResources Include="..\appcmn\keydlg.dfm"/>
+        <FormResources Include="..\appcmn\fileoptdlg.dfm"/>
+        <FormResources Include="..\appcmn\ftpoptdlg.dfm"/>
         <FormResources Include="geview.dfm"/>
+        <FormResources Include="satdlg.dfm"/>
+        <FormResources Include="pntdlg.dfm"/>
+        <FormResources Include="skydlg.dfm"/>
+        <FormResources Include="vmapdlg.dfm"/>
+        <FormResources Include="gmview.dfm"/>
+        <FormResources Include="mapdlg.dfm"/>
+        <FormResources Include="plotmain.dfm"/>
+        <FormResources Include="plotopt.dfm"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
@@ -587,6 +590,17 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
+                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin\cc32250mt.dll" Class="DependencyModule">
+                    <Platform Name="Win32">
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="..\..\src\rtcm3e.c" Configuration="Release" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
                 <DeployFile LocalName="..\..\src\rcv\novatel.c" Configuration="Release" Class="ProjectFile">
                     <Platform Name="Win32">
                         <RemoteDir>.\</RemoteDir>
@@ -602,17 +616,6 @@
                 <DeployFile LocalName="..\..\src\ephemeris.c" Configuration="Release" Class="ProjectFile">
                     <Platform Name="Win32">
                         <RemoteDir>.\</RemoteDir>
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
-                <DeployFile LocalName="..\..\src\rtcm3e.c" Configuration="Release" Class="ProjectFile">
-                    <Platform Name="Win32">
-                        <RemoteDir>.\</RemoteDir>
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
-                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin\cc32250mt.dll" Class="DependencyModule">
-                    <Platform Name="Win32">
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>

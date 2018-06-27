@@ -95,6 +95,9 @@
         <DCC_ResourcePath>..\..\..\rtklib_extlex;..\..\extlex;..\..\qzslex;..\..\src\rcv;..\..\src;..\appcmn;G:\rtklib_2.2\app\rtknavi;$(DCC_ResourcePath)</DCC_ResourcePath>
         <DCC_CBuilderOutput>JPHNE</DCC_CBuilderOutput>
         <BCC_IncludePath>$(BDS)\include;..\appcmn;..\..\src;$(BCC_IncludePath)</BCC_IncludePath>
+        <BCC_EnableBatchCompilation>true</BCC_EnableBatchCompilation>
+        <RunBCCOutOfProcess>true</RunBCCOutOfProcess>
+        <SubProcessesNumber>4</SubProcessesNumber>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win32)'!=''">
         <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
@@ -465,24 +468,24 @@
             <BuildOrder>53</BuildOrder>
         </CppCompile>
         <FormResources Include="..\appcmn\viewer.dfm"/>
-        <FormResources Include="..\appcmn\tcpoptdlg.dfm"/>
-        <FormResources Include="..\appcmn\serioptdlg.dfm"/>
         <FormResources Include="..\appcmn\vieweropt.dfm"/>
+        <FormResources Include="..\appcmn\serioptdlg.dfm"/>
+        <FormResources Include="..\appcmn\tcpoptdlg.dfm"/>
         <FormResources Include="..\rtknavi\markdlg.dfm"/>
-        <FormResources Include="..\rtknavi\logstrdlg.dfm"/>
-        <FormResources Include="..\rtknavi\instrdlg.dfm"/>
-        <FormResources Include="..\appcmn\refdlg.dfm"/>
-        <FormResources Include="..\appcmn\confdlg.dfm"/>
-        <FormResources Include="..\appcmn\cmdoptdlg.dfm"/>
-        <FormResources Include="..\appcmn\aboutdlg.dfm"/>
-        <FormResources Include="..\appcmn\ftpoptdlg.dfm"/>
-        <FormResources Include="..\appcmn\maskoptdlg.dfm"/>
-        <FormResources Include="..\appcmn\keydlg.dfm"/>
-        <FormResources Include="..\rtknavi\naviopt.dfm"/>
-        <FormResources Include="..\rtknavi\navimain.dfm"/>
         <FormResources Include="..\rtknavi\mondlg.dfm"/>
-        <FormResources Include="..\rtknavi\outstrdlg.dfm"/>
+        <FormResources Include="..\rtknavi\instrdlg.dfm"/>
+        <FormResources Include="..\rtknavi\logstrdlg.dfm"/>
+        <FormResources Include="..\appcmn\confdlg.dfm"/>
+        <FormResources Include="..\appcmn\ftpoptdlg.dfm"/>
+        <FormResources Include="..\appcmn\aboutdlg.dfm"/>
+        <FormResources Include="..\appcmn\cmdoptdlg.dfm"/>
+        <FormResources Include="..\appcmn\maskoptdlg.dfm"/>
+        <FormResources Include="..\appcmn\refdlg.dfm"/>
+        <FormResources Include="..\appcmn\keydlg.dfm"/>
+        <FormResources Include="..\rtknavi\navimain.dfm"/>
         <FormResources Include="..\rtknavi\rcvoptdlg.dfm"/>
+        <FormResources Include="..\rtknavi\naviopt.dfm"/>
+        <FormResources Include="..\rtknavi\outstrdlg.dfm"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
@@ -549,8 +552,8 @@
                     <Parameters Name="LoadUnspecifiedSymbols">False</Parameters>
                 </Parameters>
                 <Excluded_Packages>
-                    <Excluded_Packages Name="$(BDSBIN)\bcboffice2k240.bpl">Embarcadero C++Builder Office 2000 サーバー パッケージ</Excluded_Packages>
-                    <Excluded_Packages Name="$(BDSBIN)\bcbofficexp240.bpl">Embarcadero C++Builder Office XP サーバー パッケージ</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\bcboffice2k250.bpl">Embarcadero C++Builder Office 2000 Servers Package</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\bcbofficexp250.bpl">Embarcadero C++Builder Office XP Servers Package</Excluded_Packages>
                 </Excluded_Packages>
                 <ProjectProperties>
                     <ProjectProperties Name="AutoShowDeps">False</ProjectProperties>
@@ -601,13 +604,13 @@
                     </Platform>
                 </DeployFile>
                 <DeployFile LocalName="..\..\src\rtcm2.c" Configuration="Release" Class="ProjectFile">
-                    <Platform Name="Win64">
+                    <Platform Name="Win32">
                         <RemoteDir>.\</RemoteDir>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
                 <DeployFile LocalName="..\..\src\rtcm2.c" Configuration="Release" Class="ProjectFile">
-                    <Platform Name="Win32">
+                    <Platform Name="Win64">
                         <RemoteDir>.\</RemoteDir>
                         <Overwrite>true</Overwrite>
                     </Platform>
