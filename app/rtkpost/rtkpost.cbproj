@@ -59,7 +59,6 @@
         <Base>true</Base>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base)'!=''">
-        <UsingDelphiRTL>true</UsingDelphiRTL>
         <ILINK_LinkwithMidas>false</ILINK_LinkwithMidas>
         <ILINK_LinkwithZLib>false</ILINK_LinkwithZLib>
         <ILINK_LinkwithSQLite>false</ILINK_LinkwithSQLite>

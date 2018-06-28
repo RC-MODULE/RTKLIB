@@ -2,9 +2,11 @@
 #define _DGrX_REV_4_HPP
 
 #include <array>
+#include <algorithm>
 #include <cassert>
 #include <cmath>
 #include <cstdint>
+#include <cstring>
 #include <fstream>
 #include <ios>
 #include <memory>

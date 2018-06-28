@@ -41,7 +41,6 @@
         <Base>true</Base>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base)'!=''">
-        <UsingDelphiRTL>true</UsingDelphiRTL>
         <ILINK_LinkwithZLib>false</ILINK_LinkwithZLib>
         <ILINK_LinkwithIndy>false</ILINK_LinkwithIndy>
         <ILINK_LinkwithMidas>false</ILINK_LinkwithMidas>
