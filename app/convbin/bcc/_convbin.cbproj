@@ -3,7 +3,7 @@
         <ProjectGuid>{F2F432E1-CB5E-4F62-8276-D65B70EC1563}</ProjectGuid>
         <ProjectType>CppConsoleApplication</ProjectType>
         <Base>True</Base>
-        <Config Condition="'$(Config)'==''">Debug</Config>
+        <Config Condition="'$(Config)'==''">Release</Config>
         <FrameworkType>None</FrameworkType>
         <ProjectVersion>18.2</ProjectVersion>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
@@ -79,6 +79,9 @@
         <DCC_ResourcePath>..\..\..\extlex;..\..\..\src\rcv;..\;..\..\..\src;..\..\pos2kml;G:\rtklib_2.2.0b\app\pos2kml;G:\rtklib_2.2.0b\app\pos2kml\bcc;$(DCC_ResourcePath)</DCC_ResourcePath>
         <ILINK_LibraryPath>..\..\..\src\rcv\;..\..\..\src\;..\..\..\extlex;..\..\..\src\rcv;..\;..\..\..\src;..\..\pos2kml;G:\rtklib_2.2.0b\app\pos2kml;G:\rtklib_2.2.0b\app\pos2kml\bcc;$(BDS)\lib;$(BDS)\lib\obj;$(BDS)\lib\psdk;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <DCC_CBuilderOutput>JPHNE</DCC_CBuilderOutput>
+        <BCC_EnableBatchCompilation>true</BCC_EnableBatchCompilation>
+        <RunBCCOutOfProcess>true</RunBCCOutOfProcess>
+        <SubProcessesNumber>4</SubProcessesNumber>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win32)'!=''">
         <BCC_UseClassicCompiler>false</BCC_UseClassicCompiler>
@@ -113,7 +116,7 @@
         <TASM_DisplaySourceLines>true</TASM_DisplaySourceLines>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
-        <Debugger_RunParams>g:\log_2.bin -r binex</Debugger_RunParams>
+        <Debugger_RunParams>-r dgr4 -v 3.03 -od -scan G:\00000001.bin</Debugger_RunParams>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <BCC_Defines>_DEBUG;$(BCC_Defines);$(BCC_Defines)</BCC_Defines>
         <ILINK_Verbose>true</ILINK_Verbose>
@@ -134,6 +137,7 @@
         <BCC_waus>false</BCC_waus>
         <BCC_wpia>false</BCC_wpia>
         <VerInfo_Locale>1033</VerInfo_Locale>
+        <Debugger_RunParams>-r dgr4 -v 3.03 -od -scan G:\00000001.bin</Debugger_RunParams>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2_Win64)'!=''">
         <BCC_Defines>NDEBUG;$(BCC_Defines);$(BCC_Defines)</BCC_Defines>
@@ -182,10 +186,13 @@
             <BuildOrder>4</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\..\src\rcv\DGrX.cpp">
-            <BuildOrder>29</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\..\src\rcv\DGrX_rev_4.cpp">
             <BuildOrder>31</BuildOrder>
+        </CppCompile>
+        <None Include="..\..\..\src\rcv\DGrX.hpp">
+            <BuildOrder>32</BuildOrder>
+        </None>
+        <CppCompile Include="..\..\..\src\rcv\DGrX_rev_4.cpp">
+            <BuildOrder>29</BuildOrder>
         </CppCompile>
         <None Include="..\..\..\src\rcv\DGrX_rev_4.hpp">
             <BuildOrder>30</BuildOrder>

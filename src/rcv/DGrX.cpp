@@ -37,7 +37,7 @@ extern "C" int input_dgrx_4f(raw_t *raw, FILE *fp) {
 
 	}
 
-	return DGrX::rev_4::ConvertToRaw(DGrX_rev_4::ReadStruct(log_file).get(), raw);
+	return DGrX::rev_4::ConvertToRaw(DGrX_rev_4::ReadStruct(log_file).get(), raw, fp);
 }
 
 extern "C" int input_dgrx_9f(raw_t *raw, FILE *fp) {

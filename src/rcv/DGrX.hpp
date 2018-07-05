@@ -28,6 +28,8 @@ namespace DGrX {
 
 	std::int32_t whole_1024_weeks = 0;
 
+	time_t last_time = 0;
+
 	struct OverlapCounter final {
 	private:
 		std::size_t pre = 0;
@@ -43,6 +45,10 @@ namespace DGrX {
 
 		std::size_t Count() {
 			return count;
+		}
+
+		void Reset() {
+			pre = post = count = 0;
 		}
 	} overlap_counter;
 
@@ -159,7 +165,7 @@ namespace DGrX {
 	} byte_sync;
 
 	namespace rev_4 {
-		int DecodePosition(DGrX_rev_4::MeasuredPositionData *message, raw_t *raw) {
+		int DecodePosition(DGrX_rev_4::MeasuredPositionData *message, raw_t *raw, FILE *fp) {
 			try {
 				if (message == nullptr || raw == nullptr)
 					throw std::runtime_error("Nullptr provided");
@@ -171,6 +177,16 @@ namespace DGrX {
 					auto wn = message_data.wn + whole_1024_weeks + overlap_counter.Count();
 
 					raw->time = gpst2time(static_cast<int>(wn), message_data.rcv_time * 1e-3);
+					if (raw->time.time < last_time) {
+						whole_1024_weeks = 0;
+						last_time = 0;
+						overlap_counter.Reset();
+						rewind(fp);
+						return ReturnCodes::no_message;
+					}
+					else
+						last_time = raw->time.time;
+
 					if (raw->obs.n) {
 						for (std::size_t i = 0; i < used_svs.size(); ++i)
 							raw->obs.data[i].time = raw->time;
@@ -242,6 +258,10 @@ namespace DGrX {
 				auto cur_sv = data.prn;
 				auto &eph = raw->nav.eph[cur_sv - 1];
 				raw->ephsat = cur_sv;
+
+				if (eph.iode == data.iode && eph.iodc == data.iodc) // Same ephemeris
+					return ReturnCodes::no_message;
+
 				eph.sat = cur_sv;
 				eph.iode = data.iode;
 				eph.iodc = data.iodc;
@@ -293,30 +313,36 @@ namespace DGrX {
 
 				auto &data = message->GetData();
 				auto cur_sv = data.sv_id - 32;
-				auto &eph = raw->nav.geph[cur_sv - 1];
-				eph.sat = satno(SYS_GLO, cur_sv);
-				raw->ephsat = eph.sat;
-				eph.frq = data.litera;
-				eph.svh = data.health;
-				eph.sva = data.en;
-				eph.toe = utc2gpst(adjday(raw->time, message->Tb() - 10800.0));
+				auto &geph = raw->nav.geph[cur_sv - 1];
+				geph.sat = satno(SYS_GLO, cur_sv);
+
+				raw->ephsat = geph.sat;
+				auto calculated_toe = utc2gpst(adjday(raw->time, message->Tb() - 10800.0));
+				if ((std::fabs(timediff(geph.toe, calculated_toe)) < 1.0) && geph.svh == data.health) // Same ephemeris
+					return ReturnCodes::no_message;
+
+				geph.frq = data.litera;
+				geph.svh = data.health;
+				geph.sva = data.en;
+				geph.toe = calculated_toe;
 
 				auto tk = data.tk.hh * 60.0*60.0 + data.tk.mm * 60.0 + data.tk.ss * 30.0; // empty field
-				eph.tof = utc2gpst(adjday(raw->time, tk - 10800.0));
+				geph.tof = utc2gpst(adjday(raw->time, tk - 10800.0));
 
-				eph.pos[0] = KilometersToMeters(message->X());
-				eph.vel[0] = KilometersToMeters(message->Xdot());
-				eph.acc[0] = KilometersToMeters(message->Xdotdot());
-				eph.pos[1] = KilometersToMeters(message->Y());
-				eph.vel[1] = KilometersToMeters(message->Ydot());
-				eph.acc[1] = KilometersToMeters(message->Ydotdot());
-				eph.pos[2] = KilometersToMeters(message->Z());
-				eph.vel[2] = KilometersToMeters(message->Zdot());
-				eph.acc[2] = KilometersToMeters(message->Zdotdot());
+				geph.pos[0] = KilometersToMeters(message->X());
+				geph.vel[0] = KilometersToMeters(message->Xdot());
+				geph.acc[0] = KilometersToMeters(message->Xdotdot());
+				geph.pos[1] = KilometersToMeters(message->Y());
+				geph.vel[1] = KilometersToMeters(message->Ydot());
+				geph.acc[1] = KilometersToMeters(message->Ydotdot());
+				geph.pos[2] = KilometersToMeters(message->Z());
+				geph.vel[2] = KilometersToMeters(message->Zdot());
+				geph.acc[2] = KilometersToMeters(message->Zdotdot());
 
-				eph.taun = message->Tn();
-				eph.gamn = message->Gn();
-				eph.dtaun = 0;
+				geph.taun = message->Tn();
+				geph.gamn = message->Gn();
+				geph.dtaun = 0;
+				raw->nav.glo_fcn[cur_sv] = data.litera + 8;
 
 				return ReturnCodes::input_ephemeris;
 			}
@@ -327,7 +353,7 @@ namespace DGrX {
 			return ReturnCodes::no_message;
 		}
 
-		int ConvertToRaw(DGrX_rev_4::Message *message, raw_t *raw) {
+		int ConvertToRaw(DGrX_rev_4::Message *message, raw_t *raw, FILE *fp = nullptr) {
 			if (message == nullptr || raw == nullptr)
 				return ReturnCodes::no_message;
 			auto type = message->GetMID();
@@ -361,7 +387,7 @@ namespace DGrX {
 			case DGrX_rev_4::MID::FirmwareSchematicVersion:
 				break;
 			case DGrX_rev_4::MID::MeasuredPositionData:
-				return DecodePosition(dynamic_cast<DGrX_rev_4::MeasuredPositionData*>(message), raw);
+				return DecodePosition(dynamic_cast<DGrX_rev_4::MeasuredPositionData*>(message), raw, fp);
 				break;
 			default:
 				break;
