@@ -97,7 +97,7 @@ public:
 		}
 	};
 
-	class FirmwareSchematicVersion final : public Message {
+	struct FirmwareSchematicVersion final : public Message {
 	private:
 		friend DataGridProtocol;
 		struct Data {
@@ -146,12 +146,23 @@ public:
 		}
 	};
 
-	class RawMeasurementData final : public Message {
+	struct RawMeasurementData final : public Message {
+	public:
+		enum class SystemID :std::uint8_t {
+			gps = 0,
+			glonass,
+			sbas,
+			galileo_e1_e5a,
+			galileo_e1_e5b,
+			beidou,
+			pseudolites
+		};
+
 	private:
 		friend DataGridProtocol;
 		struct Data {
 			std::uint8_t PRN = 0;
-			std::uint8_t : 8;
+			SystemID system_id = SystemID::gps;
 			std::int8_t carrier_number = 0;
 			std::uint8_t L1_time_lock = 0;
 			std::uint8_t L2_time_lock = 0;
@@ -202,6 +213,7 @@ public:
 			SwapEndian(data.l2_phase);
 			SwapEndian(data.l2_pseudorange);
 		}
+
 	public:
 		RawMeasurementData() = default;
 
@@ -279,43 +291,44 @@ public:
 		}
 	};
 
-	class MeasuredPositionData final : public Message {
+	struct  MeasuredPositionData final : public Message {
+	public:
+		enum class RAIMState :std::uint8_t {
+			ok = 0,
+			raim_not_availible,
+			fault_corrected,
+			fault_not_corrected,
+			raim_off
+		};
+
+		enum class FixStatus : std::uint8_t {
+			no_solution = 0,
+			valid_fix,
+			invalid_fix,
+		};
+
+		enum class LackOfSolutionReason : std::uint8_t {
+			not_enough_sv = 0,
+			raim_fault,
+			no_convergence,
+			dgps_fault,
+			uncomplete_solution_fault
+		};
+
+		enum class IonosphereStatus : std::uint8_t {
+			no_ionospheric_correction = 0,
+			ionosphere_free_soltion
+		};
+
+		enum class SBASCorrectionStatus : std::uint8_t {
+			off = 0,
+			on
+		};
+
 	private:
 		friend DataGridProtocol;
 		struct Data {
-			enum class RAIMState :std::uint8_t {
-				ok = 0,
-				raim_not_availible,
-				fault_corrected,
-				fault_not_corrected,
-				raim_off
-			};
-
 			struct {
-				enum class FixStatus : std::uint8_t {
-					no_solution = 0,
-					valid_fix,
-					invalid_fix,
-				};
-
-				enum class LackOfSolutionReason : std::uint8_t {
-					not_enough_sv = 0,
-					raim_fault,
-					no_convergence,
-					dgps_fault,
-					uncomplete_solution_fault
-				};
-
-				enum class IonosphereStatus : std::uint8_t {
-					no_ionospheric_correction = 0,
-					ionosphere_free_soltion
-				};
-
-				enum class SBASCorrectionStatus : std::uint8_t {
-					off = 0,
-					on
-				};
-
 				std::uint8_t : 1;
 				FixStatus fix_status : 2;
 				LackOfSolutionReason lack_of_solution : 3;
@@ -368,6 +381,7 @@ public:
 			SwapEndian(data.t_gl);
 			SwapEndian(data.wn);
 		}
+
 	public:
 		MeasuredPositionData() = default;
 
@@ -438,7 +452,7 @@ public:
 		}
 	};
 
-	class GPSEphemerisData : public Message {
+	struct GPSEphemerisData : public Message {
 	private:
 		friend DataGridProtocol;
 		struct Data {
@@ -515,6 +529,7 @@ public:
 			SwapEndian(data.idot);
 			SwapEndian(data.valid);
 		}
+	
 	public:
 		GPSEphemerisData() = default;
 
@@ -632,7 +647,7 @@ public:
 		}
 	};
 
-	class GLONASSEphemerisData final : public Message {
+	struct GLONASSEphemerisData final : public Message {
 	private:
 		friend DataGridProtocol;
 		struct Data {
@@ -695,6 +710,7 @@ public:
 			SwapEndian(data.tc);
 			SwapEndian(data.valid);
 		}
+	
 	public:
 		GLONASSEphemerisData() = default;
 
@@ -776,7 +792,7 @@ public:
 		}
 	};
 
-	class RAIMAlertLimit final : public Message {
+	struct RAIMAlertLimit final : public Message {
 	private:
 		friend DataGridProtocol;
 		struct Data {
@@ -795,6 +811,7 @@ public:
 		void Preprocess() {
 			SwapEndian(data.alert_limit);
 		}
+	
 	public:
 		RAIMAlertLimit() = default;
 
@@ -824,13 +841,14 @@ public:
 		}
 	};
 
-	class CommandAcknowledgement final : public Message {
+	struct CommandAcknowledgement final : public Message {
 	private:
 		friend DataGridProtocol;
 		struct Data {
 			std::uint8_t ack_id = 0;
 		} data;
 		static_assert(sizeof(DataGridProtocol::CommandAcknowledgement::Data) == 1, "CommandAcknowledgement size is wrong");
+	
 	public:
 		CommandAcknowledgement() = default;
 
@@ -858,13 +876,14 @@ public:
 		}
 	};
 
-	class CommandNAcknowledgement final : public Message {
+	struct CommandNAcknowledgement final : public Message {
 	private:
 		friend DataGridProtocol;
 		struct Data {
 			std::uint8_t nack_id = 0;
 		} data;
 		static_assert(sizeof(DataGridProtocol::CommandNAcknowledgement::Data) == 1, "CommandNAcknowledgement size is wrong");
+	
 	public:
 		CommandNAcknowledgement() = default;
 
@@ -892,7 +911,7 @@ public:
 		}
 	};
 
-	class LLAOutputMessage final : public Message {
+	struct LLAOutputMessage final : public Message {
 	private:
 		friend DataGridProtocol;
 		struct Data {
@@ -910,6 +929,7 @@ public:
 			SwapEndian(data.lon);
 			SwapEndian(data.alt);
 		}
+
 	public:
 		LLAOutputMessage() = default;
 
@@ -951,7 +971,7 @@ public:
 		}
 	};
 
-	class DebugData final : public Message {
+	struct DebugData final : public Message {
 	private:
 		friend DataGridProtocol;
 		struct Data {
@@ -969,6 +989,7 @@ public:
 			SwapEndian(data.vcc_err_sum);
 			SwapEndian(data.vcc_err_squared_sum);
 		}
+	
 	public:
 		DebugData() = default;
 		template <typename T>
@@ -991,35 +1012,37 @@ public:
 		}
 	};
 
-	class ExcludedSV final : public Message {
+	struct ExcludedSV final : public Message {
+	public:
+		enum class SystemID : std::uint8_t {
+			gps = 0,
+			glonass,
+			waas_egnos,
+			galileo,
+			beidou = 5,
+			pseudolites
+		};
+
+		enum class Reason :std::uint8_t {
+			unknown = 0,
+			excluded_by_user,
+			low_snr,
+			low_elevation,
+			pseudorange_error,
+			raim,
+			kalman_freq_check,
+			kalman_pseudorange_check
+		};
+
 	private:
 		friend DataGridProtocol;
 		struct Data {
-			enum class SystemID : std::uint8_t {
-				gps = 0,
-				glonass,
-				waas_egnos,
-				galileo,
-				beidou = 5,
-				pseudolites
-			};
-
-			enum class Reason :std::uint8_t {
-				unknown = 0,
-				excluded_by_user,
-				low_snr,
-				low_elevation,
-				pseudorange_error,
-				raim,
-				kalman_freq_check,
-				kalman_pseudorange_check
-			};
-
 			std::uint8_t prn = 0;
 			SystemID system_id;
 			Reason reason;
 		} data;
 		static_assert(sizeof(DataGridProtocol::ExcludedSV::Data) == 3, "ExcludedSV size is wrong");
+	
 	public:
 		ExcludedSV() = default;
 
@@ -1047,21 +1070,23 @@ public:
 		}
 	};
 
-	class AlmanacStatus final : public Message {
+	struct AlmanacStatus final : public Message {
+	public:
+		enum class Status : std::uint8_t {
+			no_almanac = 0,
+			too_old,
+			updated_at_startup,
+			updated_by_user_command,
+			new_almanac_collected
+		};
+
 	private:
 		friend DataGridProtocol;
 		struct Data {
-			enum class Status : std::uint8_t {
-				no_almanac = 0,
-				too_old,
-				updated_at_startup,
-				updated_by_user_command,
-				new_almanac_collected
-			};
-
 			Status status;
 		} data;
 		static_assert(sizeof(DataGridProtocol::AlmanacStatus::Data) == 1, "AlmanacStatus size is wrong");
+
 	public:
 		AlmanacStatus() = default;
 
@@ -1089,8 +1114,7 @@ public:
 		}
 	};
 
-
-	class ClockStatus final : public Message {
+	struct ClockStatus final : public Message {
 	private:
 		friend DataGridProtocol;
 		struct Data {
@@ -1114,6 +1138,7 @@ public:
 			SwapEndian(data.glonass_tshift_almanac);
 			SwapEndian(data.leap_seconds);
 		}
+
 	public:
 		ClockStatus() = default;
 
@@ -1560,8 +1585,8 @@ namespace DataGridTools {
 			auto &eph = raw->nav.eph[cur_sv - 1];
 			raw->ephsat = cur_sv;
 
-			if (eph.iode == data.iode && eph.iodc == data.iodc) // Same ephemeris
-				return ReturnCodes::no_message;
+			//if (eph.iode == data.iode && eph.iodc == data.iodc) // Same ephemeris
+			//	return ReturnCodes::no_message;
 
 			eph.sat = cur_sv;
 			eph.iode = data.iode;
@@ -1619,8 +1644,8 @@ namespace DataGridTools {
 
 			raw->ephsat = geph.sat;
 			auto calculated_toe = utc2gpst(adjday(raw->time, message->Tb() - 10800.0));
-			if ((std::fabs(timediff(geph.toe, calculated_toe)) < 1.0) && geph.svh == data.health) // Same ephemeris
-				return ReturnCodes::no_message;
+			//if ((std::fabs(timediff(geph.toe, calculated_toe)) < 1.0) && geph.svh == data.health) // Same ephemeris
+			//	return ReturnCodes::no_message;
 
 			geph.frq = data.litera;
 			geph.svh = data.health;
