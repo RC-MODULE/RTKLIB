@@ -373,15 +373,6 @@
         <None Include="..\..\src\rcv\DGrX.hpp">
             <BuildOrder>64</BuildOrder>
         </None>
-        <CppCompile Include="..\..\src\rcv\DGrX_rev_4.cpp">
-            <BuildOrder>65</BuildOrder>
-        </CppCompile>
-        <None Include="..\..\src\rcv\DGrX_rev_4.hpp">
-            <BuildOrder>61</BuildOrder>
-        </None>
-        <None Include="..\..\src\rcv\DGrX_rev_9.hpp">
-            <BuildOrder>62</BuildOrder>
-        </None>
         <CppCompile Include="..\..\src\rcv\gw10.c">
             <BuildOrder>42</BuildOrder>
             <BuildOrder>21</BuildOrder>
@@ -604,13 +595,13 @@
                     </Platform>
                 </DeployFile>
                 <DeployFile LocalName="..\..\src\rtcm2.c" Configuration="Release" Class="ProjectFile">
-                    <Platform Name="Win64">
+                    <Platform Name="Win32">
                         <RemoteDir>.\</RemoteDir>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
                 <DeployFile LocalName="..\..\src\rtcm2.c" Configuration="Release" Class="ProjectFile">
-                    <Platform Name="Win32">
+                    <Platform Name="Win64">
                         <RemoteDir>.\</RemoteDir>
                         <Overwrite>true</Overwrite>
                     </Platform>
@@ -709,6 +700,12 @@
                 </DeployFile>
                 <DeployFile LocalName="..\..\src\ppp_ar.c" Configuration="Release" Class="ProjectFile">
                     <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="..\..\src\rcv\tersus.c" Configuration="Release" Class="ProjectFile">
+                    <Platform Name="Win64">
                         <RemoteDir>.\</RemoteDir>
                         <Overwrite>true</Overwrite>
                     </Platform>

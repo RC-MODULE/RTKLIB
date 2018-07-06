@@ -289,15 +289,6 @@
         <None Include="..\..\src\rcv\DGrX.hpp">
             <BuildOrder>42</BuildOrder>
         </None>
-        <CppCompile Include="..\..\src\rcv\DGrX_rev_4.cpp">
-            <BuildOrder>43</BuildOrder>
-        </CppCompile>
-        <None Include="..\..\src\rcv\DGrX_rev_4.hpp">
-            <BuildOrder>44</BuildOrder>
-        </None>
-        <None Include="..\..\src\rcv\DGrX_rev_9.hpp">
-            <BuildOrder>45</BuildOrder>
-        </None>
         <CppCompile Include="..\..\src\rcv\gw10.c">
             <BuildOrder>28</BuildOrder>
         </CppCompile>
@@ -476,15 +467,15 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="..\..\src\rcv\ublox.c" Configuration="Release" Class="ProjectFile">
-                    <Platform Name="Win32">
-                        <RemoteDir>.\</RemoteDir>
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
                 <DeployFile LocalName="Release_Build\strsvr.exe" Configuration="Release" Class="ProjectOutput">
                     <Platform Name="Win32">
                         <RemoteName>strsvr.exe</RemoteName>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="..\..\src\rcv\ublox.c" Configuration="Release" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
@@ -499,13 +490,13 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="..\..\src\rtcm3e.c" Configuration="Release" Class="ProjectFile">
+                <DeployFile LocalName="..\..\src\rtcm2.c" Configuration="Release" Class="ProjectFile">
                     <Platform Name="Win32">
                         <RemoteDir>.\</RemoteDir>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="..\..\src\rtcm2.c" Configuration="Release" Class="ProjectFile">
+                <DeployFile LocalName="..\..\src\rtcm3e.c" Configuration="Release" Class="ProjectFile">
                     <Platform Name="Win32">
                         <RemoteDir>.\</RemoteDir>
                         <Overwrite>true</Overwrite>

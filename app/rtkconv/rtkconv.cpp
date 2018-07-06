@@ -18,10 +18,10 @@
 
 
 
-USEFORM("codeopt.cpp", CodeOptDialog);
-USEFORM("..\appcmn\vieweropt.cpp", ViewerOptDialog);
 USEFORM("convmain.cpp", MainWindow);
+USEFORM("codeopt.cpp", CodeOptDialog);
 USEFORM("convopt.cpp", ConvOptDialog);
+USEFORM("..\appcmn\vieweropt.cpp", ViewerOptDialog);
 USEFORM("..\appcmn\confdlg.cpp", ConfDialog);
 USEFORM("..\appcmn\aboutdlg.cpp", AboutDialog);
 USEFORM("..\appcmn\keydlg.cpp", KeyDialog);

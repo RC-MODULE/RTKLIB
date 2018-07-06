@@ -117,9 +117,6 @@
     <ClCompile Include="..\convbin.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\rcv\DGrX_rev_4.cpp">
-      <Filter>Source Files\Receiver Protocols</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\dirent.h">
@@ -127,12 +124,6 @@
     </ClInclude>
     <ClInclude Include="..\..\..\src\rtklib.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\rcv\DGrX_rev_4.hpp">
-      <Filter>Source Files\Receiver Protocols</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\rcv\DGrX_rev_9.hpp">
-      <Filter>Source Files\Receiver Protocols</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\rcv\DGrX.hpp">
       <Filter>Source Files\Receiver Protocols</Filter>

@@ -191,12 +191,6 @@
         <None Include="..\..\..\src\rcv\DGrX.hpp">
             <BuildOrder>32</BuildOrder>
         </None>
-        <CppCompile Include="..\..\..\src\rcv\DGrX_rev_4.cpp">
-            <BuildOrder>29</BuildOrder>
-        </CppCompile>
-        <None Include="..\..\..\src\rcv\DGrX_rev_4.hpp">
-            <BuildOrder>30</BuildOrder>
-        </None>
         <CppCompile Include="..\..\..\src\rcv\gw10.c">
             <BuildOrder>4</BuildOrder>
             <BuildOrder>15</BuildOrder>
@@ -339,8 +333,7 @@
                 <Platform value="Win64">False</Platform>
             </Platforms>
             <Deployment Version="3">
-                <DeployFile LocalName="..\..\..\src\rtcm3e.c" Configuration="Release" Class="ProjectFile"/>
-                <DeployFile LocalName="..\..\..\src\rcv\tersus.c" Configuration="Debug" Class="ProjectFile">
+                <DeployFile LocalName="..\..\..\src\rtcm2.c" Configuration="Release" Class="ProjectFile">
                     <Platform Name="Win32">
                         <RemoteDir>.\</RemoteDir>
                         <Overwrite>true</Overwrite>
@@ -353,8 +346,13 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin64\cc64230mt.dll" Class="DependencyModule"/>
                 <DeployFile LocalName="..\..\..\src\rcv\ublox.c" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="..\convbin.c" Configuration="Release" Class="ProjectFile">
                     <Platform Name="Win32">
                         <RemoteDir>.\</RemoteDir>
                         <Overwrite>true</Overwrite>
@@ -367,24 +365,15 @@
                     </Platform>
                 </DeployFile>
                 <DeployFile LocalName="..\..\..\src\ephemeris.c" Configuration="Release" Class="ProjectFile"/>
-                <DeployFile LocalName="..\..\..\src\rcv\javad.c" Configuration="Release" Class="ProjectFile"/>
-                <DeployFile LocalName="..\..\..\src\rcv\rt17.c" Configuration="Release" Class="ProjectFile"/>
-                <DeployFile LocalName="..\..\..\src\rtcm3.c" Configuration="Release" Class="ProjectFile"/>
-                <DeployFile LocalName="..\..\..\src\convkml.c" Configuration="Release" Class="ProjectFile"/>
-                <DeployFile LocalName="..\..\..\src\rtcm.c" Configuration="Release" Class="ProjectFile"/>
-                <DeployFile LocalName="..\..\..\src\rcv\nvs.c" Configuration="Release" Class="ProjectFile"/>
-                <DeployFile LocalName="Debug_Build\_convbin.tds" Configuration="Debug" Class="DebugSymbols">
-                    <Platform Name="Win32">
-                        <RemoteName>_convbin.tds</RemoteName>
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
-                <DeployFile LocalName="..\..\..\src\convkml.c" Configuration="Debug" Class="ProjectFile">
+                <DeployFile LocalName="..\..\..\src\rcv\binex.c" Configuration="Release" Class="ProjectFile">
                     <Platform Name="Win32">
                         <RemoteDir>.\</RemoteDir>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
+                <DeployFile LocalName="..\..\..\src\rcv\javad.c" Configuration="Release" Class="ProjectFile"/>
+                <DeployFile LocalName="..\..\..\src\rtcm3.c" Configuration="Release" Class="ProjectFile"/>
+                <DeployFile LocalName="..\..\..\src\rtcm.c" Configuration="Release" Class="ProjectFile"/>
                 <DeployFile LocalName="..\..\..\src\qzslex.c" Configuration="Debug" Class="ProjectFile">
                     <Platform Name="Win32">
                         <RemoteDir>.\</RemoteDir>
@@ -418,14 +407,167 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="..\..\..\src\ephemeris.c" Configuration="Debug" Class="ProjectFile">
+                <DeployFile LocalName="..\..\..\src\convrnx.c" Configuration="Release" Class="ProjectFile"/>
+                <DeployFile LocalName="$(BDS)\Redist\osx32\libcgsqlite3.dylib" Class="DependencyModule">
+                    <Platform Name="OSX32">
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="..\..\..\src\rcv\gw10.c" Configuration="Release" Class="ProjectFile"/>
+                <DeployFile LocalName="..\..\..\src\ionex.c" Configuration="Release" Class="ProjectFile">
                     <Platform Name="Win32">
                         <RemoteDir>.\</RemoteDir>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="$(BDS)\Redist\osx32\libcgsqlite3.dylib" Class="DependencyModule">
+                <DeployFile LocalName="$(BDS)\Redist\osx32\libcgunwind.1.0.dylib" Class="DependencyModule">
                     <Platform Name="OSX32">
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="..\..\..\src\rcv\septentrio.c" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="..\..\..\src\rinex.c" Configuration="Release" Class="ProjectFile"/>
+                <DeployFile LocalName="..\..\..\src\pntpos.c" Configuration="Release" Class="ProjectFile"/>
+                <DeployFile LocalName="..\..\..\src\rcv\skytraq.c" Configuration="Release" Class="ProjectFile"/>
+                <DeployFile LocalName="Release_Build\_convbin.exe" Configuration="Release" Class="ProjectOutput"/>
+                <DeployFile LocalName="..\..\..\src\rcv\rt17.c" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="..\..\..\src\rcv\cmr.c" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="..\..\..\src\rcv\rt17.c" Configuration="Release" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="..\..\..\src\convrnx.c" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="..\..\..\src\ionex.c" Configuration="Release" Class="ProjectFile"/>
+                <DeployFile LocalName="..\..\..\src\sbas.c" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="..\..\..\src\rcv\novatel.c" Configuration="Release" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="..\..\..\src\rtcm3.c" Configuration="Release" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="..\..\..\src\rcv\nvs.c" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\bin\cc32230.dll" Class="DependencyModule"/>
+                <DeployFile LocalName="Debug_Build\_convbin.exe" Configuration="Debug" Class="ProjectOutput">
+                    <Platform Name="Win32">
+                        <RemoteName>_convbin.exe</RemoteName>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="..\..\..\src\rcv\ss2.c" Configuration="Release" Class="ProjectFile"/>
+                <DeployFile LocalName="..\..\..\src\rtkcmn.c" Configuration="Release" Class="ProjectFile"/>
+                <DeployFile LocalName="..\..\..\src\preceph.c" Configuration="Release" Class="ProjectFile"/>
+                <DeployFile LocalName="..\..\..\src\rcvraw.c" Configuration="Release" Class="ProjectFile"/>
+                <DeployFile LocalName="..\..\..\src\rcv\binex.c" Configuration="Release" Class="ProjectFile"/>
+                <DeployFile LocalName="..\..\..\src\qzslex.c" Configuration="Release" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="..\..\..\src\rcv\tersus.c" Configuration="Release" Class="ProjectFile"/>
+                <DeployFile LocalName="..\..\..\src\preceph.c" Configuration="Release" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\bin64\cc64230.dll" Class="DependencyModule"/>
+                <DeployFile LocalName="..\..\..\src\rcv\septentrio.c" Configuration="Release" Class="ProjectFile"/>
+                <DeployFile LocalName="..\..\..\src\rcv\novatel.c" Configuration="Release" Class="ProjectFile"/>
+                <DeployFile LocalName="..\..\..\src\rcv\javad.c" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="..\..\..\src\rcv\septentrio.c" Configuration="Release" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="..\..\..\src\rtcm3.c" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="..\..\..\src\rtcm3e.c" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="..\..\..\src\rtcm3e.c" Configuration="Release" Class="ProjectFile"/>
+                <DeployFile LocalName="..\..\..\src\rcv\tersus.c" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="..\..\..\src\rcv\skytraq.c" Configuration="Release" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin64\cc64230mt.dll" Class="DependencyModule"/>
+                <DeployFile LocalName="..\..\..\src\rcv\rt17.c" Configuration="Release" Class="ProjectFile"/>
+                <DeployFile LocalName="..\..\..\src\convkml.c" Configuration="Release" Class="ProjectFile"/>
+                <DeployFile LocalName="..\..\..\src\rcv\nvs.c" Configuration="Release" Class="ProjectFile"/>
+                <DeployFile LocalName="..\..\..\src\convkml.c" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="..\..\..\src\rcv\nvs.c" Configuration="Release" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="..\..\..\src\sbas.c" Configuration="Release" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
@@ -435,15 +577,26 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="..\..\..\src\rcv\gw10.c" Configuration="Release" Class="ProjectFile"/>
-                <DeployFile LocalName="..\..\..\src\rcv\cmr.c" Configuration="Release" Class="ProjectFile"/>
-                <DeployFile LocalName="..\..\..\src\convrnx.c" Configuration="Release" Class="ProjectFile"/>
-                <DeployFile LocalName="$(BDS)\Redist\osx32\libcgunwind.1.0.dylib" Class="DependencyModule">
-                    <Platform Name="OSX32">
+                <DeployFile LocalName="..\..\..\src\rcvraw.c" Configuration="Release" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="..\..\..\src\rcv\septentrio.c" Configuration="Debug" Class="ProjectFile">
+                <DeployFile LocalName="..\..\..\src\rtkcmn.c" Configuration="Release" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="..\..\..\src\ephemeris.c" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="..\..\..\src\rcv\cmr.c" Configuration="Release" Class="ProjectFile"/>
+                <DeployFile LocalName="..\..\..\src\rcv\ublox.c" Configuration="Release" Class="ProjectFile">
                     <Platform Name="Win32">
                         <RemoteDir>.\</RemoteDir>
                         <Overwrite>true</Overwrite>
@@ -461,7 +614,6 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="..\..\..\src\rinex.c" Configuration="Release" Class="ProjectFile"/>
                 <DeployFile LocalName="..\convbin.c" Configuration="Debug" Class="ProjectFile">
                     <Platform Name="Win32">
                         <RemoteDir>.\</RemoteDir>
@@ -473,30 +625,15 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="..\..\..\src\rcv\skytraq.c" Configuration="Release" Class="ProjectFile"/>
                 <DeployFile LocalName="..\..\..\src\rtcm2.c" Configuration="Release" Class="ProjectFile"/>
                 <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin\cc32230mt.dll" Class="DependencyModule"/>
-                <DeployFile LocalName="..\..\..\src\pntpos.c" Configuration="Release" Class="ProjectFile"/>
                 <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\bin64\cc64250.dll" Class="DependencyModule">
                     <Platform Name="Win64">
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
                 <DeployFile LocalName="..\..\..\src\sbas.c" Configuration="Release" Class="ProjectFile"/>
-                <DeployFile LocalName="Release_Build\_convbin.exe" Configuration="Release" Class="ProjectOutput"/>
                 <DeployFile LocalName="..\..\..\src\rcv\novatel.c" Configuration="Debug" Class="ProjectFile">
-                    <Platform Name="Win32">
-                        <RemoteDir>.\</RemoteDir>
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
-                <DeployFile LocalName="..\..\..\src\rcv\rt17.c" Configuration="Debug" Class="ProjectFile">
-                    <Platform Name="Win32">
-                        <RemoteDir>.\</RemoteDir>
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
-                <DeployFile LocalName="..\..\..\src\rcv\cmr.c" Configuration="Debug" Class="ProjectFile">
                     <Platform Name="Win32">
                         <RemoteDir>.\</RemoteDir>
                         <Overwrite>true</Overwrite>
@@ -515,26 +652,31 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="..\..\..\src\convrnx.c" Configuration="Debug" Class="ProjectFile">
+                <DeployFile LocalName="..\..\..\src\rcv\cmr.c" Configuration="Release" Class="ProjectFile">
                     <Platform Name="Win32">
                         <RemoteDir>.\</RemoteDir>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="..\..\..\src\ionex.c" Configuration="Release" Class="ProjectFile"/>
                 <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin\cc32250mt.dll" Class="DependencyModule">
                     <Platform Name="Win32">
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="..\..\..\src\sbas.c" Configuration="Debug" Class="ProjectFile">
+                <DeployFile LocalName="..\..\..\src\rinex.c" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="..\..\..\src\rtcm3e.c" Configuration="Release" Class="ProjectFile">
                     <Platform Name="Win32">
                         <RemoteDir>.\</RemoteDir>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
                 <DeployFile LocalName="..\..\..\src\rcv\ublox.c" Configuration="Release" Class="ProjectFile"/>
-                <DeployFile LocalName="..\..\..\src\rinex.c" Configuration="Debug" Class="ProjectFile">
+                <DeployFile LocalName="..\..\..\src\rcv\ss2.c" Configuration="Release" Class="ProjectFile">
                     <Platform Name="Win32">
                         <RemoteDir>.\</RemoteDir>
                         <Overwrite>true</Overwrite>
@@ -545,17 +687,16 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="..\..\..\src\rcv\nvs.c" Configuration="Debug" Class="ProjectFile">
+                <DeployFile LocalName="..\..\..\src\rcv\javad.c" Configuration="Release" Class="ProjectFile">
                     <Platform Name="Win32">
                         <RemoteDir>.\</RemoteDir>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
                 <DeployFile LocalName="..\..\..\src\rcv\crescent.c" Configuration="Release" Class="ProjectFile"/>
-                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\bin\cc32230.dll" Class="DependencyModule"/>
-                <DeployFile LocalName="Debug_Build\_convbin.exe" Configuration="Debug" Class="ProjectOutput">
+                <DeployFile LocalName="..\..\..\src\rtcm.c" Configuration="Release" Class="ProjectFile">
                     <Platform Name="Win32">
-                        <RemoteName>_convbin.exe</RemoteName>
+                        <RemoteDir>.\</RemoteDir>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
@@ -565,7 +706,12 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="..\..\..\src\rcv\ss2.c" Configuration="Release" Class="ProjectFile"/>
+                <DeployFile LocalName="..\..\..\src\rcv\gw10.c" Configuration="Release" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
                 <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin\cc32c250mt.dll" Class="DependencyModule">
                     <Platform Name="Win32">
                         <Overwrite>true</Overwrite>
@@ -576,7 +722,6 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="..\..\..\src\rtkcmn.c" Configuration="Release" Class="ProjectFile"/>
                 <DeployFile Condition="'$(DynamicRTL)'=='true'" LocalName="$(BDS)\Redist\osx32\libcgcrtl.dylib" Class="DependencyModule">
                     <Platform Name="OSX32">
                         <Overwrite>true</Overwrite>
@@ -587,43 +732,66 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="..\..\..\src\rcvraw.c" Configuration="Release" Class="ProjectFile"/>
-                <DeployFile LocalName="..\..\..\src\rcv\binex.c" Configuration="Release" Class="ProjectFile"/>
-                <DeployFile LocalName="..\..\..\src\preceph.c" Configuration="Release" Class="ProjectFile"/>
+                <DeployFile LocalName="..\..\..\src\rinex.c" Configuration="Release" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
                 <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin64\cc64250mt.dll" Class="DependencyModule">
                     <Platform Name="Win64">
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="..\..\..\src\rcv\tersus.c" Configuration="Release" Class="ProjectFile"/>
                 <DeployFile LocalName="..\..\..\src\ionex.c" Configuration="Debug" Class="ProjectFile">
                     <Platform Name="Win32">
                         <RemoteDir>.\</RemoteDir>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\bin64\cc64230.dll" Class="DependencyModule"/>
-                <DeployFile LocalName="..\..\..\src\rcv\septentrio.c" Configuration="Release" Class="ProjectFile"/>
+                <DeployFile LocalName="Release_Build\_convbin.exe" Configuration="Release" Class="ProjectOutput">
+                    <Platform Name="Win32">
+                        <RemoteName>_convbin.exe</RemoteName>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="..\..\..\src\rcv\tersus.c" Configuration="Release" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="..\..\..\src\pntpos.c" Configuration="Release" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
                 <DeployFile LocalName="..\..\..\src\rtcm.c" Configuration="Debug" Class="ProjectFile">
                     <Platform Name="Win32">
                         <RemoteDir>.\</RemoteDir>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="..\..\..\src\rcv\novatel.c" Configuration="Release" Class="ProjectFile"/>
-                <DeployFile LocalName="..\..\..\src\rcv\javad.c" Configuration="Debug" Class="ProjectFile">
+                <DeployFile LocalName="..\..\..\src\convkml.c" Configuration="Release" Class="ProjectFile">
                     <Platform Name="Win32">
                         <RemoteDir>.\</RemoteDir>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="..\..\..\src\rtcm3.c" Configuration="Debug" Class="ProjectFile">
+                <DeployFile LocalName="..\..\..\src\rcv\crescent.c" Configuration="Release" Class="ProjectFile">
                     <Platform Name="Win32">
                         <RemoteDir>.\</RemoteDir>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="..\..\..\src\rtcm3e.c" Configuration="Debug" Class="ProjectFile">
+                <DeployFile LocalName="..\..\..\src\ephemeris.c" Configuration="Release" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="..\..\..\src\convrnx.c" Configuration="Release" Class="ProjectFile">
                     <Platform Name="Win32">
                         <RemoteDir>.\</RemoteDir>
                         <Overwrite>true</Overwrite>

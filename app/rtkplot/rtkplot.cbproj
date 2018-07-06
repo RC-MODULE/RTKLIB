@@ -377,15 +377,6 @@
         <None Include="..\..\src\rcv\DGrX.hpp">
             <BuildOrder>63</BuildOrder>
         </None>
-        <CppCompile Include="..\..\src\rcv\DGrX_rev_4.cpp">
-            <BuildOrder>64</BuildOrder>
-        </CppCompile>
-        <None Include="..\..\src\rcv\DGrX_rev_4.hpp">
-            <BuildOrder>65</BuildOrder>
-        </None>
-        <None Include="..\..\src\rcv\DGrX_rev_9.hpp">
-            <BuildOrder>66</BuildOrder>
-        </None>
         <CppCompile Include="..\..\src\rcv\gw10.c">
             <BuildOrder>36</BuildOrder>
             <BuildOrder>18</BuildOrder>
@@ -589,6 +580,18 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
+                <DeployFile LocalName="..\..\src\rcv\novatel.c" Configuration="Release" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="..\..\src\rtcm3e.c" Configuration="Release" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
                 <DeployFile LocalName="..\..\src\ephemeris.c" Configuration="Release" Class="ProjectFile">
                     <Platform Name="Win32">
                         <RemoteDir>.\</RemoteDir>
@@ -603,18 +606,6 @@
                 </DeployFile>
                 <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin\cc32250mt.dll" Class="DependencyModule">
                     <Platform Name="Win32">
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
-                <DeployFile LocalName="..\..\src\rtcm3e.c" Configuration="Release" Class="ProjectFile">
-                    <Platform Name="Win32">
-                        <RemoteDir>.\</RemoteDir>
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
-                <DeployFile LocalName="..\..\src\rcv\novatel.c" Configuration="Release" Class="ProjectFile">
-                    <Platform Name="Win32">
-                        <RemoteDir>.\</RemoteDir>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>

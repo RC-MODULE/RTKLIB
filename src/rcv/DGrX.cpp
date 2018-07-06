@@ -6,40 +6,44 @@
 #endif
 #endif
 
-extern "C" int input_dgrx_4(raw_t *raw, unsigned char data) {
-	DGrX::GetWnFromSystem();
-	if (DGrX::byte_sync.EmplaceData(data)) {
-		return DGrX::rev_4::ConvertToRaw(DGrX_rev_4::ReadStruct(DGrX::byte_sync.GetMessageData()).get(), raw);
+extern "C" int input_dgrx(raw_t *raw, unsigned char data) {
+	try {
+		trace(4, "input_dgrx:\n");
+		DataGridTools::GetWnFromSystem();
+		if (DataGridTools::byte_sync.EmplaceData(data)) 
+			return DataGridTools::ConvertToRaw(DataGridProtocol::ReadStruct(DataGridTools::byte_sync.GetMessageData()).get(), raw);
+		
+		return DataGridTools::ReturnCodes::no_message;
 	}
-	return DGrX::ReturnCodes::no_message;
-	//return error_message;
-}
-
-extern "C" int input_dgrx_9(raw_t *raw, unsigned char data) {
-	return DGrX::ReturnCodes::error_message;
-}
-
-extern "C" int input_dgrx_4f(raw_t *raw, FILE *fp) {
-	//trace(4, "input_dgr8f:\n");
-	DGrX::GetWnFromFile(fp);
-
-	std::ifstream log_file(fp);
-	std::uint8_t last_byte = 0;
-	for (int i = 0;; ++i) {
-		log_file >> last_byte;
-		if (log_file.eof())
-			return -2;
-		if (last_byte == 0x44)
-			if (DGrX_rev_4::Sync(log_file))
-				break;
-		if (i >= 4096)
-			return 0;
-
+	catch (...) {
+		return DataGridTools::ReturnCodes::error_message;
 	}
-
-	return DGrX::rev_4::ConvertToRaw(DGrX_rev_4::ReadStruct(log_file).get(), raw, fp);
 }
 
-extern "C" int input_dgrx_9f(raw_t *raw, FILE *fp) {
-	return DGrX::ReturnCodes::error_message;
+extern "C" int input_dgrxf(raw_t *raw, FILE *fp) {
+	try {
+		trace(4, "input_dgrxf:\n");
+		DataGridTools::GetWnFromFile(fp);
+
+		std::ifstream log_file(fp);
+		std::uint8_t last_byte = 0;
+		for (int i = 0;; ++i) {
+			log_file >> last_byte;
+			if (log_file.eof())
+				return -2;
+
+			if (last_byte == 0x44)
+				if (DataGridProtocol::Sync(log_file))
+					break;
+
+			if (i >= 4096)
+				return 0;
+
+		}
+
+		return DataGridTools::ConvertToRaw(DataGridProtocol::ReadStruct(log_file).get(), raw, fp);
+	}
+	catch (...) {
+		return DataGridTools::ReturnCodes::error_message;
+	}
 }

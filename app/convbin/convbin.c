@@ -76,6 +76,9 @@ static const char *help[]={
 " BINEX                 : big-endian, regular CRC, forward record (0xE2)",
 "                         0x01-01,0x01-02,0x01-03,0x01-04,0x01-06,0x7f-05",
 " Trimble               : RT17",
+" RC Module             : DataGrid protocol, supported messages: ",
+"                         Glonass ephemeris (0x65), GPS ephemeris (0x69)",
+"                         Raw measurement data (0x72), Measured position (0x78)",
 " Septentrio            : SBF",
 " CMR                   : CMR Type 0, 1, 2, 3, 4, CMR+ Type 1, 2, 3",
 " TERSUS                : RANGECMPB, RANGEB, GPSEPHEMB, GLOEPHEMERISB,",
@@ -104,6 +107,7 @@ static const char *help[]={
 "                  nvs  = NVS NV08C BINR",
 "                  binex= BINEX",
 "                  rt17 = Trimble RT17",
+"                  dgr  = RC Module DataGrid",
 "                  sbf  = Septentrio SBF",
 "                  cmr  = CMR/CMR+",
 "                  tersus= TERSUS",
@@ -160,6 +164,7 @@ static const char *help[]={
 "     *.jps         Javad",
 "     *.bnx,*binex  BINEX",
 "     *.rt17        Trimble RT17",
+"     *.dgr         RC Module DataGrid",
 "     *.sbf         Septentrio SBF",
 "     *.cmr         CMR/CMR+",
 "     *.trs         TERSUS",
@@ -507,8 +512,7 @@ static int cmdopts(int argc, char **argv, rnxopt_t *opt, char **ifile,
         else if (!strcmp(fmt,"nvs"  )) format=STRFMT_NVS;
         else if (!strcmp(fmt,"binex")) format=STRFMT_BINEX;
 		else if (!strcmp(fmt, "rt17")) format = STRFMT_RT17;
-		else if (!strcmp(fmt, "dgr4")) format = STRFMT_DGr4;
-		else if (!strcmp(fmt, "dgr9")) format = STRFMT_DGr9;
+		else if (!strcmp(fmt, "dgr4")) format = STRFMT_DGr;
         else if (!strcmp(fmt,"sbf"  )) format=STRFMT_SEPT;
         else if (!strcmp(fmt,"cmr"  )) format=STRFMT_CMR;
         else if (!strcmp(fmt,"tersus")) format=STRFMT_TERSUS;
@@ -528,8 +532,7 @@ static int cmdopts(int argc, char **argv, rnxopt_t *opt, char **ifile,
         else if (!strcmp(p,".bnx"  ))  format=STRFMT_BINEX;
         else if (!strcmp(p,".binex"))  format=STRFMT_BINEX;
         else if (!strcmp(p,".rt17" ))  format=STRFMT_RT17;
-		else if (!strcmp(p, ".dgr4"))   format = STRFMT_DGr4;
-		else if (!strcmp(p, ".dgr9"))   format = STRFMT_DGr9;
+		else if (!strcmp(p, ".dgr"))   format = STRFMT_DGr;
         else if (!strcmp(p,".sbf"  ))  format=STRFMT_SEPT;
         else if (!strcmp(p,".cmr"  ))  format=STRFMT_CMR;
         else if (!strcmp(p,".trs"  ))  format=STRFMT_TERSUS;

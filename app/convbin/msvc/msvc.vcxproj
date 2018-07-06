@@ -151,7 +151,6 @@
     <ClCompile Include="..\..\..\src\rcv\cmr.c" />
     <ClCompile Include="..\..\..\src\rcv\crescent.c" />
     <ClCompile Include="..\..\..\src\rcv\DGrX.cpp" />
-    <ClCompile Include="..\..\..\src\rcv\DGrX_rev_4.cpp" />
     <ClCompile Include="..\..\..\src\rcv\gw10.c" />
     <ClCompile Include="..\..\..\src\rcv\javad.c" />
     <ClCompile Include="..\..\..\src\rcv\novatel.c" />
@@ -177,8 +176,6 @@
   <ItemGroup>
     <ClInclude Include="..\..\..\src\dirent.h" />
     <ClInclude Include="..\..\..\src\rcv\DGrX.hpp" />
-    <ClInclude Include="..\..\..\src\rcv\DGrX_rev_4.hpp" />
-    <ClInclude Include="..\..\..\src\rcv\DGrX_rev_9.hpp" />
     <ClInclude Include="..\..\..\src\rtklib.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

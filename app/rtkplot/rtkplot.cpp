@@ -43,29 +43,29 @@
 
 
 USEFORM("..\appcmn\tcpoptdlg.cpp", TcpOptDialog);
-USEFORM("..\appcmn\serioptdlg.cpp", SerialOptDialog);
-USEFORM("..\appcmn\refdlg.cpp", RefDialog);
 USEFORM("..\appcmn\timedlg.cpp", TimeDialog);
+USEFORM("..\appcmn\refdlg.cpp", RefDialog);
+USEFORM("..\appcmn\serioptdlg.cpp", SerialOptDialog);
 USEFORM("..\appcmn\vieweropt.cpp", ViewerOptDialog);
-USEFORM("..\appcmn\viewer.cpp", TextViewer);
-USEFORM("..\appcmn\tspandlg.cpp", SpanDialog);
-USEFORM("..\appcmn\keydlg.cpp", KeyDialog);
-USEFORM("..\appcmn\confdlg.cpp", ConfDialog);
-USEFORM("..\appcmn\cmdoptdlg.cpp", CmdOptDialog);
-USEFORM("..\appcmn\aboutdlg.cpp", AboutDialog);
-USEFORM("..\appcmn\console.cpp", Console);
-USEFORM("..\appcmn\ftpoptdlg.cpp", FtpOptDialog);
-USEFORM("..\appcmn\fileoptdlg.cpp", FileOptDialog);
 USEFORM("conndlg.cpp", ConnectDialog);
-USEFORM("pntdlg.cpp", PntDialog);
-USEFORM("plotopt.cpp", PlotOptDialog);
-USEFORM("vmapdlg.cpp", VecMapDialog);
-USEFORM("skydlg.cpp", SkyImgDialog);
-USEFORM("satdlg.cpp", SatDialog);
-USEFORM("plotmain.cpp", Plot);
-USEFORM("mapdlg.cpp", MapAreaDialog);
-USEFORM("gmview.cpp", GoogleMapView);
+USEFORM("..\appcmn\tspandlg.cpp", SpanDialog);
+USEFORM("..\appcmn\viewer.cpp", TextViewer);
+USEFORM("..\appcmn\confdlg.cpp", ConfDialog);
+USEFORM("..\appcmn\console.cpp", Console);
+USEFORM("..\appcmn\aboutdlg.cpp", AboutDialog);
+USEFORM("..\appcmn\cmdoptdlg.cpp", CmdOptDialog);
+USEFORM("..\appcmn\keydlg.cpp", KeyDialog);
+USEFORM("..\appcmn\fileoptdlg.cpp", FileOptDialog);
+USEFORM("..\appcmn\ftpoptdlg.cpp", FtpOptDialog);
 USEFORM("geview.cpp", GoogleEarthView);
+USEFORM("satdlg.cpp", SatDialog);
+USEFORM("pntdlg.cpp", PntDialog);
+USEFORM("skydlg.cpp", SkyImgDialog);
+USEFORM("vmapdlg.cpp", VecMapDialog);
+USEFORM("gmview.cpp", GoogleMapView);
+USEFORM("mapdlg.cpp", MapAreaDialog);
+USEFORM("plotmain.cpp", Plot);
+USEFORM("plotopt.cpp", PlotOptDialog);
 //---------------------------------------------------------------------------
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 {
