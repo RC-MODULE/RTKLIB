@@ -1622,7 +1622,7 @@ namespace DataGridTools {
 	}
 
 	int DecodeRawData(DataGridProtocol::L5E5G3RawMeasurement *message, raw_t *raw) {
-#if 0
+#if 1
 		if (used_svs.empty()) 
 			raw->obs.n = 0;
 		
@@ -1745,7 +1745,7 @@ namespace DataGridTools {
 			geph.taun = message->Tn();
 			geph.gamn = message->Gn();
 			geph.dtaun = 0;
-			raw->nav.glo_fcn[cur_sv] = data.litera + 8;
+			//raw->nav.glo_fcn[cur_sv] = data.litera + 8;
 
 			return ReturnCodes::input_ephemeris;
 		}

@@ -8,7 +8,7 @@
 
 extern "C" int input_dgrx(raw_t *raw, unsigned char data) {
 	try {
-		trace(4, "input_dgrx:\n");
+		//trace(4, "input_dgrx:\n");
 		DataGridTools::GetWnFromSystem();
 		if (DataGridTools::byte_sync.EmplaceData(data)) 
 			return DataGridTools::ConvertToRaw(DataGridProtocol::ReadStruct(DataGridTools::byte_sync.GetMessageData()).get(), raw);
@@ -22,7 +22,7 @@ extern "C" int input_dgrx(raw_t *raw, unsigned char data) {
 
 extern "C" int input_dgrxf(raw_t *raw, FILE *fp) {
 	try {
-		trace(4, "input_dgrxf:\n");
+		//trace(4, "input_dgrxf:\n");
 		DataGridTools::GetWnFromFile(fp);
 
 		std::ifstream log_file(fp);
