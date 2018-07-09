@@ -308,10 +308,10 @@
             <BuildOrder>22</BuildOrder>
             <BuildOrder>12</BuildOrder>
         </CppCompile>
-        <FormResources Include="convmain.dfm"/>
         <FormResources Include="codeopt.dfm"/>
-        <FormResources Include="convopt.dfm"/>
         <FormResources Include="..\appcmn\vieweropt.dfm"/>
+        <FormResources Include="convmain.dfm"/>
+        <FormResources Include="convopt.dfm"/>
         <FormResources Include="..\appcmn\confdlg.dfm"/>
         <FormResources Include="..\appcmn\aboutdlg.dfm"/>
         <FormResources Include="..\appcmn\keydlg.dfm"/>
@@ -413,15 +413,15 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="..\..\src\rtkcmn.c" Configuration="Debug" Class="ProjectFile">
+                <DeployFile LocalName="..\..\src\ephemeris.c" Configuration="Release" Class="ProjectFile">
                     <Platform Name="Win32">
                         <RemoteDir>.\</RemoteDir>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="Debug_Build\rtkconv.exe" Configuration="Debug" Class="ProjectOutput">
+                <DeployFile LocalName="..\..\src\rtkcmn.c" Configuration="Debug" Class="ProjectFile">
                     <Platform Name="Win32">
-                        <RemoteName>rtkconv.exe</RemoteName>
+                        <RemoteDir>.\</RemoteDir>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
@@ -437,9 +437,9 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="..\..\src\rtcm2.c" Configuration="Release" Class="ProjectFile">
+                <DeployFile LocalName="Debug_Build\rtkconv.exe" Configuration="Debug" Class="ProjectOutput">
                     <Platform Name="Win32">
-                        <RemoteDir>.\</RemoteDir>
+                        <RemoteName>rtkconv.exe</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
@@ -449,7 +449,7 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="..\..\src\ephemeris.c" Configuration="Release" Class="ProjectFile">
+                <DeployFile LocalName="..\..\src\rtcm2.c" Configuration="Release" Class="ProjectFile">
                     <Platform Name="Win32">
                         <RemoteDir>.\</RemoteDir>
                         <Overwrite>true</Overwrite>

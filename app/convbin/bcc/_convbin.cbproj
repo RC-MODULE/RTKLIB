@@ -137,7 +137,7 @@
         <BCC_waus>false</BCC_waus>
         <BCC_wpia>false</BCC_wpia>
         <VerInfo_Locale>1033</VerInfo_Locale>
-        <Debugger_RunParams>-r dgr4 -v 3.03 -od -scan G:\00000001.bin</Debugger_RunParams>
+        <Debugger_RunParams>-scan -f 9 -r dgr4 -v 3.03 -od -os -oi -ot -ol -te 2018/06/29 11:00:00 &quot;G:\Visual Studio\RTKLIB\bin\00000001.bin&quot;</Debugger_RunParams>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2_Win64)'!=''">
         <BCC_Defines>NDEBUG;$(BCC_Defines);$(BCC_Defines)</BCC_Defines>

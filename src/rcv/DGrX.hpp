@@ -27,6 +27,7 @@ class DataGridProtocol {
 public:
 	enum class MID : std::uint8_t {
 		CommandAcknowledgement = 0x2B,
+		L5E5G3RawMeasurement = 0x35,
 		CommandNAcknowledgement = 0x3F,
 		AlmanacStatus = 0x61,
 		DebugData = 0x62,
@@ -802,7 +803,7 @@ public:
 				trm,
 				npa = 4
 			};
-			LimitType limit_type;
+			LimitType limit_type = LimitType::user_defined;
 			std::uint16_t alert_limit = 0;
 			std::uint16_t : 16;
 		} data;
@@ -1184,6 +1185,75 @@ public:
 		}
 	};
 
+	struct L5E5G3RawMeasurement final : public Message {
+	public:
+		enum class SignalID : std::uint8_t {
+			gps_l5 = 0,
+			glonass_g3,
+			galileo_e5a = 3,
+			galileo_e5b,
+		};
+	private:
+		friend DataGridProtocol;
+		struct Data {
+			std::uint8_t sv_number = 0;
+			SignalID signal_id = SignalID::gps_l5;
+			std::uint8_t pll_update_cnt = 0;
+			std::uint8_t snr = 0;
+			std::uint8_t : 8;
+			std::array<std::uint8_t, 6> l5_phase;
+			std::uint32_t l5_pseudorange = 0;
+		} data;
+		static_assert(sizeof(DataGridProtocol::L5E5G3RawMeasurement::Data) == 15, "L5E5G3RawMeasurement size is wrong");
+
+		void Preprocess() {
+			SwapEndian(data.l5_phase);
+			SwapEndian(data.l5_pseudorange);
+		}
+
+	public:
+		L5E5G3RawMeasurement() = default;
+
+		template <typename T>
+		L5E5G3RawMeasurement(T &file) {
+			Read(file);
+		}
+
+		template <typename T>
+		L5E5G3RawMeasurement(const std::vector<T> &message) {
+			CopyData(message, data);
+			Preprocess();
+		}
+
+		virtual MID GetMID() final {
+			return MID::L5E5G3RawMeasurement;
+		}
+
+		template <typename T>
+		void Read(T &file) {
+			file.read(reinterpret_cast<char*>(&data), sizeof(data));
+			Preprocess();
+		}
+
+		Data& GetData() {
+			return data;
+		}
+
+		double L5Phase() {
+			std::int64_t phase_int = 0;
+			for (std::size_t i = 0; i < data.l5_phase.size(); ++i)
+				phase_int |= static_cast<std::int64_t>(data.l5_phase[i]) << (i * 8);
+
+			phase_int <<= 16;
+			phase_int >>= 16;
+			return phase_int * std::pow(2, -12);
+		}
+
+		double L5Pseudorange() {
+			return data.l5_pseudorange * std::pow(10, -10);
+		}
+	};
+
 	std::vector<std::unique_ptr<Message>> ReadLog(const std::string &filename) {
 		std::vector<std::unique_ptr<Message>> tmp_vector;
 
@@ -1216,40 +1286,30 @@ public:
 		{
 		case DataGridProtocol::MID::CommandAcknowledgement:
 			return std::unique_ptr<Message>(new CommandAcknowledgement(log_data));
-			break;
+		case DataGridProtocol::MID::L5E5G3RawMeasurement:
+			return std::unique_ptr<Message>(new L5E5G3RawMeasurement(log_data));
 		case DataGridProtocol::MID::CommandNAcknowledgement:
 			return std::unique_ptr<Message>(new CommandNAcknowledgement(log_data));
-			break;
 		case DataGridProtocol::MID::AlmanacStatus:
 			return std::unique_ptr<Message>(new AlmanacStatus(log_data));
-			break;
 		case DataGridProtocol::MID::ClockStatus:
 			return std::unique_ptr<Message>(new ClockStatus(log_data));
-			break;
 		case DataGridProtocol::MID::GLONASSEphemerisData:
 			return std::unique_ptr<Message>(new GLONASSEphemerisData(log_data));
-			break;
 		case DataGridProtocol::MID::LLAOutputMessage:
 			return std::unique_ptr<Message>(new LLAOutputMessage(log_data));
-			break;
 		case DataGridProtocol::MID::GPSEphemerisData:
 			return std::unique_ptr<Message>(new GPSEphemerisData(log_data));
-			break;
 		case DataGridProtocol::MID::RAIMAlertLimit:
 			return std::unique_ptr<Message>(new RAIMAlertLimit(log_data));
-			break;
 		case DataGridProtocol::MID::RawMeasurementData:
 			return std::unique_ptr<Message>(new RawMeasurementData(log_data));
-			break;
 		case DataGridProtocol::MID::ExcludedSV:
 			return std::unique_ptr<Message>(new ExcludedSV(log_data));
-			break;
 		case DataGridProtocol::MID::FirmwareSchematicVersion:
 			return std::unique_ptr<Message>(new FirmwareSchematicVersion(log_data));
-			break;
 		case DataGridProtocol::MID::MeasuredPositionData:
 			return std::unique_ptr<Message>(new MeasuredPositionData(log_data));
-			break;
 		default:
 			break;
 		}
@@ -1266,40 +1326,30 @@ public:
 		{
 		case DataGridProtocol::MID::CommandAcknowledgement:
 			return std::unique_ptr<Message>(new CommandAcknowledgement(log_file));
-			break;
+		case DataGridProtocol::MID::L5E5G3RawMeasurement:
+			return std::unique_ptr<Message>(new L5E5G3RawMeasurement(log_file));
 		case DataGridProtocol::MID::CommandNAcknowledgement:
 			return std::unique_ptr<Message>(new CommandNAcknowledgement(log_file));
-			break;
 		case DataGridProtocol::MID::AlmanacStatus:
 			return std::unique_ptr<Message>(new AlmanacStatus(log_file));
-			break;
 		case DataGridProtocol::MID::ClockStatus:
 			return std::unique_ptr<Message>(new ClockStatus(log_file));
-			break;
 		case DataGridProtocol::MID::GLONASSEphemerisData:
 			return std::unique_ptr<Message>(new GLONASSEphemerisData(log_file));
-			break;
 		case DataGridProtocol::MID::LLAOutputMessage:
 			return std::unique_ptr<Message>(new LLAOutputMessage(log_file));
-			break;
 		case DataGridProtocol::MID::GPSEphemerisData:
 			return std::unique_ptr<Message>(new GPSEphemerisData(log_file));
-			break;
 		case DataGridProtocol::MID::RAIMAlertLimit:
 			return std::unique_ptr<Message>(new RAIMAlertLimit(log_file));
-			break;
 		case DataGridProtocol::MID::RawMeasurementData:
 			return std::unique_ptr<Message>(new RawMeasurementData(log_file));
-			break;
 		case DataGridProtocol::MID::ExcludedSV:
 			return std::unique_ptr<Message>(new ExcludedSV(log_file));
-			break;
 		case DataGridProtocol::MID::FirmwareSchematicVersion:
 			return std::unique_ptr<Message>(new FirmwareSchematicVersion(log_file));
-			break;
 		case DataGridProtocol::MID::MeasuredPositionData:
 			return std::unique_ptr<Message>(new MeasuredPositionData(log_file));
-			break;
 		default:
 			break;
 		}
@@ -1321,6 +1371,7 @@ public:
 	static std::unordered_map<MID, std::size_t> GetStructSizes() {
 		std::unordered_map<MID, std::size_t> struct_sizes{
 			{ MID::CommandAcknowledgement,		sizeof(CommandAcknowledgement::Data) },
+			{ MID::L5E5G3RawMeasurement,		sizeof(L5E5G3RawMeasurement) },
 			{ MID::CommandNAcknowledgement,		sizeof(CommandNAcknowledgement::Data) },
 			{ MID::AlmanacStatus,				sizeof(AlmanacStatus::Data) },
 			{ MID::DebugData,					sizeof(DebugData::Data) },
@@ -1355,7 +1406,6 @@ namespace DataGridTools {
 	const double Pi = 4 * std::atan(1.0);
 	std::vector<std::int32_t> used_svs;
 	std::int32_t whole_1024_weeks = 0;
-	time_t latest_time = 0;
 
 	struct OverlapCounter final {
 	private:
@@ -1371,7 +1421,7 @@ namespace DataGridTools {
 		}
 
 		std::size_t Count() {
-			return count;
+			return 0*count;
 		}
 
 		void Reset() {
@@ -1414,7 +1464,12 @@ namespace DataGridTools {
 					current_byte = 0;
 			}
 			else if (current_byte == sync_sequence.size()) {
-				message_size = struct_sizes.at(static_cast<DataGridProtocol::MID>(data)) + 1;
+				if(struct_sizes.find(static_cast<DataGridProtocol::MID>(data)) != struct_sizes.end())
+					message_size = struct_sizes.at(static_cast<DataGridProtocol::MID>(data)) + 1;
+				else {
+					current_byte = 0;
+					return false;
+				}
 				if (message_size) {
 					message_data.emplace_back(data);
 					++current_byte;
@@ -1495,7 +1550,7 @@ namespace DataGridTools {
 		try {
 			if (message == nullptr || raw == nullptr)
 				throw std::runtime_error("Nullptr provided");
-
+			
 			auto& message_data = message->GetData();
 			if (static_cast<int>(message_data.fix_quality.fix_status)) {
 
@@ -1503,15 +1558,6 @@ namespace DataGridTools {
 				auto wn = message_data.wn + whole_1024_weeks + overlap_counter.Count();
 
 				raw->time = gpst2time(static_cast<int>(wn), message_data.rcv_time * 1e-3);
-				if (raw->time.time < latest_time) {
-					whole_1024_weeks = 0;
-					latest_time = 0;
-					overlap_counter.Reset();
-					rewind(fp);
-					return ReturnCodes::no_message;
-				}
-				else
-					latest_time = raw->time.time;
 
 				if (raw->obs.n) {
 					for (std::size_t i = 0; i < used_svs.size(); ++i)
@@ -1540,9 +1586,9 @@ namespace DataGridTools {
 	}
 
 	int DecodeRawData(DataGridProtocol::RawMeasurementData *message, raw_t *raw) {
-		if (used_svs.empty()) {
+		if (used_svs.empty()) 
 			raw->obs.n = 0;
-		}
+		
 		if (message == nullptr)
 			return ReturnCodes::error_message;
 
@@ -1572,6 +1618,37 @@ namespace DataGridTools {
 		else
 			raw->obs.data[cur_n].code[1] = CODE_L2C;
 
+		return ReturnCodes::no_message;
+	}
+
+	int DecodeRawData(DataGridProtocol::L5E5G3RawMeasurement *message, raw_t *raw) {
+#if 0
+		if (used_svs.empty()) 
+			raw->obs.n = 0;
+		
+		if (message == nullptr)
+			return ReturnCodes::error_message;
+
+		auto &data = message->GetData();
+		auto is_used = std::find(used_svs.begin(), used_svs.end(), data.sv_number);
+		auto cur_n = raw->obs.n;
+		if (is_used == used_svs.end()) {
+			used_svs.push_back(data.sv_number);
+			raw->obs.n++;
+		}
+		else
+			cur_n = static_cast<int>(std::distance(used_svs.begin(), is_used));
+
+		raw->obs.data->rcv = 0;
+		raw->obs.data[cur_n].sat = data.sv_number;
+
+		raw->obs.data[cur_n].L[2] = message->L5Phase();
+		raw->obs.data[cur_n].P[2] = message->L5Pseudorange() * CLIGHT;
+		raw->obs.data[cur_n].SNR[2] = static_cast<std::uint8_t>(message->GetData().snr * 4);
+		raw->obs.data[cur_n].code[2] = CODE_L5I;
+		if (data.sv_number > NSATGPS)
+			raw->obs.data[cur_n].code[2] = CODE_L3I;
+#endif
 		return ReturnCodes::no_message;
 	}
 
@@ -1683,10 +1760,13 @@ namespace DataGridTools {
 		if (message == nullptr || raw == nullptr)
 			return ReturnCodes::no_message;
 		auto type = message->GetMID();
+
 		switch (type)
 		{
 		case DataGridProtocol::MID::CommandAcknowledgement:
 			break;
+		case DataGridProtocol::MID::L5E5G3RawMeasurement:
+			return DecodeRawData(dynamic_cast<DataGridProtocol::L5E5G3RawMeasurement*>(message), raw);
 		case DataGridProtocol::MID::CommandNAcknowledgement:
 			break;
 		case DataGridProtocol::MID::AlmanacStatus:
@@ -1697,24 +1777,20 @@ namespace DataGridTools {
 			break;
 		case DataGridProtocol::MID::GLONASSEphemerisData:
 			return DecodeEphemeris(dynamic_cast<DataGridProtocol::GLONASSEphemerisData*>(message), raw);
-			break;
 		case DataGridProtocol::MID::LLAOutputMessage:
 			break;
 		case DataGridProtocol::MID::GPSEphemerisData:
 			return DecodeEphemeris(dynamic_cast<DataGridProtocol::GPSEphemerisData*>(message), raw);
-			break;
 		case DataGridProtocol::MID::RAIMAlertLimit:
 			break;
 		case DataGridProtocol::MID::RawMeasurementData:
 			return DecodeRawData(dynamic_cast<DataGridProtocol::RawMeasurementData*>(message), raw);
-			break;
 		case DataGridProtocol::MID::ExcludedSV:
 			break;
 		case DataGridProtocol::MID::FirmwareSchematicVersion:
 			break;
 		case DataGridProtocol::MID::MeasuredPositionData:
 			return DecodePosition(dynamic_cast<DataGridProtocol::MeasuredPositionData*>(message), raw, fp);
-			break;
 		default:
 			break;
 		}

@@ -409,10 +409,10 @@
         <FormResources Include="..\appcmn\maskoptdlg.dfm"/>
         <FormResources Include="..\appcmn\refdlg.dfm"/>
         <FormResources Include="..\appcmn\keydlg.dfm"/>
-        <FormResources Include="navimain.dfm"/>
-        <FormResources Include="rcvoptdlg.dfm"/>
-        <FormResources Include="naviopt.dfm"/>
         <FormResources Include="outstrdlg.dfm"/>
+        <FormResources Include="rcvoptdlg.dfm"/>
+        <FormResources Include="navimain.dfm"/>
+        <FormResources Include="naviopt.dfm"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
@@ -518,9 +518,8 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="..\..\src\ephemeris.c" Configuration="Release" Class="ProjectFile">
+                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin\cc32240mt.dll" Class="DependencyModule">
                     <Platform Name="Win32">
-                        <RemoteDir>.\</RemoteDir>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
@@ -530,8 +529,9 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin\cc32240mt.dll" Class="DependencyModule">
+                <DeployFile LocalName="..\..\src\ephemeris.c" Configuration="Release" Class="ProjectFile">
                     <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
