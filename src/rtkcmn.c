@@ -3228,7 +3228,7 @@ extern int reppath(const char *path, char *rpath, gtime_t time, const char *rov,
     
     strcpy(rpath,path);
     
-    if (!strstr(rpath,'%')) return 0;
+    if (!strstr(rpath,"%")) return 0;
     if (*rov ) stat|=repstr(rpath,"%r",rov );
     if (*base) stat|=repstr(rpath,"%b",base);
     if (time.time!=0) {
