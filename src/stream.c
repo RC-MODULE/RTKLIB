@@ -465,9 +465,8 @@ static serial_t *openserial(const char *path, int mode, char *msg)
 /* close serial --------------------------------------------------------------*/
 static void closeserial(serial_t *serial)
 {
-    tracet(3,"closeserial: dev=%d\n",serial->dev);
-
-    if (!serial) return;
+     if (!serial) return;
+	 tracet(3,"closeserial: dev=%d\n",serial->dev);
 #ifdef WIN32
     serial->state=0;
     WaitForSingleObject(serial->thread,10000);
@@ -490,8 +489,8 @@ static int readserial(serial_t *serial, unsigned char *buff, int n, char *msg)
 #else
     int nr;
 #endif
-    tracet(4,"readserial: dev=%d n=%d\n",serial->dev,n);
     if (!serial) return 0;
+    tracet(4,"readserial: dev=%d n=%d\n",serial->dev,n);
 #ifdef WIN32
     if (!ReadFile(serial->dev,buff,n,&nr,NULL)) return 0;
 #else
@@ -510,9 +509,8 @@ static int writeserial(serial_t *serial, unsigned char *buff, int n, char *msg)
 {
     int ns;
 
-    tracet(3,"writeserial: dev=%d n=%d\n",serial->dev,n);
-
     if (!serial) return 0;
+    tracet(3,"writeserial: dev=%d n=%d\n",serial->dev,n);
 #ifdef WIN32
     if ((ns=writeseribuff(serial,buff,n))<n) serial->error=1;
 #else
@@ -690,9 +688,8 @@ static file_t *openfile(const char *path, int mode, char *msg)
 /* close file ----------------------------------------------------------------*/
 static void closefile(file_t *file)
 {
-    tracet(3,"closefile: fp=%d\n",file->fp);
-
     if (!file) return;
+    tracet(3,"closefile: fp=%d\n",file->fp);
     closefile_(file);
     free(file);
 }
@@ -770,9 +767,9 @@ static int readfile(file_t *file, unsigned char *buff, int nmax, char *msg)
     long pos,n;
     int nr=0;
 
-    tracet(4,"readfile: fp=%d nmax=%d\n",file->fp,nmax);
-
     if (!file) return 0;
+
+    tracet(4,"readfile: fp=%d nmax=%d\n",file->fp,nmax);
 
     if (file->fp==stdin) {
 #ifndef WIN32
@@ -835,10 +832,10 @@ static int writefile(file_t *file, unsigned char *buff, int n, char *msg)
     double tow1,tow2,intv;
     size_t fpos,fpos_tmp;
 
-    tracet(3,"writefile: fp=%d n=%d\n",file->fp,n);
-
     if (!file) return 0;
 
+    tracet(3,"writefile: fp=%d n=%d\n",file->fp,n);
+	
     wtime=utc2gpst(timeget()); /* write time in gpst */
 
     /* swap writing file */
@@ -2109,6 +2106,7 @@ static udp_t *genudp(int type, int port, const char *saddr, char *msg)
 
     if ((udp->sock=socket(AF_INET,SOCK_DGRAM,0))==(socket_t)-1) {
         sprintf(msg,"socket error (%d)",errsock());
+		free(udp);
         return NULL;
     }
     if (setsockopt(udp->sock,SOL_SOCKET,SO_RCVBUF,(const char *)&bs,sizeof(bs))==-1||
