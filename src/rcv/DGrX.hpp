@@ -1406,6 +1406,7 @@ namespace DataGridTools {
 	const double Pi = 4 * std::atan(1.0);
 	std::vector<std::int32_t> used_svs;
 	std::int32_t whole_1024_weeks = 0;
+	std::int32_t time_lock_threshold = 5;
 
 	struct OverlapCounter final {
 	private:
@@ -1546,6 +1547,20 @@ namespace DataGridTools {
 		whole_1024_weeks = (week / 1024) * 1024;
 	}
 	
+	void ClearMeasurements(raw_t* raw) {
+		if (used_svs.empty()) {
+			for (auto sv = 0; sv < raw->obs.n; ++sv) {
+				for (auto i = 0; i < 3; ++i) {
+					raw->obs.data[sv].L[i] = 0;
+					raw->obs.data[sv].P[i] = 0;
+					raw->obs.data[sv].D[i] = 0;
+					raw->obs.data[sv].SNR[i] = 0;
+				}
+			}
+			raw->obs.n = 0;
+		}
+	}
+
 	int DecodePosition(DataGridProtocol::MeasuredPositionData *message, raw_t *raw, FILE *fp) {
 		try {
 			if (message == nullptr || raw == nullptr)
@@ -1586,15 +1601,17 @@ namespace DataGridTools {
 	}
 
 	int DecodeRawData(DataGridProtocol::RawMeasurementData *message, raw_t *raw) {
-		if (used_svs.empty()) 
-			raw->obs.n = 0;
-		
+		ClearMeasurements(raw);
+
 		if (message == nullptr)
 			return ReturnCodes::error_message;
 
 		auto &data = message->GetData();
 		auto is_used = std::find(used_svs.begin(), used_svs.end(), data.PRN);
 		auto cur_n = raw->obs.n;
+		if (data.snr < 30 || (data.L1_time_lock < time_lock_threshold && data.L2_time_lock < time_lock_threshold))
+			return ReturnCodes::no_message;
+
 		if (is_used == used_svs.end()) {
 			used_svs.push_back(data.PRN);
 			raw->obs.n++;
@@ -1605,14 +1622,19 @@ namespace DataGridTools {
 		raw->obs.data->rcv = 0;
 		raw->obs.data[cur_n].sat = data.PRN;
 
-		raw->obs.data[cur_n].L[0] = message->L1Phase();
-		raw->obs.data[cur_n].L[1] = message->L2Phase();
-		raw->obs.data[cur_n].P[0] = message->L1Pseudorange() * CLIGHT;
-		raw->obs.data[cur_n].P[1] = message->L2Pseudorange() * CLIGHT;
-		raw->obs.data[cur_n].D[0] = static_cast<float>(message->Doppler());
-		raw->obs.data[cur_n].SNR[0] = static_cast<std::uint8_t>(message->GetData().snr * 4.0);
+		int modifier = data.L1_time_lock > time_lock_threshold ? 1 : 0;
+
+		raw->obs.data[cur_n].L[0] = message->L1Phase() * modifier;
+		raw->obs.data[cur_n].P[0] = message->L1Pseudorange() * CLIGHT * modifier;
+		raw->obs.data[cur_n].D[0] = static_cast<float>(message->Doppler()) * modifier;
+		raw->obs.data[cur_n].SNR[0] = static_cast<std::uint8_t>(message->GetData().snr * 4.0) * modifier;
 		raw->obs.data[cur_n].LLI[0] = 0;
 		raw->obs.data[cur_n].code[0] = CODE_L1C;
+		
+		modifier = data.L2_time_lock > time_lock_threshold ? 1 : 0;
+
+		raw->obs.data[cur_n].L[1] = message->L2Phase() * modifier;
+		raw->obs.data[cur_n].P[1] = message->L2Pseudorange() * CLIGHT * modifier;
 		if (message->GetData().PRN <= NSATGPS)
 			raw->obs.data[cur_n].code[1] = CODE_L2S;
 		else
@@ -1623,13 +1645,15 @@ namespace DataGridTools {
 
 	int DecodeRawData(DataGridProtocol::L5E5G3RawMeasurement *message, raw_t *raw) {
 #if 1
-		if (used_svs.empty()) 
-			raw->obs.n = 0;
+		ClearMeasurements(raw);
 		
 		if (message == nullptr)
 			return ReturnCodes::error_message;
-
 		auto &data = message->GetData();
+
+		if ((static_cast<int>(data.snr) < 30) || (static_cast<int>(data.pll_update_cnt) < time_lock_threshold))
+			return ReturnCodes::no_message;
+
 		auto is_used = std::find(used_svs.begin(), used_svs.end(), data.sv_number);
 		auto cur_n = raw->obs.n;
 		if (is_used == used_svs.end()) {
@@ -1641,7 +1665,7 @@ namespace DataGridTools {
 
 		raw->obs.data->rcv = 0;
 		raw->obs.data[cur_n].sat = data.sv_number;
-
+		
 		raw->obs.data[cur_n].L[2] = message->L5Phase();
 		raw->obs.data[cur_n].P[2] = message->L5Pseudorange() * CLIGHT;
 		raw->obs.data[cur_n].SNR[2] = static_cast<std::uint8_t>(message->GetData().snr * 4);
@@ -1662,7 +1686,10 @@ namespace DataGridTools {
 			auto &eph = raw->nav.eph[cur_sv - 1];
 			raw->ephsat = cur_sv;
 
-			//if (eph.iode == data.iode && eph.iodc == data.iodc) // Same ephemeris
+			overlap_counter.Update(data.wn);
+			auto cur_week = static_cast<int>(data.wn + whole_1024_weeks + overlap_counter.Count());
+			auto cur_toe = gpst2time(cur_week, message->Toe());
+			//if (timediff(eph.toe, cur_toe) == 0 && eph.iode == data.iode && eph.iodc == data.iodc) 	// Same ephemeris
 			//	return ReturnCodes::no_message;
 
 			eph.sat = cur_sv;
@@ -1671,11 +1698,9 @@ namespace DataGridTools {
 			eph.sva = data.prec_and_health.ura;
 			eph.svh = data.prec_and_health.satellite_health;
 
-			overlap_counter.Update(data.wn);
-			eph.week = static_cast<int>(data.wn + whole_1024_weeks + overlap_counter.Count());
-
+			eph.week = cur_week;
 			eph.code = 1;
-			eph.toe = gpst2time(eph.week, message->Toe());
+			eph.toe = cur_toe;
 			eph.toc = gpst2time(eph.week, message->Toc());
 			eph.ttr = gpst2time(eph.week, message->Tow());
 			eph.A = message->Roota() * message->Roota();
@@ -1721,7 +1746,8 @@ namespace DataGridTools {
 
 			raw->ephsat = geph.sat;
 			auto calculated_toe = utc2gpst(adjday(raw->time, message->Tb() - 10800.0));
-			//if ((std::fabs(timediff(geph.toe, calculated_toe)) < 1.0) && geph.svh == data.health) // Same ephemeris
+
+			//if (timediff(geph.toe, calculated_toe) == 0.0 && data.health == geph.svh) // Save ephemeris
 			//	return ReturnCodes::no_message;
 
 			geph.frq = data.litera;
@@ -1745,8 +1771,7 @@ namespace DataGridTools {
 			geph.taun = message->Tn();
 			geph.gamn = message->Gn();
 			geph.dtaun = 0;
-			//raw->nav.glo_fcn[cur_sv] = data.litera + 8;
-
+			
 			return ReturnCodes::input_ephemeris;
 		}
 		catch (...) {
@@ -1760,13 +1785,14 @@ namespace DataGridTools {
 		if (message == nullptr || raw == nullptr)
 			return ReturnCodes::no_message;
 		auto type = message->GetMID();
+		trace(3, std::string("decode_dgr: type=" + std::to_string(static_cast<int>(type)) + "\n").c_str());
 
 		switch (type)
 		{
 		case DataGridProtocol::MID::CommandAcknowledgement:
 			break;
 		case DataGridProtocol::MID::L5E5G3RawMeasurement:
-			return DecodeRawData(dynamic_cast<DataGridProtocol::L5E5G3RawMeasurement*>(message), raw);
+			return DecodeRawData(static_cast<DataGridProtocol::L5E5G3RawMeasurement*>(message), raw);
 		case DataGridProtocol::MID::CommandNAcknowledgement:
 			break;
 		case DataGridProtocol::MID::AlmanacStatus:
@@ -1776,21 +1802,21 @@ namespace DataGridTools {
 		case DataGridProtocol::MID::ClockStatus:
 			break;
 		case DataGridProtocol::MID::GLONASSEphemerisData:
-			return DecodeEphemeris(dynamic_cast<DataGridProtocol::GLONASSEphemerisData*>(message), raw);
+			return DecodeEphemeris(static_cast<DataGridProtocol::GLONASSEphemerisData*>(message), raw);
 		case DataGridProtocol::MID::LLAOutputMessage:
 			break;
 		case DataGridProtocol::MID::GPSEphemerisData:
-			return DecodeEphemeris(dynamic_cast<DataGridProtocol::GPSEphemerisData*>(message), raw);
+			return DecodeEphemeris(static_cast<DataGridProtocol::GPSEphemerisData*>(message), raw);
 		case DataGridProtocol::MID::RAIMAlertLimit:
 			break;
 		case DataGridProtocol::MID::RawMeasurementData:
-			return DecodeRawData(dynamic_cast<DataGridProtocol::RawMeasurementData*>(message), raw);
+			return DecodeRawData(static_cast<DataGridProtocol::RawMeasurementData*>(message), raw);
 		case DataGridProtocol::MID::ExcludedSV:
 			break;
 		case DataGridProtocol::MID::FirmwareSchematicVersion:
 			break;
 		case DataGridProtocol::MID::MeasuredPositionData:
-			return DecodePosition(dynamic_cast<DataGridProtocol::MeasuredPositionData*>(message), raw, fp);
+			return DecodePosition(static_cast<DataGridProtocol::MeasuredPositionData*>(message), raw, fp);
 		default:
 			break;
 		}

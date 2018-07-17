@@ -2,13 +2,13 @@
 
 #if defined(__BORLANDC__)
 #if !defined(_WIN64)
-#pragma comment(lib, "cp32mti.lib")
+#pragma comment(lib, "cw32mti.lib")
 #endif
 #endif
 
 extern "C" int input_dgrx(raw_t *raw, unsigned char data) {
 	try {
-		//trace(4, "input_dgrx:\n");
+		trace(5, "input_dgrx: data=%02x\n", data);
 		DataGridTools::GetWnFromSystem();
 		if (DataGridTools::byte_sync.EmplaceData(data)) 
 			return DataGridTools::ConvertToRaw(DataGridProtocol::ReadStruct(DataGridTools::byte_sync.GetMessageData()).get(), raw);
@@ -22,7 +22,7 @@ extern "C" int input_dgrx(raw_t *raw, unsigned char data) {
 
 extern "C" int input_dgrxf(raw_t *raw, FILE *fp) {
 	try {
-		//trace(4, "input_dgrxf:\n");
+		trace(4, "input_dgrxf:\n");
 		DataGridTools::GetWnFromFile(fp);
 
 		std::ifstream log_file(fp);
