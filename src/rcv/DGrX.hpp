@@ -1707,8 +1707,8 @@ namespace DataGridTools {
 			overlap_counter.Update(data.wn);
 			auto cur_week = static_cast<int>(data.wn + whole_1024_weeks + overlap_counter.Count());
 			auto cur_toe = gpst2time(cur_week, message->Toe());
-			//if (timediff(eph.toe, cur_toe) == 0 && eph.iode == data.iode && eph.iodc == data.iodc) 	// Same ephemeris
-			//	return ReturnCodes::no_message;
+			if (timediff(eph.toe, cur_toe) == 0 && eph.iode == data.iode && eph.iodc == data.iodc) 	// Same ephemeris
+				return ReturnCodes::no_message;
 
 			eph.sat = cur_sv;
 			eph.iode = data.iode;
@@ -1765,8 +1765,8 @@ namespace DataGridTools {
 			raw->ephsat = geph.sat;
 			auto calculated_toe = utc2gpst(adjday(raw->time, message->Tb() - 10800.0));
 
-			//if (timediff(geph.toe, calculated_toe) == 0.0 && data.health == geph.svh) // Save ephemeris
-			//	return ReturnCodes::no_message;
+			if (timediff(geph.toe, calculated_toe) == 0.0 && data.health == geph.svh) // Save ephemeris
+				return ReturnCodes::no_message;
 
 			geph.frq = data.litera;
 			geph.svh = data.health;
