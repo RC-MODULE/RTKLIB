@@ -16,10 +16,17 @@
 #include <unordered_map>
 #include <vector>
 
-#include "..\rtklib.h"
+#include "../rtklib.h"
 
 #if defined(__BORLANDC__)
 #include <sys/stat.h>
+#endif
+
+#ifndef WIN32
+#include <sys/stat.h>
+#define _fileno fileno
+#define _fstat fstat
+#define _stat stat
 #endif
 
 #pragma pack(push, 1)
@@ -1533,7 +1540,7 @@ namespace DataGridTools {
 			return;
 
 		struct _stat s;
-		auto q = _fstat(_fileno(fp), &s);
+		_fstat(_fileno(fp), &s);
 		auto time = s.st_mtime;
 		gtime_t time_32bit;
 		time_32bit.time = time;
@@ -1576,7 +1583,7 @@ namespace DataGridTools {
 				throw std::runtime_error("Nullptr provided");
 			
 			auto& message_data = message->GetData();
-			if (static_cast<int>(message_data.fix_quality.fix_status)) {
+			if (static_cast<int>(message_data.fix_quality.fix_status) == 1) {
 
 				overlap_counter.Update(message_data.wn);
 				auto wn = message_data.wn + whole_1024_weeks + overlap_counter.Count();

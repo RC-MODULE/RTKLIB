@@ -25,6 +25,13 @@ extern "C" int input_dgrxf(raw_t *raw, FILE *fp) {
 		trace(4, "input_dgrxf:\n");
 		DataGridTools::GetWnFromFile(fp);
 
+#ifndef WIN32
+		unsigned char data = 0;
+		if(fread(&data, sizeof(data), sizeof(data), fp))
+			return input_dgrx(raw, data);
+		else
+			return DataGridTools::ReturnCodes::end_of_file;
+#else
 		std::ifstream log_file(fp);
 		std::uint8_t last_byte = 0;
 		for (int i = 0;; ++i) {
@@ -42,6 +49,7 @@ extern "C" int input_dgrxf(raw_t *raw, FILE *fp) {
 		}
 
 		return DataGridTools::ConvertToRaw(DataGridProtocol::ReadStruct(log_file).get(), raw, fp);
+#endif
 	}
 	catch (...) {
 		return DataGridTools::ReturnCodes::error_message;

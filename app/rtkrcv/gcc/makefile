@@ -7,15 +7,17 @@ SRC    = ../../../src
 #CTARGET= -mfpu=neon -mfloat-abi=softfp -ffast-math
 CTARGET= -DENAGLO -DENAQZS -DENACMP -DENAGAL -DENAIRN -DNFREQ=3 -DSVR_REUSEADDR
 
-CFLAGS = -Wall -O3 -ansi -pedantic -Wno-unused-but-set-variable -I$(SRC) -I.. -DTRACE $(CTARGET) -g
-LDLIBS  = -lm -lrt -lpthread
+FLAGS = -Wall -O3 -ansi -pedantic -Wno-unused-but-set-variable -I$(SRC) -I.. -DTRACE $(CTARGET) -g
+CFLAGS = $(FLAGS) -std=c99
+CPPFLAGS = $(FLAGS) -std=c++14
+LDLIBS  = -lm -lrt -lpthread -lstdc++
 
 all        : rtkrcv
 rtkrcv     : rtkrcv.o vt.o rtkcmn.o rtksvr.o rtkpos.o geoid.o solution.o lambda.o
 rtkrcv     : sbas.o stream.o rcvraw.o rtcm.o preceph.o options.o pntpos.o ppp.o ppp_ar.o
 rtkrcv     : novatel.o ublox.o ss2.o crescent.o skytraq.o gw10.o javad.o nvs.o binex.o
 rtkrcv     : rt17.o ephemeris.o rinex.o ionex.o rtcm2.o rtcm3.o rtcm3e.o qzslex.o
-rtkrcv     : ppp_corr.o tides.o septentrio.o cmr.o tersus.o
+rtkrcv     : ppp_corr.o tides.o septentrio.o cmr.o tersus.o DGrX.o
 
 rtkrcv.o   : ../rtkrcv.c
 	$(CC) -c $(CFLAGS) ../rtkrcv.c
@@ -95,6 +97,10 @@ cmr.o      : $(SRC)/rcv/cmr.c
 	$(CC) -c $(CFLAGS) $(SRC)/rcv/cmr.c
 tersus.o   : $(SRC)/rcv/tersus.c
 	$(CC) -c $(CFLAGS) $(SRC)/rcv/tersus.c
+DGrX.o   : 	$(SRC)/rcv/DGrX.cpp \
+			$(SRC)/rcv/DGrX.hpp
+	$(CC) -c $(CPPFLAGS) $(SRC)/rcv/DGrX.cpp
+
 
 rtkrcv.o   : $(SRC)/rtklib.h ../vt.h
 rtkcmn.o   : $(SRC)/rtklib.h
@@ -132,6 +138,7 @@ ionex.o    : $(SRC)/rtklib.h
 qzslex.o   : $(SRC)/rtklib.h
 tides.o    : $(SRC)/rtklib.h
 ppp_corr.o : $(SRC)/rtklib.h
+DGrX.o      : $(SRC)/rtklib.h
 
 install:
 	cp rtkrcv $(BINDIR)
