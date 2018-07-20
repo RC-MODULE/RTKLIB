@@ -177,6 +177,7 @@ public:
 			std::uint32_t l1_pseudorange = 0;
 			std::int32_t doppler = 0;
 			struct {
+				std::uint16_t reserved : 8;
 				std::uint16_t used_in_solution : 1;
 				std::uint16_t ephemeris_availible : 1;
 				std::uint16_t l1_phase_ok : 1;
@@ -184,9 +185,9 @@ public:
 				std::uint16_t sbas_availible : 1;
 				std::uint16_t l2c_capable : 1;
 				std::uint16_t glonass_m : 1;
-				std::uint16_t : 8;
 
 				void Reset() {
+					reserved = 0;
 					used_in_solution = 0;
 					ephemeris_availible = 0;
 					l1_phase_ok = 0;
@@ -364,7 +365,7 @@ public:
 				std::uint8_t antenna_shorted : 1;
 				std::uint8_t KalmanFilterState : 1;
 			} solution_mode;
-			RAIMState raim_state;
+			RAIMState raim_state = RAIMState::ok;
 			std::uint16_t wn = 0;
 		} data;
 		static_assert(sizeof(DataGridProtocol::MeasuredPositionData::Data) == 41, "MeasuredPositionData size is wrong");
@@ -1203,6 +1204,10 @@ public:
 			std::uint8_t : 8;
 			std::array<std::uint8_t, 6> l5_phase;
 			std::uint32_t l5_pseudorange = 0;
+
+			Data() {
+				l5_phase.fill(0);
+			}
 		} data;
 		static_assert(sizeof(DataGridProtocol::L5E5G3RawMeasurement::Data) == 15, "L5E5G3RawMeasurement size is wrong");
 
@@ -1440,6 +1445,10 @@ namespace DataGridTools {
 		std::unordered_map<DataGridProtocol::MID, std::size_t> struct_sizes;
 
 	public:
+		ByteSync() {
+			Init();
+		}
+
 		void Init() {
 			sync_sequence = { 'D', 'G', 'R', '8' };
 			std::size_t max_size = 0;
@@ -1609,7 +1618,7 @@ namespace DataGridTools {
 		auto &data = message->GetData();
 		auto is_used = std::find(used_svs.begin(), used_svs.end(), data.PRN);
 		auto cur_n = raw->obs.n;
-		if (data.snr < 30 || (data.L1_time_lock < time_lock_threshold && data.L2_time_lock < time_lock_threshold))
+		if (data.snr < 30 || (data.L1_time_lock < time_lock_threshold && data.L2_time_lock < time_lock_threshold) || data.status.ephemeris_availible == 0)
 			return ReturnCodes::no_message;
 
 		if (is_used == used_svs.end()) {
@@ -1619,26 +1628,28 @@ namespace DataGridTools {
 		else
 			cur_n = static_cast<int>(std::distance(used_svs.begin(), is_used));
 
-		raw->obs.data->rcv = 0;
-		raw->obs.data[cur_n].sat = data.PRN;
+		auto& cur_obs_data = raw->obs.data[cur_n];
+
+		cur_obs_data.rcv = 0;
+		cur_obs_data.sat = data.PRN;
 
 		int modifier = data.L1_time_lock > time_lock_threshold ? 1 : 0;
 
-		raw->obs.data[cur_n].L[0] = message->L1Phase() * modifier;
-		raw->obs.data[cur_n].P[0] = message->L1Pseudorange() * CLIGHT * modifier;
-		raw->obs.data[cur_n].D[0] = static_cast<float>(message->Doppler()) * modifier;
-		raw->obs.data[cur_n].SNR[0] = static_cast<std::uint8_t>(message->GetData().snr * 4.0) * modifier;
-		raw->obs.data[cur_n].LLI[0] = 0;
-		raw->obs.data[cur_n].code[0] = CODE_L1C;
+		cur_obs_data.L[0] = message->L1Phase() * modifier;
+		cur_obs_data.P[0] = message->L1Pseudorange() * CLIGHT * modifier;
+		cur_obs_data.D[0] = static_cast<float>(message->Doppler()) * modifier;
+		cur_obs_data.SNR[0] = static_cast<std::uint8_t>(message->GetData().snr * 4.0) * modifier;
+		cur_obs_data.LLI[0] = 0;
+		cur_obs_data.code[0] = CODE_L1C;
 		
 		modifier = data.L2_time_lock > time_lock_threshold ? 1 : 0;
 
-		raw->obs.data[cur_n].L[1] = message->L2Phase() * modifier;
-		raw->obs.data[cur_n].P[1] = message->L2Pseudorange() * CLIGHT * modifier;
+		cur_obs_data.L[1] = message->L2Phase() * modifier;
+		cur_obs_data.P[1] = message->L2Pseudorange() * CLIGHT * modifier;
 		if (message->GetData().PRN <= NSATGPS)
-			raw->obs.data[cur_n].code[1] = CODE_L2S;
+			cur_obs_data.code[1] = CODE_L2S;
 		else
-			raw->obs.data[cur_n].code[1] = CODE_L2C;
+			cur_obs_data.code[1] = CODE_L2C;
 
 		return ReturnCodes::no_message;
 	}
