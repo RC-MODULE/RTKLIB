@@ -107,7 +107,7 @@ static const char *help[]={
 "                  nvs  = NVS NV08C BINR",
 "                  binex= BINEX",
 "                  rt17 = Trimble RT17",
-"                  dgr  = RC Module DataGrid",
+"                  dgr4 = RC Module DataGrid",
 "                  sbf  = Septentrio SBF",
 "                  cmr  = CMR/CMR+",
 "                  tersus= TERSUS",
@@ -512,7 +512,7 @@ static int cmdopts(int argc, char **argv, rnxopt_t *opt, char **ifile,
         else if (!strcmp(fmt,"nvs"  )) format=STRFMT_NVS;
         else if (!strcmp(fmt,"binex")) format=STRFMT_BINEX;
 		else if (!strcmp(fmt, "rt17")) format = STRFMT_RT17;
-		else if (!strcmp(fmt, "dgr4")) format = STRFMT_DGr;
+		else if (!strcmp(fmt, "dgr4")) format = STRFMT_DGrX;
         else if (!strcmp(fmt,"sbf"  )) format=STRFMT_SEPT;
         else if (!strcmp(fmt,"cmr"  )) format=STRFMT_CMR;
         else if (!strcmp(fmt,"tersus")) format=STRFMT_TERSUS;
@@ -532,7 +532,7 @@ static int cmdopts(int argc, char **argv, rnxopt_t *opt, char **ifile,
         else if (!strcmp(p,".bnx"  ))  format=STRFMT_BINEX;
         else if (!strcmp(p,".binex"))  format=STRFMT_BINEX;
         else if (!strcmp(p,".rt17" ))  format=STRFMT_RT17;
-		else if (!strcmp(p, ".dgr"))   format = STRFMT_DGr;
+		else if (!strcmp(p, ".dgr"))   format = STRFMT_DGrX;
         else if (!strcmp(p,".sbf"  ))  format=STRFMT_SEPT;
         else if (!strcmp(p,".cmr"  ))  format=STRFMT_CMR;
         else if (!strcmp(p,".trs"  ))  format=STRFMT_TERSUS;

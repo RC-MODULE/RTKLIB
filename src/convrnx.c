@@ -799,8 +799,8 @@ static void set_obstype(int format, rnxopt_t *opt)
             case STRFMT_CRES : codes=codes_cres [i]; break;
             case STRFMT_JAVAD: codes=codes_javad[i]; break;
             case STRFMT_BINEX: codes=codes_rinex[i]; break;
-			case STRFMT_RT17: codes = codes_rt17[i]; break;
-			case STRFMT_DGr:  codes = codes_dgr[i]; break;
+			case STRFMT_RT17:  codes= codes_rt17[i]; break;
+			case STRFMT_DGrX:  codes = codes_dgr[i]; break;
 			case STRFMT_CMR  : codes=codes_cmr  [i]; break;
             case STRFMT_RINEX: codes=codes_rinex[i]; break;
             default:           codes=codes_other[i]; break;

@@ -174,7 +174,6 @@
     <ClCompile Include="..\convbin.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\src\dirent.h" />
     <ClInclude Include="..\..\..\src\rcv\DGrX.hpp" />
     <ClInclude Include="..\..\..\src\rtklib.h" />
   </ItemGroup>

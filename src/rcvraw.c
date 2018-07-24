@@ -1000,7 +1000,7 @@ extern int input_raw(raw_t *raw, int format, unsigned char data)
         case STRFMT_NVS  : return input_nvs  (raw,data);
 		case STRFMT_BINEX: return input_bnx  (raw,data);
 		case STRFMT_RT17 : return input_rt17 (raw,data);
-		case STRFMT_DGr  : return input_dgrx(raw, data);
+		case STRFMT_DGrX : return input_dgrx(raw, data);
 		case STRFMT_SEPT : return input_sbf  (raw,data);
         case STRFMT_CMR  : return input_cmr  (raw,data);
         case STRFMT_TERSUS: return input_tersus(raw,data);
@@ -1031,7 +1031,7 @@ extern int input_rawf(raw_t *raw, int format, FILE *fp)
         case STRFMT_NVS  : return input_nvsf  (raw,fp);
         case STRFMT_BINEX: return input_bnxf  (raw,fp);
 		case STRFMT_RT17 : return input_rt17f(raw, fp);
-		case STRFMT_DGr  : return input_dgrxf(raw, fp);
+		case STRFMT_DGrX : return input_dgrxf(raw, fp);
 		case STRFMT_SEPT : return input_sbff  (raw,fp);
         case STRFMT_CMR  : return input_cmrf  (raw,fp);
         case STRFMT_TERSUS: return input_tersusf(raw,fp);

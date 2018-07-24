@@ -440,7 +440,7 @@ extern "C" {
 #define STRFMT_NVS		10				/* stream format: NVS NVC08C */
 #define STRFMT_BINEX	11				/* stream format: BINEX */
 #define STRFMT_RT17		12				/* stream format: Trimble RT17 */
-#define STRFMT_DGr		13				/* stream format: DataGrid  */
+#define STRFMT_DGrX		13				/* stream format: DataGrid  */
 #define STRFMT_SEPT		14				/* stream format: Septentrio */
 #define STRFMT_CMR		15				/* stream format: CMR/CMR+ */
 #define STRFMT_TERSUS	16				/* stream format: TERSUS */
@@ -1666,7 +1666,7 @@ EXPORT int input_javad (raw_t *raw, unsigned char data);
 EXPORT int input_nvs   (raw_t *raw, unsigned char data);
 EXPORT int input_bnx   (raw_t *raw, unsigned char data);
 EXPORT int input_rt17  (raw_t *raw, unsigned char data);
-EXPORT int input_dgrx(raw_t *raw, unsigned char data);
+EXPORT int input_dgrx  (raw_t *raw, unsigned char data);
 EXPORT int input_sbf   (raw_t *raw, unsigned char data);
 EXPORT int input_cmr   (raw_t *raw, unsigned char data);
 EXPORT int input_tersus(raw_t *raw, unsigned char data);
@@ -1682,7 +1682,7 @@ EXPORT int input_javadf(raw_t *raw, FILE *fp);
 EXPORT int input_nvsf  (raw_t *raw, FILE *fp);
 EXPORT int input_bnxf  (raw_t *raw, FILE *fp);
 EXPORT int input_rt17f (raw_t *raw, FILE *fp);
-EXPORT int input_dgrxf(raw_t *raw, FILE *fp);
+EXPORT int input_dgrxf (raw_t *raw, FILE *fp);
 EXPORT int input_sbff  (raw_t *raw, FILE *fp);
 EXPORT int input_cmrf  (raw_t *raw, FILE *fp);
 EXPORT int input_tersusf(raw_t *raw, FILE *fp);
