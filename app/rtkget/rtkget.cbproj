@@ -82,9 +82,9 @@
     <PropertyGroup Condition="'$(Base_Win32)'!=''">
         <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
         <OutputExt>exe</OutputExt>
-        <TASM_Defines>_RTLDLL;USEPACKAGES;WIN32;TRACE;$(TASM_Defines)</TASM_Defines>
+        <TASM_Defines>USEPACKAGES;WIN32;TRACE;$(TASM_Defines)</TASM_Defines>
         <BCC_UserSuppliedOptions> -tWM</BCC_UserSuppliedOptions>
-        <BRCC_Defines>_RTLDLL;USEPACKAGES;WIN32;TRACE;$(BRCC_Defines)</BRCC_Defines>
+        <BRCC_Defines>USEPACKAGES;WIN32;TRACE;$(BRCC_Defines)</BRCC_Defines>
         <BCC_Defines>WIN32;TRACE;$(BCC_Defines)</BCC_Defines>
         <DCC_Namespace>Winapi;System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;Bde;$(DCC_Namespace)</DCC_Namespace>
         <IncludePath>$(BDSINCLUDE)\windows\vcl;$(IncludePath)</IncludePath>

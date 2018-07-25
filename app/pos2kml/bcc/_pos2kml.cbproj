@@ -82,19 +82,19 @@
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win32)'!=''">
         <OutputExt>exe</OutputExt>
-        <BCC_Defines>_RTLDLL;WIN32;$(BCC_Defines)</BCC_Defines>
+        <BCC_Defines>WIN32;$(BCC_Defines)</BCC_Defines>
         <BCC_UserSuppliedOptions> -tWM -tWC</BCC_UserSuppliedOptions>
-        <TASM_Defines>_RTLDLL;_NO_VCL;WIN32;$(TASM_Defines)</TASM_Defines>
-        <BRCC_Defines>_RTLDLL;_NO_VCL;WIN32;$(BRCC_Defines)</BRCC_Defines>
+        <TASM_Defines>_NO_VCL;WIN32;$(TASM_Defines)</TASM_Defines>
+        <BRCC_Defines>_NO_VCL;WIN32;$(BRCC_Defines)</BRCC_Defines>
         <Icon_MainIcon>_pos2kml_Icon.ico</Icon_MainIcon>
         <DCC_Namespace>Winapi;System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;Bde;$(DCC_Namespace)</DCC_Namespace>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <Debugger_UseLauncher>true</Debugger_UseLauncher>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win64)'!=''">
-        <BCC_Defines>_RTLDLL;WIN32;$(BCC_Defines)</BCC_Defines>
-        <BRCC_Defines>_RTLDLL;_NO_VCL;WIN32;$(BRCC_Defines)</BRCC_Defines>
-        <TASM_Defines>_RTLDLL;_NO_VCL;WIN32;$(TASM_Defines)</TASM_Defines>
+        <BCC_Defines>WIN32;$(BCC_Defines)</BCC_Defines>
+        <BRCC_Defines>_NO_VCL;WIN32;$(BRCC_Defines)</BRCC_Defines>
+        <TASM_Defines>_NO_VCL;WIN32;$(TASM_Defines)</TASM_Defines>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1)'!=''">
         <DCC_AdditionalSwitches> -V</DCC_AdditionalSwitches>

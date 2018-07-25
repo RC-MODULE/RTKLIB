@@ -2,7 +2,7 @@
 
 #if defined(__BORLANDC__)
 #if !defined(_WIN64)
-#pragma comment(lib, "cw32mti.lib")
+#pragma comment(lib, "cw32mt.lib")
 #endif
 #endif
 
