@@ -48,7 +48,7 @@ extern "C" int input_dgrxf(raw_t *raw, FILE *fp) {
 
 		}
 
-		return DataGridTools::ConvertToRaw(DataGridProtocol::ReadStruct(log_file).get(), raw, fp);
+		return DataGridTools::ConvertToRaw(DataGridProtocol::ReadStruct(log_file).get(), raw);
 #endif
 	}
 	catch (...) {

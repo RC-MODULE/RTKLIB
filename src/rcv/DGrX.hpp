@@ -1577,7 +1577,7 @@ namespace DataGridTools {
 		}
 	}
 
-	int DecodePosition(DataGridProtocol::MeasuredPositionData *message, raw_t *raw, FILE *fp) {
+	int DecodePosition(DataGridProtocol::MeasuredPositionData *message, raw_t *raw) {
 		try {
 			if (message == nullptr || raw == nullptr)
 				throw std::runtime_error("Nullptr provided");
@@ -1799,7 +1799,7 @@ namespace DataGridTools {
 		return ReturnCodes::no_message;
 	}
 
-	int ConvertToRaw(DataGridProtocol::Message *message, raw_t *raw, FILE *fp = nullptr) {
+	int ConvertToRaw(DataGridProtocol::Message *message, raw_t *raw) {
 		if (message == nullptr || raw == nullptr)
 			return ReturnCodes::no_message;
 		auto type = message->GetMID();
@@ -1834,7 +1834,7 @@ namespace DataGridTools {
 		case DataGridProtocol::MID::FirmwareSchematicVersion:
 			break;
 		case DataGridProtocol::MID::MeasuredPositionData:
-			return DecodePosition(static_cast<DataGridProtocol::MeasuredPositionData*>(message), raw, fp);
+			return DecodePosition(static_cast<DataGridProtocol::MeasuredPositionData*>(message), raw);
 		default:
 			break;
 		}
