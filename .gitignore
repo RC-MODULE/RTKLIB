@@ -41,3 +41,10 @@ _ReSharper*/
 *.stat
 *.stat
 *.cbproj.local
+/app/convbin/gcc/convbin
+/app/pos2kml/gcc/pos2kml
+/app/rnx2rtkp/gcc/rnx2rtkp
+/app/rtkrcv/gcc/rtkrcv
+/app/rtkrcv/gcc/rtkrcv.nav
+/app/str2str/gcc/str2str
+/lib/iers/gcc/iers.a
