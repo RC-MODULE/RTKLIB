@@ -1587,8 +1587,18 @@ namespace DataGridTools {
 
 				overlap_counter.Update(message_data.wn);
 				auto wn = message_data.wn + whole_1024_weeks + overlap_counter.Count();
+				auto cur_time = gpst2time(static_cast<int>(wn), message_data.rcv_time * 1e-3);
+				
+				auto check_wn = [&](){
+					return (cur_time.time < raw->time.time) ? true : false;
+				};
+				
+				if (check_wn()) {
+					// temporary fix because of the wn error
+					cur_time = gpst2time(static_cast<int>(++wn), message_data.rcv_time * 1e-3);
+				}
 
-				raw->time = gpst2time(static_cast<int>(wn), message_data.rcv_time * 1e-3);
+				raw->time = cur_time;
 
 				if (raw->obs.n) {
 					for (std::size_t i = 0; i < used_svs.size(); ++i)
@@ -1625,6 +1635,9 @@ namespace DataGridTools {
 		auto &data = message->GetData();
 		auto is_used = std::find(used_svs.begin(), used_svs.end(), data.PRN);
 		auto cur_n = raw->obs.n;
+		if (data.channel_number == 123)
+			return ReturnCodes::no_message;
+
 		if (data.snr < 30 || (data.L1_time_lock < time_lock_threshold && data.L2_time_lock < time_lock_threshold) || data.status.ephemeris_availible == 0)
 			return ReturnCodes::no_message;
 
@@ -1669,7 +1682,11 @@ namespace DataGridTools {
 			return ReturnCodes::error_message;
 		auto &data = message->GetData();
 
-		if ((static_cast<int>(data.snr) < 30) || (static_cast<int>(data.pll_update_cnt) < time_lock_threshold))
+		if ((int)data.signal_id == 1) {
+			if (data.sv_number != 56)
+				return ReturnCodes::no_message;
+		}
+		else if ((static_cast<int>(data.snr) < 30) || (static_cast<int>(data.pll_update_cnt) < time_lock_threshold))
 			return ReturnCodes::no_message;
 
 		auto is_used = std::find(used_svs.begin(), used_svs.end(), data.sv_number);
@@ -1684,6 +1701,7 @@ namespace DataGridTools {
 		raw->obs.data->rcv = 0;
 		raw->obs.data[cur_n].sat = data.sv_number;
 		
+
 		raw->obs.data[cur_n].L[2] = message->L5Phase();
 		raw->obs.data[cur_n].P[2] = message->L5Pseudorange() * CLIGHT;
 		raw->obs.data[cur_n].SNR[2] = static_cast<std::uint8_t>(message->GetData().snr * 4);

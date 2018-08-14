@@ -116,7 +116,7 @@
         <TASM_DisplaySourceLines>true</TASM_DisplaySourceLines>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
-        <Debugger_RunParams>-f 9 -r dgr4 -scan -v 3.03 -od -os -oi -ot -ol G:\A.4\00000001.bin</Debugger_RunParams>
+        <Debugger_RunParams>-f 9 -r dgr4 -v 3.03 -od -os -oi -ot -ol E:\Exchange\COM7_\2018_08_11_18_18_51.bin</Debugger_RunParams>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <BCC_Defines>_DEBUG;$(BCC_Defines);$(BCC_Defines)</BCC_Defines>
         <ILINK_Verbose>true</ILINK_Verbose>
