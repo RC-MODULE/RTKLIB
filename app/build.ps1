@@ -60,6 +60,30 @@ Param
     }
 }
 
+function build_rnx2rtkp_win64 {
+    Try{
+        $prior = Get-Location
+        $cur_dir = "rnx2rtkp" + "\bcc_win64\"
+        cd $cur_dir
+        $solution_path = "_rnx2rtkp_win64.cbproj"
+        Remove-Item -Force -Recurse "Release_Build"
+
+        &$msBuild2015 $solution_path /t:Build /p:Configuration=Release /p:Platform="Win64" /m
+        If($LastExitCode -gt 0){
+            throw
+        }
+
+        $src = "Release_Build\_rnx2rtkp_win64.exe"
+        copy $src ..\..\..\bin\rnx2rtkp_win64.exe
+        cd $prior
+    }
+    Catch{
+        echo "Error installing $project_name"
+	    throw
+    }
+}
+
+
 function build_borland_console {
 Param
     (
@@ -95,9 +119,11 @@ Param
 Try {
     $StartTime = Get-Date
     $prior_location = Get-Location
-    [Console]::OutputEncoding = [System.Text.Encoding]::GetEncoding("cp866")
+    ipconfig|out-null;[Console]::OutputEncoding = [System.Text.Encoding]::GetEncoding("cp866")
     $script_location = $MyInvocation.MyCommand.Definition
     $msBuild2015 = "${env:ProgramFiles(x86)}\MSBuild\14.0\bin\msbuild.exe"
+
+    build_rnx2rtkp_win64
 
 	$boarland_console = @("convbin", "pos2kml", "rnx2rtkp")
     ForEach ($prj in $boarland_console) {
