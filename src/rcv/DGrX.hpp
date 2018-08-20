@@ -53,26 +53,148 @@ public:
 		virtual MID GetMID() = 0;
 
 		virtual ~Message() = default;
+
+		virtual void Preprocess() {};
+
+		virtual Message& GetProtocolMessage() {
+			return *this;
+		}
+
+		static std::unique_ptr<Message> Read(std::vector<std::uint8_t> &raw_data) {
+			std::uint16_t crc = (*raw_data.rbegin() << 8) + *(raw_data.rbegin() + 1);
+			auto cur_mid = static_cast<MID>(raw_data[0]);
+
+			auto message_pointer = GetPointer(cur_mid);
+
+			if (message_pointer.get() == nullptr)
+				return message_pointer;
+
+			auto& ref = message_pointer.get()->GetProtocolMessage();
+			auto array_parameters = ref.GetArray();
+
+			std::copy(raw_data.begin() + 1, raw_data.end() - 2, array_parameters.first);
+			if (!CheckCRC(cur_mid, array_parameters.first, array_parameters.second, crc))
+				throw std::runtime_error("CRC mismatch");
+
+			ref.Preprocess();
+			return message_pointer;
+		}
+
+		static std::unique_ptr<Message> Read(std::ifstream &inf) {
+			MID cur_mid;
+			inf.read(reinterpret_cast<char*>(&cur_mid), sizeof(cur_mid));
+
+			auto check_for_eof = [&inf]() {
+				if (inf.eof())
+					throw std::runtime_error("End of file");
+			};
+			check_for_eof();
+			auto message_pointer = GetPointer(cur_mid);
+
+			if (message_pointer.get() == nullptr)
+				return message_pointer;
+
+			auto& ref = message_pointer.get()->GetProtocolMessage();
+			auto array_parameters = ref.GetArray();
+
+			inf.read(reinterpret_cast<char*>(array_parameters.first), array_parameters.second);
+			check_for_eof();
+			std::uint16_t crc = 0;
+			inf.read(reinterpret_cast<char*>(&crc), sizeof(crc));
+			
+			if (!ref.CheckCRC(cur_mid, array_parameters.first, array_parameters.second, crc))
+				throw std::runtime_error("CRC mismatch");
+
+			ref.Preprocess();
+
+			return message_pointer;
+		}
+
+	private:
+		static std::unique_ptr<Message> GetPointer(MID cur_mid) {
+			using MessagePtr = std::unique_ptr<Message>;
+
+			MessagePtr dst;
+			switch (cur_mid)
+			{
+			case DataGridProtocol::MID::CommandAcknowledgement:
+				dst = MessagePtr(new CommandAcknowledgement);
+				break;
+			case DataGridProtocol::MID::L5E5G3RawMeasurement:
+				dst = MessagePtr(new L5E5G3RawMeasurement);
+				break;
+			case DataGridProtocol::MID::CommandNAcknowledgement:
+				dst = MessagePtr(new CommandNAcknowledgement);
+				break;
+			case DataGridProtocol::MID::AlmanacStatus:
+				dst = MessagePtr(new AlmanacStatus);
+				break;
+			case DataGridProtocol::MID::ClockStatus:
+				dst = MessagePtr(new ClockStatus);
+				break;
+			case DataGridProtocol::MID::GLONASSEphemerisData:
+				dst = MessagePtr(new GLONASSEphemerisData);
+				break;
+			case DataGridProtocol::MID::LLAOutputMessage:
+				dst = MessagePtr(new LLAOutputMessage);
+				break;
+			case DataGridProtocol::MID::GPSEphemerisData:
+				dst = MessagePtr(new GPSEphemerisData);
+				break;
+			case DataGridProtocol::MID::RAIMAlertLimit:
+				dst = MessagePtr(new RAIMAlertLimit);
+				break;
+			case DataGridProtocol::MID::RawMeasurementData:
+				dst = MessagePtr(new RawMeasurementData);
+				break;
+			case DataGridProtocol::MID::ExcludedSV:
+				dst = MessagePtr(new ExcludedSV);
+				break;
+			case DataGridProtocol::MID::FirmwareSchematicVersion:
+				dst = MessagePtr(new FirmwareSchematicVersion);
+				break;
+			case DataGridProtocol::MID::MeasuredPositionData:
+				dst = MessagePtr(new MeasuredPositionData);
+				break;
+			default:
+				dst = MessagePtr(nullptr);
+				break;
+				//throw std::runtime_error("Unknown message identifier");
+			}
+
+			return dst;
+		}
+
+		struct Data {};
+		union {
+			Data data;
+			std::array<std::uint8_t, sizeof(Data)> raw{};
+		};
+
+		virtual std::pair<std::uint8_t*, std::size_t> GetArray() {
+			return std::make_pair(raw.data(), raw.size());
+		}
+
 	protected:
-		void SwapEndian(std::int32_t &val) {
+		static void SwapEndian(std::int32_t &val) {
 			std::int32_t tmp = ((val << 8) & 0xFF00FF00) | ((val >> 8) & 0xFF00FF);
 			val = (tmp << 16) | ((tmp >> 16) & 0xFFFF);
 		}
 
-		void SwapEndian(std::uint32_t &val) {
+		static void SwapEndian(std::uint32_t &val) {
 			std::uint32_t tmp = ((val << 8) & 0xFF00FF00) | ((val >> 8) & 0xFF00FF);
 			val = (tmp << 16) | (tmp >> 16);
 		}
 
-		void SwapEndian(std::int16_t &val) {
+		static void SwapEndian(std::int16_t &val) {
 			val = (val << 8) | ((val >> 8) & 0xFF);
 		}
 
-		void SwapEndian(std::uint16_t &val) {
+		static void SwapEndian(std::uint16_t &val) {
 			val = (val << 8) | (val >> 8);
 		}
 
-		void SwapEndian(std::uint8_t *val, std::size_t size) {
+		static void SwapEndian(std::uint8_t *val, std::size_t size) {
 			std::vector<std::uint8_t> tmp(val, val + size);
 			std::reverse(tmp.begin(), tmp.end());
 			for (std::size_t i = 0; i < size; ++i) {
@@ -81,21 +203,23 @@ public:
 		}
 
 		template <typename T, std::size_t sz>
-		void SwapEndian(std::array<T, sz> &arr) {
+		static void SwapEndian(std::array<T, sz> &arr) {
 			SwapEndian(reinterpret_cast<std::uint8_t*>(arr.data()), arr.size() * sizeof(T));
 		}
 
-		bool CheckCRC(MID mid, std::uint8_t *data, std::size_t sz, std::uint16_t crc) {
+		static bool CheckCRC(MID mid, std::uint8_t *data, std::size_t sz, std::uint16_t crc) {
 			std::vector<std::uint8_t> vec(data, data + sz);
 			vec.insert(vec.begin(), static_cast<std::uint8_t>(mid));
 
 			auto ptr_16bit = reinterpret_cast<std::uint16_t*>(vec.data());
 
 			std::uint32_t checksum = 0;
-			for (std::size_t i = 0; i < sz / 2; ++i) {
+			for (std::size_t i = 0; i < vec.size() / 2; ++i) {
+				SwapEndian(ptr_16bit[i]);
 				checksum += ptr_16bit[i];
 			}
-			return checksum == static_cast<std::uint32_t>(crc);
+			SwapEndian(crc);
+			return static_cast<std::uint16_t>(checksum) == crc;
 		}
 
 		template <typename T, typename Struct>
@@ -115,18 +239,28 @@ public:
 			std::uint32_t channel_config = 0;
 			std::uint32_t board_SN = 0;
 			std::uint16_t sector_0_version = 0;
-		} data;
+		};
 		static_assert(sizeof(DataGridProtocol::FirmwareSchematicVersion::Data) == 19, "FirmwareSchematicVersion size is wrong");
 
-		void Preprocess() {
+		union {
+			Data data;
+			std::array<std::uint8_t, sizeof(Data)> raw{};
+		};
+
+		virtual void Preprocess() {
 			SwapEndian(data.fw_version);
 			SwapEndian(data.schematic_version);
 			SwapEndian(data.channel_config);
 			SwapEndian(data.board_SN);
 			SwapEndian(data.sector_0_version);
 		}
+
+		virtual std::pair<std::uint8_t*, std::size_t> GetArray() final {
+			return std::make_pair(raw.data(), raw.size());
+		}
+
 	public:
-		FirmwareSchematicVersion() = default;
+		FirmwareSchematicVersion() {};
 
 		template <typename T>
 		FirmwareSchematicVersion(T &file) {
@@ -141,6 +275,10 @@ public:
 
 		virtual MID GetMID() final {
 			return MID::FirmwareSchematicVersion;
+		}
+		
+		virtual FirmwareSchematicVersion& GetProtocolMessage() final {
+			return *this;
 		}
 
 		template <typename T>
@@ -212,10 +350,15 @@ public:
 				l2_phase.fill(0);
 				status.Reset();
 			}
-		} data;
+		};
 		static_assert(sizeof(DataGridProtocol::RawMeasurementData::Data) == 37, "MeasuredPosition size is wrong");
+		
+		union {
+			Data data;
+			std::array<std::uint8_t, sizeof(Data)> raw{};
+		};
 
-		void Preprocess() {
+		virtual void Preprocess() {
 			SwapEndian(data.l1_phase);
 			SwapEndian(data.l1_pseudorange);
 			SwapEndian(data.doppler);
@@ -223,8 +366,12 @@ public:
 			SwapEndian(data.l2_pseudorange);
 		}
 
+		virtual std::pair<std::uint8_t*, std::size_t> GetArray() final {
+			return std::make_pair(raw.data(), raw.size());
+		}
+
 	public:
-		RawMeasurementData() = default;
+		RawMeasurementData() {};
 
 		template <typename T>
 		RawMeasurementData(T &file) {
@@ -239,6 +386,10 @@ public:
 
 		virtual MID GetMID() final {
 			return MID::RawMeasurementData;
+		}
+
+		virtual RawMeasurementData& GetProtocolMessage() final {
+			return *this;
 		}
 
 		template <typename T>
@@ -374,10 +525,15 @@ public:
 			} solution_mode;
 			RAIMState raim_state = RAIMState::ok;
 			std::uint16_t wn = 0;
-		} data;
+		};
 		static_assert(sizeof(DataGridProtocol::MeasuredPositionData::Data) == 41, "MeasuredPositionData size is wrong");
 
-		void Preprocess() {
+		union {
+			Data data;
+			std::array<std::uint8_t, sizeof(Data)> raw{};
+		};
+
+		virtual void Preprocess() {
 			SwapEndian(data.rcv_time);
 			SwapEndian(data.x_position);
 			SwapEndian(data.y_position);
@@ -391,8 +547,12 @@ public:
 			SwapEndian(data.wn);
 		}
 
+		virtual std::pair<std::uint8_t*, std::size_t> GetArray() final {
+			return std::make_pair(raw.data(), raw.size());
+		}
+
 	public:
-		MeasuredPositionData() = default;
+		MeasuredPositionData() {};
 
 		template <typename T>
 		MeasuredPositionData(T &file) {
@@ -408,6 +568,10 @@ public:
 
 		virtual MID GetMID() final {
 			return MID::MeasuredPositionData;
+		}
+
+		virtual MeasuredPositionData& GetProtocolMessage() final {
+			return *this;
 		}
 
 		template <typename T>
@@ -506,10 +670,15 @@ public:
 			std::int16_t idot = 0;
 			std::uint16_t : 16;
 			std::uint32_t valid = 0;
-		} data;
+		};
 		static_assert(sizeof(DataGridProtocol::GPSEphemerisData::Data) == 79, "GPSEphemerisData size is wrong");
 
-		void Preprocess() {
+		union {
+			Data data;
+			std::array<std::uint8_t, sizeof(Data)> raw{};
+		};
+
+		virtual void Preprocess() {
 			SwapEndian(data.tow);
 			SwapEndian(data.wn);
 			SwapEndian(data.prec_and_health.data(), data.prec_and_health.size());
@@ -538,9 +707,13 @@ public:
 			SwapEndian(data.idot);
 			SwapEndian(data.valid);
 		}
+
+		virtual std::pair<std::uint8_t*, std::size_t> GetArray() final {
+			return std::make_pair(raw.data(), raw.size());
+		}
 	
 	public:
-		GPSEphemerisData() = default;
+		GPSEphemerisData() {};
 
 		template <typename T>
 		GPSEphemerisData(T &file) {
@@ -555,6 +728,10 @@ public:
 
 		virtual MID GetMID() final {
 			return MID::GPSEphemerisData;
+		}
+
+		virtual GPSEphemerisData& GetProtocolMessage() final {
+			return *this;
 		}
 
 		template <typename T>
@@ -697,10 +874,15 @@ public:
 			std::uint32_t : 32;
 			std::uint32_t valid = 0;
 
-		} data;
+		};
 		static_assert(sizeof(DataGridProtocol::GLONASSEphemerisData::Data) == 63, "GLONASSEphemerisData size is wrong");
 
-		void Preprocess() {
+		union {
+			Data data;
+			std::array<std::uint8_t, sizeof(Data)> raw{};
+		};
+
+		virtual void Preprocess() {
 			SwapEndian(data.health);
 			SwapEndian(data.tb);
 			SwapEndian(data.x);
@@ -719,9 +901,13 @@ public:
 			SwapEndian(data.tc);
 			SwapEndian(data.valid);
 		}
+
+		virtual std::pair<std::uint8_t*, std::size_t> GetArray() final {
+			return std::make_pair(raw.data(), raw.size());
+		}
 	
 	public:
-		GLONASSEphemerisData() = default;
+		GLONASSEphemerisData() {};
 
 		template <typename T>
 		GLONASSEphemerisData(T &file) {
@@ -736,6 +922,10 @@ public:
 
 		virtual MID GetMID() final {
 			return MID::GLONASSEphemerisData;
+		}
+
+		virtual GLONASSEphemerisData& GetProtocolMessage() final {
+			return *this;
 		}
 
 		template <typename T>
@@ -814,15 +1004,24 @@ public:
 			LimitType limit_type = LimitType::user_defined;
 			std::uint16_t alert_limit = 0;
 			std::uint16_t : 16;
-		} data;
+		};
 		static_assert(sizeof(DataGridProtocol::RAIMAlertLimit::Data) == 5, "RAIMAlertLimit size is wrong");
 
-		void Preprocess() {
+		union {
+			Data data;
+			std::array<std::uint8_t, sizeof(Data)> raw{};
+		};
+
+		virtual void Preprocess() {
 			SwapEndian(data.alert_limit);
+		}
+
+		virtual std::pair<std::uint8_t*, std::size_t> GetArray() final {
+			return std::make_pair(raw.data(), raw.size());
 		}
 	
 	public:
-		RAIMAlertLimit() = default;
+		RAIMAlertLimit() {};
 
 		template <typename T>
 		RAIMAlertLimit(T &file) {
@@ -837,6 +1036,10 @@ public:
 
 		virtual MID GetMID() final {
 			return MID::RAIMAlertLimit;
+		}
+
+		virtual RAIMAlertLimit& GetProtocolMessage() final {
+			return *this;
 		}
 
 		template <typename T>
@@ -855,11 +1058,20 @@ public:
 		friend DataGridProtocol;
 		struct Data {
 			std::uint8_t ack_id = 0;
-		} data;
+		};
 		static_assert(sizeof(DataGridProtocol::CommandAcknowledgement::Data) == 1, "CommandAcknowledgement size is wrong");
-	
+
+		union {
+			Data data;
+			std::array<std::uint8_t, sizeof(Data)> raw{};
+		};
+
+		virtual std::pair<std::uint8_t*, std::size_t> GetArray() final {
+			return std::make_pair(raw.data(), raw.size());
+		}
+
 	public:
-		CommandAcknowledgement() = default;
+		CommandAcknowledgement() {};
 
 		template <typename T>
 		CommandAcknowledgement(T &file) {
@@ -873,6 +1085,10 @@ public:
 
 		virtual MID GetMID() final {
 			return MID::CommandAcknowledgement;
+		}
+
+		virtual CommandAcknowledgement& GetProtocolMessage() final {
+			return *this;
 		}
 
 		template <typename T>
@@ -890,11 +1106,20 @@ public:
 		friend DataGridProtocol;
 		struct Data {
 			std::uint8_t nack_id = 0;
-		} data;
+		};
 		static_assert(sizeof(DataGridProtocol::CommandNAcknowledgement::Data) == 1, "CommandNAcknowledgement size is wrong");
-	
+
+		union {
+			Data data;
+			std::array<std::uint8_t, sizeof(Data)> raw{};
+		};
+
+		virtual std::pair<std::uint8_t*, std::size_t> GetArray() final {
+			return std::make_pair(raw.data(), raw.size());
+		}
+
 	public:
-		CommandNAcknowledgement() = default;
+		CommandNAcknowledgement() {};
 
 		template <typename T>
 		CommandNAcknowledgement(T &file) {
@@ -908,6 +1133,10 @@ public:
 
 		virtual MID GetMID() final {
 			return MID::CommandNAcknowledgement;
+		}
+
+		virtual CommandNAcknowledgement& GetProtocolMessage() final {
+			return *this;
 		}
 
 		template <typename T>
@@ -929,18 +1158,27 @@ public:
 			std::int32_t lat = 0;
 			std::uint32_t lon = 0;
 			std::int32_t alt = 0;
-		} data;
+		};
 		static_assert(sizeof(DataGridProtocol::LLAOutputMessage::Data) == 17, "LLAOutputMessage size is wrong");
 
-		void Preprocess() {
+		union {
+			Data data;
+			std::array<std::uint8_t, sizeof(Data)> raw{};
+		};
+
+		virtual void Preprocess() {
 			SwapEndian(data.rcv_time);
 			SwapEndian(data.lat);
 			SwapEndian(data.lon);
 			SwapEndian(data.alt);
 		}
 
+		virtual std::pair<std::uint8_t*, std::size_t> GetArray() final {
+			return std::make_pair(raw.data(), raw.size());
+		}
+
 	public:
-		LLAOutputMessage() = default;
+		LLAOutputMessage() {};
 
 		template <typename T>
 		LLAOutputMessage(T &file) {
@@ -955,6 +1193,10 @@ public:
 
 		virtual MID GetMID() final {
 			return MID::LLAOutputMessage;
+		}
+
+		virtual LLAOutputMessage& GetProtocolMessage() final {
+			return *this;
 		}
 
 		template <typename T>
@@ -989,18 +1231,27 @@ public:
 			std::array<std::uint8_t, 6> clr_err_squared_sum;
 			std::uint32_t vcc_err_sum = 0;
 			std::array<std::uint8_t, 6> vcc_err_squared_sum;
-		} data;
+		};
 		static_assert(sizeof(DataGridProtocol::DebugData::Data) == 21, "DebugData size is wrong");
 
-		void Preprocess() {
+		union {
+			Data data;
+			std::array<std::uint8_t, sizeof(Data)> raw{};
+		};
+
+		virtual void Preprocess() {
 			SwapEndian(data.clk_err_sum);
 			SwapEndian(data.clr_err_squared_sum);
 			SwapEndian(data.vcc_err_sum);
 			SwapEndian(data.vcc_err_squared_sum);
 		}
+
+		virtual std::pair<std::uint8_t*, std::size_t> GetArray() final {
+			return std::make_pair(raw.data(), raw.size());
+		}
 	
 	public:
-		DebugData() = default;
+		DebugData() {};
 		template <typename T>
 		DebugData(T &file) {
 			Read(file);
@@ -1008,6 +1259,10 @@ public:
 
 		virtual MID GetMID() final {
 			return MID::DebugData;
+		}
+
+		virtual DebugData& GetProtocolMessage() final {
+			return *this;
 		}
 
 		template <typename T>
@@ -1049,11 +1304,20 @@ public:
 			std::uint8_t prn = 0;
 			SystemID system_id;
 			Reason reason;
-		} data;
+		};
 		static_assert(sizeof(DataGridProtocol::ExcludedSV::Data) == 3, "ExcludedSV size is wrong");
-	
+
+		union {
+			Data data;
+			std::array<std::uint8_t, sizeof(Data)> raw{};
+		};
+
+		virtual std::pair<std::uint8_t*, std::size_t> GetArray() final {
+			return std::make_pair(raw.data(), raw.size());
+		}
+
 	public:
-		ExcludedSV() = default;
+		ExcludedSV() {};
 
 		template <typename T>
 		ExcludedSV(T &file) {
@@ -1067,6 +1331,10 @@ public:
 
 		virtual MID GetMID() final {
 			return MID::ExcludedSV;
+		}
+
+		virtual ExcludedSV& GetProtocolMessage() final {
+			return *this;
 		}
 
 		template <typename T>
@@ -1093,11 +1361,20 @@ public:
 		friend DataGridProtocol;
 		struct Data {
 			Status status;
-		} data;
+		};
 		static_assert(sizeof(DataGridProtocol::AlmanacStatus::Data) == 1, "AlmanacStatus size is wrong");
 
+		union {
+			Data data;
+			std::array<std::uint8_t, sizeof(Data)> raw{};
+		};
+
+		virtual std::pair<std::uint8_t*, std::size_t> GetArray() final {
+			return std::make_pair(raw.data(), raw.size());
+		}
+
 	public:
-		AlmanacStatus() = default;
+		AlmanacStatus() {};
 
 		template <typename T>
 		AlmanacStatus(T &file) {
@@ -1111,6 +1388,10 @@ public:
 
 		virtual MID GetMID() final {
 			return MID::AlmanacStatus;
+		}
+
+		virtual AlmanacStatus& GetProtocolMessage() final {
+			return *this;
 		}
 
 		template <typename T>
@@ -1135,10 +1416,15 @@ public:
 			std::int32_t glonass_tshift = 0;
 			std::int32_t glonass_tshift_almanac = 0;
 			std::int16_t leap_seconds = 0;
-		} data;
+		};
 		static_assert(sizeof(DataGridProtocol::ClockStatus::Data) == 23, "ClockStatus size is wrong");
 
-		void Preprocess() {
+		union {
+			Data data;
+			std::array<std::uint8_t, sizeof(Data)> raw{};
+		};
+
+		virtual void Preprocess() {
 			SwapEndian(data.wn);
 			SwapEndian(data.rcv_time);
 			SwapEndian(data.r_offset);
@@ -1148,8 +1434,12 @@ public:
 			SwapEndian(data.leap_seconds);
 		}
 
+		virtual std::pair<std::uint8_t*, std::size_t> GetArray() final {
+			return std::make_pair(raw.data(), raw.size());
+		}
+
 	public:
-		ClockStatus() = default;
+		ClockStatus() {};
 
 		template <typename T>
 		ClockStatus(T &file) {
@@ -1164,6 +1454,10 @@ public:
 
 		virtual MID GetMID() final {
 			return MID::ClockStatus;
+		}
+
+		virtual ClockStatus& GetProtocolMessage() final {
+			return *this;
 		}
 
 		template <typename T>
@@ -1215,16 +1509,25 @@ public:
 			Data() {
 				l5_phase.fill(0);
 			}
-		} data;
+		};
 		static_assert(sizeof(DataGridProtocol::L5E5G3RawMeasurement::Data) == 15, "L5E5G3RawMeasurement size is wrong");
 
-		void Preprocess() {
+		union {
+			Data data;
+			std::array<std::uint8_t, sizeof(Data)> raw{};
+		};
+
+		virtual void Preprocess() {
 			SwapEndian(data.l5_phase);
 			SwapEndian(data.l5_pseudorange);
 		}
 
+		virtual std::pair<std::uint8_t*, std::size_t> GetArray() final {
+			return std::make_pair(raw.data(), raw.size());
+		}
+
 	public:
-		L5E5G3RawMeasurement() = default;
+		L5E5G3RawMeasurement() {};
 
 		template <typename T>
 		L5E5G3RawMeasurement(T &file) {
@@ -1239,6 +1542,10 @@ public:
 
 		virtual MID GetMID() final {
 			return MID::L5E5G3RawMeasurement;
+		}
+
+		virtual L5E5G3RawMeasurement& GetProtocolMessage() final {
+			return *this;
 		}
 
 		template <typename T>
@@ -1265,110 +1572,7 @@ public:
 			return data.l5_pseudorange * std::pow(10, -10);
 		}
 	};
-
-	std::vector<std::unique_ptr<Message>> ReadLog(const std::string &filename) {
-		std::vector<std::unique_ptr<Message>> tmp_vector;
-
-		std::ifstream log_file(filename.c_str(), std::ios::binary);
-		if (!log_file.is_open())
-			throw std::runtime_error("Unable to open log file " + filename);
-
-		std::uint8_t last_byte = 0;
-		while (!log_file.eof()) {
-			log_file >> last_byte;
-			if (Sync(log_file)) {
-				tmp_vector.push_back(ReadStruct(log_file));
-			}
-		}
-
-		std::vector<std::unique_ptr<Message>> dst;
-		for (auto&&el : tmp_vector)
-			if (el.get() != nullptr)
-				dst.push_back(std::move(el));
-
-		return dst;
-	}
-
-	template <typename T>
-	static std::unique_ptr<Message> ReadStruct(const std::vector<T> &log_data) {
-		MID cur_mid;
-		cur_mid = static_cast<MID>(log_data.at(0));
-
-		switch (cur_mid)
-		{
-		case DataGridProtocol::MID::CommandAcknowledgement:
-			return std::unique_ptr<Message>(new CommandAcknowledgement(log_data));
-		case DataGridProtocol::MID::L5E5G3RawMeasurement:
-			return std::unique_ptr<Message>(new L5E5G3RawMeasurement(log_data));
-		case DataGridProtocol::MID::CommandNAcknowledgement:
-			return std::unique_ptr<Message>(new CommandNAcknowledgement(log_data));
-		case DataGridProtocol::MID::AlmanacStatus:
-			return std::unique_ptr<Message>(new AlmanacStatus(log_data));
-		case DataGridProtocol::MID::ClockStatus:
-			return std::unique_ptr<Message>(new ClockStatus(log_data));
-		case DataGridProtocol::MID::GLONASSEphemerisData:
-			return std::unique_ptr<Message>(new GLONASSEphemerisData(log_data));
-		case DataGridProtocol::MID::LLAOutputMessage:
-			return std::unique_ptr<Message>(new LLAOutputMessage(log_data));
-		case DataGridProtocol::MID::GPSEphemerisData:
-			return std::unique_ptr<Message>(new GPSEphemerisData(log_data));
-		case DataGridProtocol::MID::RAIMAlertLimit:
-			return std::unique_ptr<Message>(new RAIMAlertLimit(log_data));
-		case DataGridProtocol::MID::RawMeasurementData:
-			return std::unique_ptr<Message>(new RawMeasurementData(log_data));
-		case DataGridProtocol::MID::ExcludedSV:
-			return std::unique_ptr<Message>(new ExcludedSV(log_data));
-		case DataGridProtocol::MID::FirmwareSchematicVersion:
-			return std::unique_ptr<Message>(new FirmwareSchematicVersion(log_data));
-		case DataGridProtocol::MID::MeasuredPositionData:
-			return std::unique_ptr<Message>(new MeasuredPositionData(log_data));
-		default:
-			break;
-		}
-
-		return std::unique_ptr<Message>(nullptr);
-	}
-
-	template <typename T>
-	static std::unique_ptr<Message> ReadStruct(T &log_file) {
-		MID cur_mid;
-		log_file.read(reinterpret_cast<char*>(&cur_mid), sizeof(cur_mid));
-
-		switch (cur_mid)
-		{
-		case DataGridProtocol::MID::CommandAcknowledgement:
-			return std::unique_ptr<Message>(new CommandAcknowledgement(log_file));
-		case DataGridProtocol::MID::L5E5G3RawMeasurement:
-			return std::unique_ptr<Message>(new L5E5G3RawMeasurement(log_file));
-		case DataGridProtocol::MID::CommandNAcknowledgement:
-			return std::unique_ptr<Message>(new CommandNAcknowledgement(log_file));
-		case DataGridProtocol::MID::AlmanacStatus:
-			return std::unique_ptr<Message>(new AlmanacStatus(log_file));
-		case DataGridProtocol::MID::ClockStatus:
-			return std::unique_ptr<Message>(new ClockStatus(log_file));
-		case DataGridProtocol::MID::GLONASSEphemerisData:
-			return std::unique_ptr<Message>(new GLONASSEphemerisData(log_file));
-		case DataGridProtocol::MID::LLAOutputMessage:
-			return std::unique_ptr<Message>(new LLAOutputMessage(log_file));
-		case DataGridProtocol::MID::GPSEphemerisData:
-			return std::unique_ptr<Message>(new GPSEphemerisData(log_file));
-		case DataGridProtocol::MID::RAIMAlertLimit:
-			return std::unique_ptr<Message>(new RAIMAlertLimit(log_file));
-		case DataGridProtocol::MID::RawMeasurementData:
-			return std::unique_ptr<Message>(new RawMeasurementData(log_file));
-		case DataGridProtocol::MID::ExcludedSV:
-			return std::unique_ptr<Message>(new ExcludedSV(log_file));
-		case DataGridProtocol::MID::FirmwareSchematicVersion:
-			return std::unique_ptr<Message>(new FirmwareSchematicVersion(log_file));
-		case DataGridProtocol::MID::MeasuredPositionData:
-			return std::unique_ptr<Message>(new MeasuredPositionData(log_file));
-		default:
-			break;
-		}
-
-		return std::unique_ptr<Message>(nullptr);
-	}
-
+	
 	static bool Sync(std::ifstream &log_file) {
 		std::array<char, 3> sequence_to_sync = { 'G', 'R', '8' };
 		std::array<char, 3> read_sequence;
@@ -1482,7 +1686,7 @@ namespace DataGridTools {
 			}
 			else if (current_byte == sync_sequence.size()) {
 				if(struct_sizes.find(static_cast<DataGridProtocol::MID>(data)) != struct_sizes.end())
-					message_size = struct_sizes.at(static_cast<DataGridProtocol::MID>(data)) + 1;
+					message_size = struct_sizes.at(static_cast<DataGridProtocol::MID>(data)) + 3;
 				else {
 					current_byte = 0;
 					return false;
@@ -1508,7 +1712,7 @@ namespace DataGridTools {
 			return is_ready;
 		}
 
-		const std::vector<unsigned char>& GetMessageData() {
+		std::vector<unsigned char>& GetMessageData() {
 			return message_data;
 		}
 	} byte_sync;
@@ -1589,11 +1793,7 @@ namespace DataGridTools {
 				auto wn = message_data.wn + whole_1024_weeks + overlap_counter.Count();
 				auto cur_time = gpst2time(static_cast<int>(wn), message_data.rcv_time * 1e-3);
 				
-				auto check_wn = [&](){
-					return (cur_time.time < raw->time.time) ? true : false;
-				};
-				
-				if (check_wn()) {
+				if (cur_time.time < raw->time.time) {
 					// temporary fix because of the wn error
 					cur_time = gpst2time(static_cast<int>(++wn), message_data.rcv_time * 1e-3);
 				}
