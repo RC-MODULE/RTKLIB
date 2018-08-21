@@ -8,7 +8,7 @@
 
 extern "C" int input_dgrx(raw_t *raw, unsigned char data) {
 	try {
-		trace(5, "input_dgrx: data=%02x\n", data);
+		trace(4, "input_dgrx: data=%02x\n", data);
 		DataGridTools::GetWnFromSystem();
 		if (DataGridTools::byte_sync.EmplaceData(data)) 
 			return DataGridTools::ConvertToRaw(DataGridProtocol::Message::Read(DataGridTools::byte_sync.GetMessageData()).get(), raw);

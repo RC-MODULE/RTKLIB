@@ -174,35 +174,25 @@ public:
 		}
 
 	protected:
-		static void SwapEndian(std::int32_t &val) {
-			std::int32_t tmp = ((val << 8) & 0xFF00FF00) | ((val >> 8) & 0xFF00FF);
-			val = (tmp << 16) | ((tmp >> 16) & 0xFFFF);
-		}
+		template <typename T>
+		static void SwapEndian(T &val) {
+			union {
+				T val;
+				std::array<std::uint8_t, sizeof(T)> raw;
+			} src, dst;
 
-		static void SwapEndian(std::uint32_t &val) {
-			std::uint32_t tmp = ((val << 8) & 0xFF00FF00) | ((val >> 8) & 0xFF00FF);
-			val = (tmp << 16) | (tmp >> 16);
-		}
-
-		static void SwapEndian(std::int16_t &val) {
-			val = (val << 8) | ((val >> 8) & 0xFF);
-		}
-
-		static void SwapEndian(std::uint16_t &val) {
-			val = (val << 8) | (val >> 8);
-		}
-
-		static void SwapEndian(std::uint8_t *val, std::size_t size) {
-			std::vector<std::uint8_t> tmp(val, val + size);
-			std::reverse(tmp.begin(), tmp.end());
-			for (std::size_t i = 0; i < size; ++i) {
-				val[i] = tmp[i];
-			}
+			src.val = val;
+			std::reverse_copy(src.raw.begin(), src.raw.end(), dst.raw.begin());
+			val = dst.val;
 		}
 
 		template <typename T, std::size_t sz>
 		static void SwapEndian(std::array<T, sz> &arr) {
-			SwapEndian(reinterpret_cast<std::uint8_t*>(arr.data()), arr.size() * sizeof(T));
+			std::reverse(arr.begin(), arr.end());
+		}
+
+		static void SwapEndian(std::uint8_t *val, std::size_t size) {
+			std::reverse(val, val + size);
 		}
 
 		static bool CheckCRC(MID mid, std::uint8_t *data, std::size_t sz, std::uint16_t crc) {
@@ -253,36 +243,19 @@ public:
 			SwapEndian(data.sector_0_version);
 		}
 
-		virtual std::pair<std::uint8_t*, std::size_t> GetArray() final {
+		virtual std::pair<std::uint8_t*, std::size_t> GetArray() {
 			return std::make_pair(raw.data(), raw.size());
 		}
 
 	public:
 		FirmwareSchematicVersion() {};
 
-		template <typename T>
-		FirmwareSchematicVersion(T &file) {
-			Read(file);
-		}
-
-		template <typename T>
-		FirmwareSchematicVersion(const std::vector<T> &message) {
-			CopyData(message, data);
-			Preprocess();
-		}
-
-		virtual MID GetMID() final {
+		virtual MID GetMID() {
 			return MID::FirmwareSchematicVersion;
 		}
 		
-		virtual FirmwareSchematicVersion& GetProtocolMessage() final {
+		virtual FirmwareSchematicVersion& GetProtocolMessage() {
 			return *this;
-		}
-
-		template <typename T>
-		void Read(T &file) {
-			file.read(reinterpret_cast<char*>(&data), sizeof(data));
-			Preprocess();
 		}
 
 		Data& GetData() {
@@ -364,36 +337,19 @@ public:
 			SwapEndian(data.l2_pseudorange);
 		}
 
-		virtual std::pair<std::uint8_t*, std::size_t> GetArray() final {
+		virtual std::pair<std::uint8_t*, std::size_t> GetArray() {
 			return std::make_pair(raw.data(), raw.size());
 		}
 
 	public:
 		RawMeasurementData() {};
 
-		template <typename T>
-		RawMeasurementData(T &file) {
-			Read(file);
-		}
-
-		template <typename T>
-		RawMeasurementData(const std::vector<T> &message) {
-			CopyData(message, data);
-			Preprocess();
-		}
-
-		virtual MID GetMID() final {
+		virtual MID GetMID() {
 			return MID::RawMeasurementData;
 		}
 
-		virtual RawMeasurementData& GetProtocolMessage() final {
+		virtual RawMeasurementData& GetProtocolMessage() {
 			return *this;
-		}
-
-		template <typename T>
-		void Read(T &file) {
-			file.read(reinterpret_cast<char*>(&data), sizeof(data));
-			Preprocess();
 		}
 
 		Data& GetData() {
@@ -449,7 +405,7 @@ public:
 		}
 	};
 
-	struct  MeasuredPositionData final : public Message {
+	struct MeasuredPositionData final : public Message {
 	public:
 		enum class RAIMState :std::uint8_t {
 			ok = 0,
@@ -545,37 +501,19 @@ public:
 			SwapEndian(data.wn);
 		}
 
-		virtual std::pair<std::uint8_t*, std::size_t> GetArray() final {
+		virtual std::pair<std::uint8_t*, std::size_t> GetArray() {
 			return std::make_pair(raw.data(), raw.size());
 		}
 
 	public:
 		MeasuredPositionData() {};
-
-		template <typename T>
-		MeasuredPositionData(T &file) {
-			Read(file);
-		}
-
-		template <typename T>
-		MeasuredPositionData(const std::vector<T> &message) {
-			CopyData(message, data);
-			Preprocess();
-
-		}
-
-		virtual MID GetMID() final {
+		
+		virtual MID GetMID() {
 			return MID::MeasuredPositionData;
 		}
 
-		virtual MeasuredPositionData& GetProtocolMessage() final {
+		virtual MeasuredPositionData& GetProtocolMessage() {
 			return *this;
-		}
-
-		template <typename T>
-		void Read(T &file) {
-			file.read(reinterpret_cast<char*>(&data), sizeof(data));
-			Preprocess();
 		}
 
 		Data& GetData() {
@@ -623,7 +561,7 @@ public:
 		}
 	};
 
-	struct GPSEphemerisData : public Message {
+	struct GPSEphemerisData final : public Message {
 	private:
 		friend DataGridProtocol;
 		struct Data {
@@ -706,38 +644,21 @@ public:
 			SwapEndian(data.valid);
 		}
 
-		virtual std::pair<std::uint8_t*, std::size_t> GetArray() final {
+		virtual std::pair<std::uint8_t*, std::size_t> GetArray() {
 			return std::make_pair(raw.data(), raw.size());
 		}
 	
 	public:
 		GPSEphemerisData() {};
 
-		template <typename T>
-		GPSEphemerisData(T &file) {
-			Read(file);
-		}
-
-		template <typename T>
-		GPSEphemerisData(const std::vector<T> &message) {
-			CopyData(message, data);
-			Preprocess();
-		}
-
-		virtual MID GetMID() final {
+		virtual MID GetMID() {
 			return MID::GPSEphemerisData;
 		}
 
-		virtual GPSEphemerisData& GetProtocolMessage() final {
+		virtual GPSEphemerisData& GetProtocolMessage() {
 			return *this;
 		}
-
-		template <typename T>
-		void Read(T &file) {
-			file.read(reinterpret_cast<char*>(&data), sizeof(data));
-			Preprocess();
-		}
-
+		
 		Data& GetData() {
 			return data;
 		}
@@ -900,36 +821,19 @@ public:
 			SwapEndian(data.valid);
 		}
 
-		virtual std::pair<std::uint8_t*, std::size_t> GetArray() final {
+		virtual std::pair<std::uint8_t*, std::size_t> GetArray() {
 			return std::make_pair(raw.data(), raw.size());
 		}
 	
 	public:
 		GLONASSEphemerisData() {};
-
-		template <typename T>
-		GLONASSEphemerisData(T &file) {
-			Read(file);
-		}
-
-		template <typename T>
-		GLONASSEphemerisData(const std::vector<T> &message) {
-			CopyData(message, data);
-			Preprocess();
-		}
-
-		virtual MID GetMID() final {
+		
+		virtual MID GetMID() {
 			return MID::GLONASSEphemerisData;
 		}
 
-		virtual GLONASSEphemerisData& GetProtocolMessage() final {
+		virtual GLONASSEphemerisData& GetProtocolMessage() {
 			return *this;
-		}
-
-		template <typename T>
-		void Read(T &file) {
-			file.read(reinterpret_cast<char*>(&data), sizeof(data));
-			Preprocess();
 		}
 
 		Data& GetData() {
@@ -1014,38 +918,21 @@ public:
 			SwapEndian(data.alert_limit);
 		}
 
-		virtual std::pair<std::uint8_t*, std::size_t> GetArray() final {
+		virtual std::pair<std::uint8_t*, std::size_t> GetArray() {
 			return std::make_pair(raw.data(), raw.size());
 		}
 	
 	public:
 		RAIMAlertLimit() {};
-
-		template <typename T>
-		RAIMAlertLimit(T &file) {
-			Read(file);
-		}
-
-		template <typename T>
-		RAIMAlertLimit(const std::vector<T> &message) {
-			CopyData(message, data);
-			Preprocess();
-		}
-
-		virtual MID GetMID() final {
+		
+		virtual MID GetMID() {
 			return MID::RAIMAlertLimit;
 		}
 
-		virtual RAIMAlertLimit& GetProtocolMessage() final {
+		virtual RAIMAlertLimit& GetProtocolMessage() {
 			return *this;
 		}
-
-		template <typename T>
-		void Read(T &file) {
-			file.read(reinterpret_cast<char*>(&data), sizeof(data));
-			Preprocess();
-		}
-
+		
 		Data& GetData() {
 			return data;
 		}
@@ -1064,36 +951,21 @@ public:
 			std::array<std::uint8_t, sizeof(Data)> raw{};
 		};
 
-		virtual std::pair<std::uint8_t*, std::size_t> GetArray() final {
+		virtual std::pair<std::uint8_t*, std::size_t> GetArray() {
 			return std::make_pair(raw.data(), raw.size());
 		}
 
 	public:
 		CommandAcknowledgement() {};
-
-		template <typename T>
-		CommandAcknowledgement(T &file) {
-			Read(file);
-		}
-
-		template <typename T>
-		CommandAcknowledgement(const std::vector<T> &message) {
-			CopyData(message, data);
-		}
-
-		virtual MID GetMID() final {
+		
+		virtual MID GetMID() {
 			return MID::CommandAcknowledgement;
 		}
 
-		virtual CommandAcknowledgement& GetProtocolMessage() final {
+		virtual CommandAcknowledgement& GetProtocolMessage() {
 			return *this;
 		}
-
-		template <typename T>
-		void Read(T &file) {
-			file.read(reinterpret_cast<char*>(&data), sizeof(data));
-		}
-
+		
 		Data& GetData() {
 			return data;
 		}
@@ -1112,36 +984,21 @@ public:
 			std::array<std::uint8_t, sizeof(Data)> raw{};
 		};
 
-		virtual std::pair<std::uint8_t*, std::size_t> GetArray() final {
+		virtual std::pair<std::uint8_t*, std::size_t> GetArray() {
 			return std::make_pair(raw.data(), raw.size());
 		}
 
 	public:
 		CommandNAcknowledgement() {};
 
-		template <typename T>
-		CommandNAcknowledgement(T &file) {
-			Read(file);
-		}
-
-		template <typename T>
-		CommandNAcknowledgement(const std::vector<T> &message) {
-			CopyData(message, data);
-		}
-
-		virtual MID GetMID() final {
+		virtual MID GetMID() {
 			return MID::CommandNAcknowledgement;
 		}
 
-		virtual CommandNAcknowledgement& GetProtocolMessage() final {
+		virtual CommandNAcknowledgement& GetProtocolMessage() {
 			return *this;
 		}
-
-		template <typename T>
-		void Read(T &file) {
-			file.read(reinterpret_cast<char*>(&data), sizeof(data));
-		}
-
+		
 		Data& GetData() {
 			return data;
 		}
@@ -1171,38 +1028,21 @@ public:
 			SwapEndian(data.alt);
 		}
 
-		virtual std::pair<std::uint8_t*, std::size_t> GetArray() final {
+		virtual std::pair<std::uint8_t*, std::size_t> GetArray() {
 			return std::make_pair(raw.data(), raw.size());
 		}
 
 	public:
 		LLAOutputMessage() {};
-
-		template <typename T>
-		LLAOutputMessage(T &file) {
-			Read(file);
-		}
-
-		template <typename T>
-		LLAOutputMessage(const std::vector<T> &message) {
-			CopyData(message, data);
-			Preprocess();
-		}
-
-		virtual MID GetMID() final {
+		
+		virtual MID GetMID() {
 			return MID::LLAOutputMessage;
 		}
 
-		virtual LLAOutputMessage& GetProtocolMessage() final {
+		virtual LLAOutputMessage& GetProtocolMessage() {
 			return *this;
 		}
-
-		template <typename T>
-		void Read(T &file) {
-			file.read(reinterpret_cast<char*>(&data), sizeof(data));
-			Preprocess();
-		}
-
+		
 		Data& GetData() {
 			return data;
 		}
@@ -1244,31 +1084,21 @@ public:
 			SwapEndian(data.vcc_err_squared_sum);
 		}
 
-		virtual std::pair<std::uint8_t*, std::size_t> GetArray() final {
+		virtual std::pair<std::uint8_t*, std::size_t> GetArray() {
 			return std::make_pair(raw.data(), raw.size());
 		}
 	
 	public:
 		DebugData() {};
-		template <typename T>
-		DebugData(T &file) {
-			Read(file);
-		}
 
-		virtual MID GetMID() final {
+		virtual MID GetMID() {
 			return MID::DebugData;
 		}
 
-		virtual DebugData& GetProtocolMessage() final {
+		virtual DebugData& GetProtocolMessage() {
 			return *this;
 		}
-
-		template <typename T>
-		void Read(T &file) {
-			file.read(reinterpret_cast<char*>(&data), sizeof(data));
-			Preprocess();
-		}
-
+		
 		Data& GetData() {
 			return data;
 		}
@@ -1310,34 +1140,19 @@ public:
 			std::array<std::uint8_t, sizeof(Data)> raw{};
 		};
 
-		virtual std::pair<std::uint8_t*, std::size_t> GetArray() final {
+		virtual std::pair<std::uint8_t*, std::size_t> GetArray() {
 			return std::make_pair(raw.data(), raw.size());
 		}
 
 	public:
 		ExcludedSV() {};
-
-		template <typename T>
-		ExcludedSV(T &file) {
-			Read(file);
-		}
-
-		template <typename T>
-		ExcludedSV(const std::vector<T> &message) {
-			CopyData(message, data);
-		}
-
-		virtual MID GetMID() final {
+		
+		virtual MID GetMID() {
 			return MID::ExcludedSV;
 		}
 
-		virtual ExcludedSV& GetProtocolMessage() final {
+		virtual ExcludedSV& GetProtocolMessage() {
 			return *this;
-		}
-
-		template <typename T>
-		void Read(T &file) {
-			file.read(reinterpret_cast<char*>(&data), sizeof(data));
 		}
 
 		Data& GetData() {
@@ -1367,34 +1182,19 @@ public:
 			std::array<std::uint8_t, sizeof(Data)> raw{};
 		};
 
-		virtual std::pair<std::uint8_t*, std::size_t> GetArray() final {
+		virtual std::pair<std::uint8_t*, std::size_t> GetArray() {
 			return std::make_pair(raw.data(), raw.size());
 		}
 
 	public:
 		AlmanacStatus() {};
 
-		template <typename T>
-		AlmanacStatus(T &file) {
-			Read(file);
-		}
-
-		template <typename T>
-		AlmanacStatus(const std::vector<T> &message) {
-			CopyData(message, data);
-		}
-
-		virtual MID GetMID() final {
+		virtual MID GetMID() {
 			return MID::AlmanacStatus;
 		}
 
-		virtual AlmanacStatus& GetProtocolMessage() final {
+		virtual AlmanacStatus& GetProtocolMessage() {
 			return *this;
-		}
-
-		template <typename T>
-		void Read(T &file) {
-			file.read(reinterpret_cast<char*>(&data), sizeof(data));
 		}
 
 		Data& GetData() {
@@ -1432,38 +1232,21 @@ public:
 			SwapEndian(data.leap_seconds);
 		}
 
-		virtual std::pair<std::uint8_t*, std::size_t> GetArray() final {
+		virtual std::pair<std::uint8_t*, std::size_t> GetArray() {
 			return std::make_pair(raw.data(), raw.size());
 		}
 
 	public:
 		ClockStatus() {};
-
-		template <typename T>
-		ClockStatus(T &file) {
-			Read(file);
-		}
-
-		template <typename T>
-		ClockStatus(const std::vector<T> &message) {
-			CopyData(message, data);
-			Preprocess();
-		}
-
-		virtual MID GetMID() final {
+		
+		virtual MID GetMID() {
 			return MID::ClockStatus;
 		}
 
-		virtual ClockStatus& GetProtocolMessage() final {
+		virtual ClockStatus& GetProtocolMessage() {
 			return *this;
 		}
-
-		template <typename T>
-		void Read(T &file) {
-			file.read(reinterpret_cast<char*>(&data), sizeof(data));
-			Preprocess();
-		}
-
+		
 		Data& GetData() {
 			return data;
 		}
@@ -1520,38 +1303,21 @@ public:
 			SwapEndian(data.l5_pseudorange);
 		}
 
-		virtual std::pair<std::uint8_t*, std::size_t> GetArray() final {
+		virtual std::pair<std::uint8_t*, std::size_t> GetArray() {
 			return std::make_pair(raw.data(), raw.size());
 		}
 
 	public:
 		L5E5G3RawMeasurement() {};
-
-		template <typename T>
-		L5E5G3RawMeasurement(T &file) {
-			Read(file);
-		}
-
-		template <typename T>
-		L5E5G3RawMeasurement(const std::vector<T> &message) {
-			CopyData(message, data);
-			Preprocess();
-		}
-
-		virtual MID GetMID() final {
+		
+		virtual MID GetMID() {
 			return MID::L5E5G3RawMeasurement;
 		}
 
-		virtual L5E5G3RawMeasurement& GetProtocolMessage() final {
+		virtual L5E5G3RawMeasurement& GetProtocolMessage() {
 			return *this;
 		}
-
-		template <typename T>
-		void Read(T &file) {
-			file.read(reinterpret_cast<char*>(&data), sizeof(data));
-			Preprocess();
-		}
-
+		
 		Data& GetData() {
 			return data;
 		}
@@ -2019,7 +1785,7 @@ namespace DataGridTools {
 		if (message == nullptr || raw == nullptr)
 			return ReturnCodes::no_message;
 		auto type = message->GetMID();
-		trace(3, std::string("decode_dgr: type=" + std::to_string(static_cast<int>(type)) + "\n").c_str());
+		//trace(3, std::string("decode_dgr: type=" + std::to_string(static_cast<int>(type)) + "\n").c_str());
 
 		switch (type)
 		{
