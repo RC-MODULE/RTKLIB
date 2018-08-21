@@ -56,9 +56,7 @@ public:
 
 		virtual void Preprocess() {};
 
-		virtual Message& GetProtocolMessage() {
-			return *this;
-		}
+		virtual Message& GetProtocolMessage() = 0;
 
 		static std::unique_ptr<Message> Read(std::vector<std::uint8_t> &raw_data) {
 			std::uint16_t crc = (*raw_data.rbegin() << 8) + *(raw_data.rbegin() + 1);
