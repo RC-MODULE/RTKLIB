@@ -8,7 +8,10 @@
 *-----------------------------------------------------------------------------*/
 #ifndef VT_H
 #define VT_H
+#define VT_H
+#ifndef WIN32
 #include <termios.h>
+#endif
 #include "rtklib.h"
 
 #define MAXBUFF     4096                /* size of line buffer */
@@ -16,19 +19,21 @@
 
 /* type definitions ----------------------------------------------------------*/
 typedef struct vt_tag {                 /* virtual console type */
-    int state;                          /* state(0:close,1:open) */
-    int type;                           /* type (0:dev,1:telnet) */
-    int in,out;                         /* input/output file descriptor */
-    int n,nesc;                         /* number of line buffer/escape */
-    int cur;                            /* cursor position */
-    int cur_h;                          /* current history */
-    int brk;                            /* break status */
-    int blind;                          /* blind inpu mode */
-    struct termios tio;                 /* original terminal attribute */
-    char buff[MAXBUFF];                 /* line buffer */
-    char esc[8];                        /* escape buffer */
-    char *hist[MAXHIST];                /* history buffer */
-    FILE *logfp;                        /* log file pointer */
+	int state;                          /* state(0:close,1:open) */
+	int type;                           /* type (0:dev,1:telnet) */
+	int in, out;                         /* input/output file descriptor */
+	int n, nesc;                         /* number of line buffer/escape */
+	int cur;                            /* cursor position */
+	int cur_h;                          /* current history */
+	int brk;                            /* break status */
+	int blind;                          /* blind inpu mode */
+#ifndef WIN32
+	struct termios tio;                 /* original terminal attribute */
+#endif
+	char buff[MAXBUFF];                 /* line buffer */
+	char esc[8];                        /* escape buffer */
+	char *hist[MAXHIST];                /* history buffer */
+	FILE *logfp;                        /* log file pointer */
 } vt_t;
 
 /* function prototypes -------------------------------------------------------*/
