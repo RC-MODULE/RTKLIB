@@ -678,10 +678,10 @@ static void prstatus(vt_t *vt)
 	const char *sol[] = { "-","fix","float","SBAS","DGPS","single","PPP","" };
 	const char *mode[] = {
 		"single","DGPS","kinematic","static","static-start","moving-base","fixed",
-		"PPP-kinema","PPP-static"
+		"PPP-kinematic","PPP-static"
 	};
 	const char *freq[] = { "-","L1","L1+L2","L1+L2+L5","","","" };
-	rtcm_t rtcm[3];
+	rtcm_t *rtcm[3];
 	int i, j, n, threadID, cycle, state, rtkstat, nsat0, nsat1, prcout, nave;
 	int cputime, nb[3] = { 0 }, nmsg[3][10] = { { 0 } };
 	char tstr[64], s[1024], *p;
@@ -689,7 +689,7 @@ static void prstatus(vt_t *vt)
 	double azel[MAXSAT * 2], pos[3], vel[3], *del;
 
 	trace(4, "prstatus:\n");
-
+	
 	rtksvrlock(&svr);
 	rtk = svr.rtk;
 	threadID = (int)svr.thread;
@@ -710,7 +710,7 @@ static void prstatus(vt_t *vt)
 		rt[0] = floor(runtime / 3600.0); runtime -= rt[0] * 3600.0;
 		rt[1] = floor(runtime / 60.0); rt[2] = runtime - rt[1] * 60.0;
 	}
-	for (i = 0; i<3; i++) rtcm[i] = svr.rtcm[i];
+	for (i = 0; i<3; i++) rtcm[i] = &svr.rtcm[i];
 	rtksvrunlock(&svr);
 
 	for (i = n = 0; i<MAXSAT; i++) {
@@ -742,18 +742,18 @@ static void prstatus(vt_t *vt)
 	for (i = 0; i<3; i++) {
 		p = s; *p = '\0';
 		for (j = 1; j<100; j++) {
-			if (rtcm[i].nmsg2[j] == 0) continue;
-			p += sprintf(p, "%s%d(%d)", p>s ? "," : "", j, rtcm[i].nmsg2[j]);
+			if (rtcm[i]->nmsg2[j] == 0) continue;
+			p += sprintf(p, "%s%d(%d)", p>s ? "," : "", j, rtcm[i]->nmsg2[j]);
 		}
-		if (rtcm[i].nmsg2[0]>0) {
-			sprintf(p, "%sother2(%d)", p>s ? "," : "", rtcm[i].nmsg2[0]);
+		if (rtcm[i]->nmsg2[0]>0) {
+			sprintf(p, "%sother2(%d)", p>s ? "," : "", rtcm[i]->nmsg2[0]);
 		}
 		for (j = 1; j<300; j++) {
-			if (rtcm[i].nmsg3[j] == 0) continue;
-			p += sprintf(p, "%s%d(%d)", p>s ? "," : "", j + 1000, rtcm[i].nmsg3[j]);
+			if (rtcm[i]->nmsg3[j] == 0) continue;
+			p += sprintf(p, "%s%d(%d)", p>s ? "," : "", j + 1000, rtcm[i]->nmsg3[j]);
 		}
-		if (rtcm[i].nmsg3[0]>0) {
-			sprintf(p, "%sother3(%d)", p>s ? "," : "", rtcm[i].nmsg3[0]);
+		if (rtcm[i]->nmsg3[0]>0) {
+			sprintf(p, "%sother3(%d)", p>s ? "," : "", rtcm[i]->nmsg3[0]);
 		}
 		vt_printf(vt, "%-15s %-9s: %s\n", "# of rtcm messages", type[i], s);
 	}
