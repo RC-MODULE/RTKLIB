@@ -1539,6 +1539,7 @@ namespace DataGridTools {
 					raw->obs.data[sv].P[i] = 0;
 					raw->obs.data[sv].D[i] = 0;
 					raw->obs.data[sv].SNR[i] = 0;
+					raw->obs.data[sv].code[i] = CODE_NONE;
 				}
 			}
 			raw->obs.n = 0;
