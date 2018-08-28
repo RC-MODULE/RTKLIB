@@ -1351,7 +1351,7 @@ public:
 	static std::unordered_map<MID, std::size_t> GetStructSizes() {
 		std::unordered_map<MID, std::size_t> struct_sizes{
 			{ MID::CommandAcknowledgement,		sizeof(CommandAcknowledgement::Data) },
-			{ MID::L5E5G3RawMeasurement,		sizeof(L5E5G3RawMeasurement) },
+			{ MID::L5E5G3RawMeasurement,		sizeof(L5E5G3RawMeasurement::Data) },
 			{ MID::CommandNAcknowledgement,		sizeof(CommandNAcknowledgement::Data) },
 			{ MID::AlmanacStatus,				sizeof(AlmanacStatus::Data) },
 			{ MID::DebugData,					sizeof(DebugData::Data) },
