@@ -123,6 +123,7 @@ Try {
     $script_location = $MyInvocation.MyCommand.Definition
     $msBuild2015 = "${env:ProgramFiles(x86)}\MSBuild\14.0\bin\msbuild.exe"
 
+	build_msvc rtkrcv
     build_rnx2rtkp_win64
 
 	$boarland_console = @("convbin", "pos2kml", "rnx2rtkp")

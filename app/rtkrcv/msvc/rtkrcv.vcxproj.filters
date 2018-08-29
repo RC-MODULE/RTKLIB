@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Source Files\Receiver Protocols">
+      <UniqueIdentifier>{e8e831c1-8f08-47ea-904d-9883106be4e2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\rtkrcv.c">
@@ -66,51 +69,6 @@
     <ClCompile Include="..\..\..\src\preceph.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\rcv\binex.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\rcv\cmr.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\rcv\crescent.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\rcv\DGrX.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\rcv\gw10.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\rcv\javad.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\rcv\novatel.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\rcv\nvs.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\rcv\rcvlex.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\rcv\rt17.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\rcv\septentrio.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\rcv\skytraq.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\rcv\ss2.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\rcv\tersus.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\rcv\ublox.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\ionex.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -138,13 +96,58 @@
     <ClCompile Include="..\..\..\src\tides.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\rcv\binex.c">
+      <Filter>Source Files\Receiver Protocols</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\rcv\cmr.c">
+      <Filter>Source Files\Receiver Protocols</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\rcv\crescent.c">
+      <Filter>Source Files\Receiver Protocols</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\rcv\DGrX.cpp">
+      <Filter>Source Files\Receiver Protocols</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\rcv\gw10.c">
+      <Filter>Source Files\Receiver Protocols</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\rcv\javad.c">
+      <Filter>Source Files\Receiver Protocols</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\rcv\novatel.c">
+      <Filter>Source Files\Receiver Protocols</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\rcv\nvs.c">
+      <Filter>Source Files\Receiver Protocols</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\rcv\rcvlex.c">
+      <Filter>Source Files\Receiver Protocols</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\rcv\rt17.c">
+      <Filter>Source Files\Receiver Protocols</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\rcv\septentrio.c">
+      <Filter>Source Files\Receiver Protocols</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\rcv\skytraq.c">
+      <Filter>Source Files\Receiver Protocols</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\rcv\ss2.c">
+      <Filter>Source Files\Receiver Protocols</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\rcv\tersus.c">
+      <Filter>Source Files\Receiver Protocols</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\rcv\ublox.c">
+      <Filter>Source Files\Receiver Protocols</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\vt.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\rcv\DGrX.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Source Files\Receiver Protocols</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

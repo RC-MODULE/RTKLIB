@@ -1388,28 +1388,6 @@ namespace DataGridTools {
 	std::int32_t whole_1024_weeks = 0;
 	std::int32_t time_lock_threshold = 5;
 
-	struct OverlapCounter final {
-	private:
-		std::size_t pre = 0;
-		std::size_t post = 0;
-		std::size_t count = 0;
-	public:
-		void Update(std::size_t wn) {
-			pre = post;
-			post = wn;
-			if (pre > post)
-				++count;
-		}
-
-		std::size_t Count() {
-			return 0*count;
-		}
-
-		void Reset() {
-			pre = post = count = 0;
-		}
-	} overlap_counter;
-
 	class ByteSync final {
 	private:
 		std::array<unsigned char, 4> sync_sequence;
@@ -1552,19 +1530,16 @@ namespace DataGridTools {
 				throw std::runtime_error("Nullptr provided");
 			
 			auto& message_data = message->GetData();
-			if (static_cast<int>(message_data.fix_quality.fix_status) == 1) {
-
-				overlap_counter.Update(message_data.wn);
-				auto wn = message_data.wn + whole_1024_weeks + overlap_counter.Count();
+			if (message_data.fix_quality.fix_status == DataGridProtocol::MeasuredPositionData::FixStatus::valid_fix) {
+				auto wn = message_data.wn + whole_1024_weeks;
 				auto cur_time = gpst2time(static_cast<int>(wn), message_data.rcv_time * 1e-3);
 				
 				if (cur_time.time < raw->time.time) {
 					// temporary fix because of the wn error
 					cur_time = gpst2time(static_cast<int>(++wn), message_data.rcv_time * 1e-3);
 				}
-
 				raw->time = cur_time;
-
+				
 				if (raw->obs.n) {
 					for (std::size_t i = 0; i < used_svs.size(); ++i)
 						raw->obs.data[i].time = raw->time;
@@ -1687,8 +1662,7 @@ namespace DataGridTools {
 			auto &eph = raw->nav.eph[cur_sv - 1];
 			raw->ephsat = cur_sv;
 
-			overlap_counter.Update(data.wn);
-			auto cur_week = static_cast<int>(data.wn + whole_1024_weeks + overlap_counter.Count());
+			auto cur_week = static_cast<int>(data.wn + whole_1024_weeks);
 			auto cur_toe = gpst2time(cur_week, message->Toe());
 			if (timediff(eph.toe, cur_toe) == 0 && eph.iode == data.iode && eph.iodc == data.iodc) 	// Same ephemeris
 				return ReturnCodes::no_message;
@@ -1786,7 +1760,7 @@ namespace DataGridTools {
 		if (message == nullptr || raw == nullptr)
 			return ReturnCodes::no_message;
 		auto type = message->GetMID();
-		//trace(3, std::string("decode_dgr: type=" + std::to_string(static_cast<int>(type)) + "\n").c_str());
+		trace(4, "decode_dgr: type=0x%02x\n", static_cast<int>(type));
 
 		switch (type)
 		{
