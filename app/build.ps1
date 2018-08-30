@@ -143,6 +143,7 @@ Try {
     
     $dst = ((Get-Date) - $StartTime).TotalSeconds
     "Total build time: " + $dst + " seconds"
+	./zip-up.ps1
 }
 Catch{
     cd $prior_location
