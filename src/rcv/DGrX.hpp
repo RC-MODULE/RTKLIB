@@ -235,7 +235,7 @@ public:
 			std::array<std::uint8_t, sizeof(Data)> raw{};
 		};
 
-		virtual void Preprocess() {
+		void Preprocess() override {
 			SwapEndian(data.fw_version);
 			SwapEndian(data.schematic_version);
 			SwapEndian(data.channel_config);
@@ -243,18 +243,18 @@ public:
 			SwapEndian(data.sector_0_version);
 		}
 
-		virtual std::pair<std::uint8_t*, std::size_t> GetArray() {
+		std::pair<std::uint8_t*, std::size_t> GetArray() override {
 			return std::make_pair(raw.data(), raw.size());
 		}
 
 	public:
 		FirmwareSchematicVersion() {};
 
-		virtual MID GetMID() {
+		MID GetMID() override {
 			return MID::FirmwareSchematicVersion;
 		}
-		
-		virtual FirmwareSchematicVersion& GetProtocolMessage() {
+
+		FirmwareSchematicVersion& GetProtocolMessage() override {
 			return *this;
 		}
 
@@ -329,7 +329,7 @@ public:
 			std::array<std::uint8_t, sizeof(Data)> raw{};
 		};
 
-		virtual void Preprocess() {
+		void Preprocess() override {
 			SwapEndian(data.l1_phase);
 			SwapEndian(data.l1_pseudorange);
 			SwapEndian(data.doppler);
@@ -337,18 +337,18 @@ public:
 			SwapEndian(data.l2_pseudorange);
 		}
 
-		virtual std::pair<std::uint8_t*, std::size_t> GetArray() {
+		std::pair<std::uint8_t*, std::size_t> GetArray() override {
 			return std::make_pair(raw.data(), raw.size());
 		}
 
 	public:
 		RawMeasurementData() {};
 
-		virtual MID GetMID() {
+		MID GetMID() override {
 			return MID::RawMeasurementData;
 		}
 
-		virtual RawMeasurementData& GetProtocolMessage() {
+		RawMeasurementData& GetProtocolMessage() override {
 			return *this;
 		}
 
@@ -487,7 +487,7 @@ public:
 			std::array<std::uint8_t, sizeof(Data)> raw{};
 		};
 
-		virtual void Preprocess() {
+		void Preprocess() override {
 			SwapEndian(data.rcv_time);
 			SwapEndian(data.x_position);
 			SwapEndian(data.y_position);
@@ -501,18 +501,18 @@ public:
 			SwapEndian(data.wn);
 		}
 
-		virtual std::pair<std::uint8_t*, std::size_t> GetArray() {
+		std::pair<std::uint8_t*, std::size_t> GetArray() override {
 			return std::make_pair(raw.data(), raw.size());
 		}
 
 	public:
 		MeasuredPositionData() {};
-		
-		virtual MID GetMID() {
+
+		MID GetMID() override {
 			return MID::MeasuredPositionData;
 		}
 
-		virtual MeasuredPositionData& GetProtocolMessage() {
+		MeasuredPositionData& GetProtocolMessage() override {
 			return *this;
 		}
 
@@ -614,7 +614,7 @@ public:
 			std::array<std::uint8_t, sizeof(Data)> raw{};
 		};
 
-		virtual void Preprocess() {
+		void Preprocess() override {
 			SwapEndian(data.tow);
 			SwapEndian(data.wn);
 			SwapEndian(data.prec_and_health.data(), data.prec_and_health.size());
@@ -644,18 +644,18 @@ public:
 			SwapEndian(data.valid);
 		}
 
-		virtual std::pair<std::uint8_t*, std::size_t> GetArray() {
+		std::pair<std::uint8_t*, std::size_t> GetArray() override {
 			return std::make_pair(raw.data(), raw.size());
 		}
 	
 	public:
 		GPSEphemerisData() {};
 
-		virtual MID GetMID() {
+		MID GetMID() override {
 			return MID::GPSEphemerisData;
 		}
 
-		virtual GPSEphemerisData& GetProtocolMessage() {
+		GPSEphemerisData& GetProtocolMessage() override {
 			return *this;
 		}
 		
@@ -801,7 +801,7 @@ public:
 			std::array<std::uint8_t, sizeof(Data)> raw{};
 		};
 
-		virtual void Preprocess() {
+		void Preprocess() override {
 			SwapEndian(data.health);
 			SwapEndian(data.tb);
 			SwapEndian(data.x);
@@ -821,18 +821,18 @@ public:
 			SwapEndian(data.valid);
 		}
 
-		virtual std::pair<std::uint8_t*, std::size_t> GetArray() {
+		std::pair<std::uint8_t*, std::size_t> GetArray() override {
 			return std::make_pair(raw.data(), raw.size());
 		}
 	
 	public:
 		GLONASSEphemerisData() {};
-		
-		virtual MID GetMID() {
+
+		MID GetMID() override {
 			return MID::GLONASSEphemerisData;
 		}
 
-		virtual GLONASSEphemerisData& GetProtocolMessage() {
+		GLONASSEphemerisData& GetProtocolMessage() override {
 			return *this;
 		}
 
@@ -914,22 +914,22 @@ public:
 			std::array<std::uint8_t, sizeof(Data)> raw{};
 		};
 
-		virtual void Preprocess() {
+		void Preprocess() override {
 			SwapEndian(data.alert_limit);
 		}
 
-		virtual std::pair<std::uint8_t*, std::size_t> GetArray() {
+		std::pair<std::uint8_t*, std::size_t> GetArray() override {
 			return std::make_pair(raw.data(), raw.size());
 		}
 	
 	public:
 		RAIMAlertLimit() {};
-		
-		virtual MID GetMID() {
+
+		MID GetMID() override {
 			return MID::RAIMAlertLimit;
 		}
 
-		virtual RAIMAlertLimit& GetProtocolMessage() {
+		RAIMAlertLimit& GetProtocolMessage() override {
 			return *this;
 		}
 		
@@ -951,18 +951,18 @@ public:
 			std::array<std::uint8_t, sizeof(Data)> raw{};
 		};
 
-		virtual std::pair<std::uint8_t*, std::size_t> GetArray() {
+		std::pair<std::uint8_t*, std::size_t> GetArray() override {
 			return std::make_pair(raw.data(), raw.size());
 		}
 
 	public:
 		CommandAcknowledgement() {};
-		
-		virtual MID GetMID() {
+
+		MID GetMID() override {
 			return MID::CommandAcknowledgement;
 		}
 
-		virtual CommandAcknowledgement& GetProtocolMessage() {
+		CommandAcknowledgement& GetProtocolMessage() override {
 			return *this;
 		}
 		
@@ -984,18 +984,18 @@ public:
 			std::array<std::uint8_t, sizeof(Data)> raw{};
 		};
 
-		virtual std::pair<std::uint8_t*, std::size_t> GetArray() {
+		std::pair<std::uint8_t*, std::size_t> GetArray() override {
 			return std::make_pair(raw.data(), raw.size());
 		}
 
 	public:
 		CommandNAcknowledgement() {};
 
-		virtual MID GetMID() {
+		MID GetMID() override {
 			return MID::CommandNAcknowledgement;
 		}
 
-		virtual CommandNAcknowledgement& GetProtocolMessage() {
+		CommandNAcknowledgement& GetProtocolMessage() override {
 			return *this;
 		}
 		
@@ -1021,25 +1021,25 @@ public:
 			std::array<std::uint8_t, sizeof(Data)> raw{};
 		};
 
-		virtual void Preprocess() {
+		void Preprocess() override {
 			SwapEndian(data.rcv_time);
 			SwapEndian(data.lat);
 			SwapEndian(data.lon);
 			SwapEndian(data.alt);
 		}
 
-		virtual std::pair<std::uint8_t*, std::size_t> GetArray() {
+		std::pair<std::uint8_t*, std::size_t> GetArray() override {
 			return std::make_pair(raw.data(), raw.size());
 		}
 
 	public:
 		LLAOutputMessage() {};
-		
-		virtual MID GetMID() {
+
+		MID GetMID() override {
 			return MID::LLAOutputMessage;
 		}
 
-		virtual LLAOutputMessage& GetProtocolMessage() {
+		LLAOutputMessage& GetProtocolMessage() override {
 			return *this;
 		}
 		
@@ -1077,25 +1077,25 @@ public:
 			std::array<std::uint8_t, sizeof(Data)> raw{};
 		};
 
-		virtual void Preprocess() {
+		void Preprocess() override {
 			SwapEndian(data.clk_err_sum);
 			SwapEndian(data.clr_err_squared_sum);
 			SwapEndian(data.vcc_err_sum);
 			SwapEndian(data.vcc_err_squared_sum);
 		}
 
-		virtual std::pair<std::uint8_t*, std::size_t> GetArray() {
+		std::pair<std::uint8_t*, std::size_t> GetArray() override {
 			return std::make_pair(raw.data(), raw.size());
 		}
 	
 	public:
 		DebugData() {};
 
-		virtual MID GetMID() {
+		MID GetMID() override {
 			return MID::DebugData;
 		}
 
-		virtual DebugData& GetProtocolMessage() {
+		DebugData& GetProtocolMessage() override {
 			return *this;
 		}
 		
@@ -1140,18 +1140,18 @@ public:
 			std::array<std::uint8_t, sizeof(Data)> raw{};
 		};
 
-		virtual std::pair<std::uint8_t*, std::size_t> GetArray() {
+		std::pair<std::uint8_t*, std::size_t> GetArray() override {
 			return std::make_pair(raw.data(), raw.size());
 		}
 
 	public:
 		ExcludedSV() {};
-		
-		virtual MID GetMID() {
+
+		MID GetMID() override {
 			return MID::ExcludedSV;
 		}
 
-		virtual ExcludedSV& GetProtocolMessage() {
+		ExcludedSV& GetProtocolMessage() override {
 			return *this;
 		}
 
@@ -1182,18 +1182,18 @@ public:
 			std::array<std::uint8_t, sizeof(Data)> raw{};
 		};
 
-		virtual std::pair<std::uint8_t*, std::size_t> GetArray() {
+		std::pair<std::uint8_t*, std::size_t> GetArray() override {
 			return std::make_pair(raw.data(), raw.size());
 		}
 
 	public:
 		AlmanacStatus() {};
 
-		virtual MID GetMID() {
+		MID GetMID() override {
 			return MID::AlmanacStatus;
 		}
 
-		virtual AlmanacStatus& GetProtocolMessage() {
+		AlmanacStatus& GetProtocolMessage() override {
 			return *this;
 		}
 
@@ -1222,7 +1222,7 @@ public:
 			std::array<std::uint8_t, sizeof(Data)> raw{};
 		};
 
-		virtual void Preprocess() {
+		void Preprocess() override {
 			SwapEndian(data.wn);
 			SwapEndian(data.rcv_time);
 			SwapEndian(data.r_offset);
@@ -1232,18 +1232,18 @@ public:
 			SwapEndian(data.leap_seconds);
 		}
 
-		virtual std::pair<std::uint8_t*, std::size_t> GetArray() {
+		std::pair<std::uint8_t*, std::size_t> GetArray() override {
 			return std::make_pair(raw.data(), raw.size());
 		}
 
 	public:
 		ClockStatus() {};
-		
-		virtual MID GetMID() {
+
+		MID GetMID() override {
 			return MID::ClockStatus;
 		}
 
-		virtual ClockStatus& GetProtocolMessage() {
+		ClockStatus& GetProtocolMessage() override {
 			return *this;
 		}
 		
@@ -1298,23 +1298,23 @@ public:
 			std::array<std::uint8_t, sizeof(Data)> raw{};
 		};
 
-		virtual void Preprocess() {
+		void Preprocess() override {
 			SwapEndian(data.l5_phase);
 			SwapEndian(data.l5_pseudorange);
 		}
 
-		virtual std::pair<std::uint8_t*, std::size_t> GetArray() {
+		std::pair<std::uint8_t*, std::size_t> GetArray() override {
 			return std::make_pair(raw.data(), raw.size());
 		}
 
 	public:
 		L5E5G3RawMeasurement() {};
-		
-		virtual MID GetMID() {
+
+		MID GetMID() override {
 			return MID::L5E5G3RawMeasurement;
 		}
 
-		virtual L5E5G3RawMeasurement& GetProtocolMessage() {
+		L5E5G3RawMeasurement& GetProtocolMessage() override {
 			return *this;
 		}
 		
@@ -1534,10 +1534,9 @@ namespace DataGridTools {
 				auto wn = message_data.wn + whole_1024_weeks;
 				auto cur_time = gpst2time(static_cast<int>(wn), message_data.rcv_time * 1e-3);
 				
-				if (cur_time.time < raw->time.time) {
-					// temporary fix because of the wn error
-					cur_time = gpst2time(static_cast<int>(++wn), message_data.rcv_time * 1e-3);
-				}
+				if (cur_time.time < raw->time.time) 
+					return ReturnCodes::error_message;
+				
 				raw->time = cur_time;
 				
 				if (raw->obs.n) {
@@ -1622,8 +1621,8 @@ namespace DataGridTools {
 			return ReturnCodes::error_message;
 		auto &data = message->GetData();
 
-		if ((int)data.signal_id == 1) {
-			if (data.sv_number != 56)
+		if (static_cast<int>(data.signal_id) == 1) {
+			if (data.sv_number != 53)
 				return ReturnCodes::no_message;
 		}
 		else if ((static_cast<int>(data.snr) < 30) || (static_cast<int>(data.pll_update_cnt) < time_lock_threshold))
@@ -1632,8 +1631,8 @@ namespace DataGridTools {
 		auto is_used = std::find(used_svs.begin(), used_svs.end(), data.sv_number);
 		auto cur_n = raw->obs.n;
 		if (is_used == used_svs.end()) {
-			used_svs.push_back(data.sv_number);
-			raw->obs.n++;
+			// No data for the L1/L2, ignore L3/L5
+			return ReturnCodes::no_message;
 		}
 		else
 			cur_n = static_cast<int>(std::distance(used_svs.begin(), is_used));
