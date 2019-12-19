@@ -176,14 +176,7 @@ public:
 	protected:
 		template <typename T>
 		static void SwapEndian(T &val) {
-			union {
-				T val;
-				std::array<std::uint8_t, sizeof(T)> raw;
-			} src, dst;
-
-			src.val = val;
-			std::reverse_copy(src.raw.begin(), src.raw.end(), dst.raw.begin());
-			val = dst.val;
+			SwapEndian(reinterpret_cast<std::uint8_t*>(&val), sizeof(val));
 		}
 
 		template <typename T, std::size_t sz>
@@ -1605,6 +1598,7 @@ namespace DataGridTools {
 
 		cur_obs_data.L[1] = message->L2Phase() * modifier;
 		cur_obs_data.P[1] = message->L2Pseudorange() * CLIGHT * modifier;
+		cur_obs_data.SNR[1] = static_cast<std::uint8_t>(message->GetData().sig_r * 4.0) * modifier;
 		if (message->GetData().PRN <= NSATGPS)
 			cur_obs_data.code[1] = CODE_L2S;
 		else
@@ -1622,8 +1616,10 @@ namespace DataGridTools {
 		auto &data = message->GetData();
 
 		if (static_cast<int>(data.signal_id) == 1) {
-			if (data.sv_number != 53)
-				return ReturnCodes::no_message;
+			if (static_cast<int>(data.pll_update_cnt) < time_lock_threshold)
+			   return ReturnCodes::no_message;
+//			if (data.sv_number != 53)
+//				return ReturnCodes::no_message;
 		}
 		else if ((static_cast<int>(data.snr) < 30) || (static_cast<int>(data.pll_update_cnt) < time_lock_threshold))
 			return ReturnCodes::no_message;
